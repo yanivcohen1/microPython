@@ -69,15 +69,18 @@ def _httpHandlerEditWithArgs(httpClient, httpResponse) :
         </head>
         <body>
 	"""
-	content += "<h1>EDIT item with {} variable arguments</h1>"\
+	content += "<h1>EDIT item with {} query arguments</h1>"\
 		.format(len(args))
 	
 	if 'name' in args :
 		content += "<p>name = {}</p>".format(args['name'])
 	
-	if 'last' in args :
-		content += "<p>last name = {}</p>".format(args['last'])
+	# if 'last' in args :
+	#	content += "<p>last name = {}</p>".format(args['last'])
 	
+	for key in args:
+		if key != "name": content += "<p>{key} = {val}</p>".format(key=key, val=args[key])
+
 	content += """
         </body>
     </html>
