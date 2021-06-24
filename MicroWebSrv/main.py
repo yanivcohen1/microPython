@@ -120,7 +120,7 @@ def _httpHandlerEditWithArgs(httpClient, httpResponse, args={}) :
 								  content 		 = content )
 
 # ----------------------------------------------------------------------------
-# test web socket
+# test web socket [/wstest.html]
 def _acceptWebSocketCallback(webSocket, httpClient) :
 	print("WS ACCEPT")
 	webSocket.RecvTextCallback   = _recvTextCallback
