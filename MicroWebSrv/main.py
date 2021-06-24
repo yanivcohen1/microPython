@@ -2,7 +2,7 @@
 from microWebSrv import MicroWebSrv
 
 # ----------------------------------------------------------------------------
-
+# test get page [/test]
 @MicroWebSrv.route('/test')
 def _httpHandlerTestGet(httpClient, httpResponse) :
 	content = """\
@@ -29,7 +29,7 @@ def _httpHandlerTestGet(httpClient, httpResponse) :
 								  contentCharset = "UTF-8",
 								  content 		 = content )
 
-
+# test post data [/test]
 @MicroWebSrv.route('/test', 'POST')
 def _httpHandlerTestPost(httpClient, httpResponse) :
 	formData  = httpClient.ReadRequestPostedFormData()
@@ -55,7 +55,39 @@ def _httpHandlerTestPost(httpClient, httpResponse) :
 								  contentCharset = "UTF-8",
 								  content 		 = content )
 
+# test get query parameters [/send?name=yaniv&last=cohen]
+@MicroWebSrv.route('/send')
+def _httpHandlerEditWithArgs(httpClient, httpResponse) :
+	args = httpClient.GetRequestQueryParams()
+	print('QueryParams', args)
+	content = """\
+	<!DOCTYPE html>
+	<html lang=en>
+        <head>
+        	<meta charset="UTF-8" />
+            <title>TEST EDIT</title>
+        </head>
+        <body>
+	"""
+	content += "<h1>EDIT item with {} variable arguments</h1>"\
+		.format(len(args))
+	
+	if 'name' in args :
+		content += "<p>name = {}</p>".format(args['name'])
+	
+	if 'last' in args :
+		content += "<p>last name = {}</p>".format(args['last'])
+	
+	content += """
+        </body>
+    </html>
+	"""
+	httpResponse.WriteResponseOk( headers		 = None,
+								  contentType	 = "text/html",
+								  contentCharset = "UTF-8",
+								  content 		 = content )
 
+# test path variable [see comments]
 @MicroWebSrv.route('/edit/<index>')             # <IP>/edit/123           ->   args['index']=123
 @MicroWebSrv.route('/edit/<index>/abc/<foo>')   # <IP>/edit/123/abc/bar   ->   args['index']=123  args['foo']='bar'
 @MicroWebSrv.route('/edit')                     # <IP>/edit               ->   args={}
@@ -88,7 +120,7 @@ def _httpHandlerEditWithArgs(httpClient, httpResponse, args={}) :
 								  content 		 = content )
 
 # ----------------------------------------------------------------------------
-
+# test web socket
 def _acceptWebSocketCallback(webSocket, httpClient) :
 	print("WS ACCEPT")
 	webSocket.RecvTextCallback   = _recvTextCallback
@@ -116,6 +148,7 @@ srv = MicroWebSrv(webPath='www/')
 srv.MaxWebSocketRecvLen     = 256
 srv.WebSocketThreaded		= False
 srv.AcceptWebSocketCallback = _acceptWebSocketCallback
+print('running WebServer')
 srv.Start()
 
 # ----------------------------------------------------------------------------
