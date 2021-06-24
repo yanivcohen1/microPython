@@ -59,7 +59,7 @@ def _httpHandlerTestPost(httpClient, httpResponse) :
 @MicroWebSrv.route('/send')
 def _httpHandlerEditWithArgs(httpClient, httpResponse) :
 	args = httpClient.GetRequestQueryParams()
-	print('QueryParams', args)
+	# print('QueryParams', args)
 	content = """\
 	<!DOCTYPE html>
 	<html lang=en>
