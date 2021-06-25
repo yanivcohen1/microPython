@@ -1,6 +1,6 @@
 from microWebSrv import MicroWebSrv
 import json
-# import time import sleep
+# from time import sleep
 from   _thread   import allocate_lock # ,start_new_thread
 
 @MicroWebSrv.route('/test-redir')
@@ -144,7 +144,7 @@ def _acceptWebSocketCallback(webSocket, httpClient):
 	print('   - Path   : %s'    % httpClient.GetRequestTotalPath())
 	# print('   - Origin : %s'    % webSocket.Request.Origin)
 	if httpClient.GetRequestTotalPath().lower() == '/wschat' :
-	    WSJoinChat(webSocket, httpClient.GetAddr()[0])
+	    WSJoinChat(webSocket, httpClient.GetAddr())
 	else :
 		webSocket.RecvTextCallback   = _recvTextCallback
 		webSocket.RecvBinaryCallback = _recvBinaryCallback
@@ -198,15 +198,15 @@ def WSJoinChat(webSocket, addr) :
     # addr = webSocket.Request.UserAddress
     with _chatLock :
         for ws in _chatWebSockets :
-            ws.SendText('<%s HAS JOINED THE CHAT>' % addr)
+            ws.SendText('<%s:%s HAS JOINED THE CHAT>' % addr)
         _chatWebSockets.append(webSocket)
-        webSocket.SendText('<WELCOME %s>' % addr)
+        webSocket.SendText('<WELCOME %s:%s>' % addr)
 
 def OnWSChatTextMsg(webSocket, msg) :
     addr = _calcAddr(webSocket) # webSocket.Request.UserAddress
     with _chatLock :
         for ws in _chatWebSockets :
-            ws.SendText('<%s> %s' % (addr, msg))
+            ws.SendText('<%s:%s> %s' % (addr[0], addr[1], msg))
 
 def OnWSChatClosed(webSocket) :
     addr =  _calcAddr(webSocket) # webSocket.Request.UserAddress
@@ -214,23 +214,31 @@ def OnWSChatClosed(webSocket) :
         if webSocket in _chatWebSockets :
             _chatWebSockets.remove(webSocket)
             for ws in _chatWebSockets :
-                ws.SendText('<%s HAS LEFT THE CHAT>' % addr)
+                ws.SendText('<%s:%s HAS LEFT THE CHAT>' % addr)
 
 def _calcAddr(webSocket):
 	addr= str(webSocket._socket)
 	x = addr.find("raddr=('") + 8
 	y= addr[x:]
 	z = y.find("'")
-	addrs=addr[x:x+z]
-	return addrs
+	host=addr[x:x+z]
+	y= addr[x+z:] # "', 51998)>"
+	z = y.find(")") # 8
+	port=y[3:z]
+	return [host, port]
 # ============================================================================
 # ============================================================================
 # ============================================================================
 
 srv = MicroWebSrv(webPath='www/')
 srv.MaxWebSocketRecvLen     = 256
-srv.WebSocketThreaded		= False
+srv.WebSocketThreaded		= True
 srv.AcceptWebSocketCallback = _acceptWebSocketCallback
 print('running WebServer')
 srv.Start(threaded=False)
+""" try : # srv.Start(threaded=True)
+    while True :
+        sleep(2)
+except KeyboardInterrupt : # control+C press
+    pass """
 # ----------------------------------------------------------------------------
