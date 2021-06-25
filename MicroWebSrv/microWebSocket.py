@@ -8,8 +8,11 @@ from   binascii    import b2a_base64
 from   struct      import pack
 from   _thread     import start_new_thread, allocate_lock
 import gc
+
+isTraceback=False
 try :
     import traceback
+    isTraceback=True
 except:
     pass
 
@@ -131,10 +134,7 @@ class MicroWebSocket :
             acceptCallback(self, self._httpCli)
         except Exception as ex :
             print("'MicroWebSocket' : Error on accept callback (%s)." % str(ex))
-            try :
-                traceback.print_exc()
-            except:
-                pass
+            if isTraceback :  traceback.print_exc()   
         while not self._closed :
             if not self._receiveFrame() :
                 self.Close()
