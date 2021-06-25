@@ -1,9 +1,12 @@
 
 from microWebSrv import MicroWebSrv
 
+@MicroWebSrv.route('/test-redir')
+def _httpHandlerTestGet(httpClient, httpResponse) :
+	httpResponse.WriteResponseRedirect('/test.pdf')
 # ----------------------------------------------------------------------------
-# test get page [/test]
-@MicroWebSrv.route('/test')
+# test get page [/test-post]
+@MicroWebSrv.route('/test-post')
 def _httpHandlerTestGet(httpClient, httpResponse) :
 	content = """\
 	<!DOCTYPE html>
@@ -16,7 +19,7 @@ def _httpHandlerTestGet(httpClient, httpResponse) :
             <h1>TEST GET</h1>
             Client IP address = %s
             <br />
-			<form action="/test" method="post" accept-charset="ISO-8859-1">
+			<form action="/test-post" method="post" accept-charset="ISO-8859-1">
 				First name: <input type="text" name="firstname"><br />
 				Last name: <input type="text" name="lastname"><br />
 				<input type="submit" value="Submit">
@@ -29,8 +32,8 @@ def _httpHandlerTestGet(httpClient, httpResponse) :
 								  contentCharset = "UTF-8",
 								  content 		 = content )
 
-# test post data [/test]
-@MicroWebSrv.route('/test', 'POST')
+# test post data [/test-post]
+@MicroWebSrv.route('/test-post', 'POST')
 def _httpHandlerTestPost(httpClient, httpResponse) :
 	formData  = httpClient.ReadRequestPostedFormData()
 	firstname = formData["firstname"]
@@ -152,6 +155,8 @@ srv.MaxWebSocketRecvLen     = 256
 srv.WebSocketThreaded		= False
 srv.AcceptWebSocketCallback = _acceptWebSocketCallback
 print('running WebServer')
-srv.Start()
-
+try:
+	srv.Start(threaded=False)
+except KeyboardInterrupt : # control+C press
+    pass
 # ----------------------------------------------------------------------------
