@@ -222,8 +222,8 @@ def _calcAddr(webSocket):
 	y= addr[x:]
 	z = y.find("'")
 	host=addr[x:x+z]
-	y= addr[x+z:] # "', 51998)>"
-	z = y.find(")") # 8
+	y= addr[x+z:]
+	z = y.find(")")
 	port=y[3:z]
 	return [host, port]
 # ============================================================================
