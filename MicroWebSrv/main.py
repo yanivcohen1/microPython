@@ -1,5 +1,9 @@
 
 from microWebSrv import MicroWebSrv
+import json
+# import time
+# from   _thread   import start_new_thread
+
 
 @MicroWebSrv.route('/test-redir')
 def _httpHandlerTestGet(httpClient, httpResponse) :
@@ -132,6 +136,14 @@ def _acceptWebSocketCallback(webSocket, httpClient) :
 	webSocket.RecvTextCallback   = _recvTextCallback
 	webSocket.RecvBinaryCallback = _recvBinaryCallback
 	webSocket.ClosedCallback 	 = _closedCallback
+	# For looping see swTimerServer.py
+	# _thread.start_new_thread(cb_timer, (3, webSocket)
+	# OR Using the HW Timer
+	# from machine import Onewire, RTC, Timer
+	# cb = lambda timer: cb_timer(timer, webSocket)
+	# Init and start timer to poll evry 3 sec temperature sensor
+	# tm = Timer(0)
+	# tm.init(period=3000, callback=cb)
 
 def _recvTextCallback(webSocket, msg) :
 	print("WS RECV TEXT : %s" % msg)
@@ -143,6 +155,12 @@ def _recvBinaryCallback(webSocket, data) :
 def _closedCallback(webSocket) :
 	print("WS CLOSED")
 
+# for sending in timer the results in time period
+# def cb_timer(delay_sec, websocket): 
+	# time.sleep(delay_sec)
+    # Read data from sensors and Store in dict
+    # Convert dictionary data to JSON and send
+    # websocket.SendText(json.dumps(dict))
 # ----------------------------------------------------------------------------
 
 #routeHandlers = [
