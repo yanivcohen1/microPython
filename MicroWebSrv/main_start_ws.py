@@ -3,7 +3,8 @@ from microWebSrv import MicroWebSrv
 import json
 # from time import sleep
 from   _thread   import allocate_lock # ,start_new_thread
-import main_my_start_ws
+from main_my_start_ws import WSJoinChat as MyWSJoinChat
+from main_my_start_ws import _chatWebSockets, _chatLock
 
 @MicroWebSrv.route('/test-redir')
 def _httpHandlerTestGet(httpClient, httpResponse):
@@ -141,7 +142,6 @@ def _httpHandlerEditWithArgs(httpClient, httpResponse, args={}):
 
 # ----------------------------------------------------------------------------
 
-
 # test web socket [/wstest.html]
 def _acceptWebSocketCallback(webSocket, httpClient):
 	print('Example WebSocket accepted:')
@@ -155,7 +155,7 @@ def _acceptWebSocketCallback(webSocket, httpClient):
 		webSocket.RecvBinaryCallback = _recvBinaryCallback
 		webSocket.ClosedCallback 	 = _closedCallback
 	elif httpClient.GetRequestTotalPath().lower() == '/my-main-page' :
-		main_my_start_ws.WSJoinChat(webSocket, httpClient.GetAddr())        
+		MyWSJoinChat(webSocket, httpClient.GetAddr())        
 	# For looping see swTimerServer.py
 	# _thread.start_new_thread(cb_timer, (3, webSocket)
 	# OR Using the HW Timer
@@ -192,12 +192,6 @@ def _closedCallback(webSocket) :
 # ]
 
 # ============================================================================
-
-global _chatWebSockets
-_chatWebSockets = [ ]
-
-global _chatLock
-_chatLock = allocate_lock()
 
 def WSJoinChat(webSocket, addr) :
     webSocket.RecvTextCallback = OnWSChatTextMsg

@@ -1,14 +1,11 @@
 <!DOCTYPE html>
-
 <html>
-
     <head>
         <meta charset="utf-8" />
         <title>MicroWebSocket Test</title>
     </head>
 
     <script language="javascript">
-
         var output;
 
         function init()
@@ -19,7 +16,7 @@
 
         function testWebSocket()
         {
-            var wsUri           = "ws://" + window.location.hostname;
+            var wsUri           = "ws://" + window.location.hostname +'/wstest';
             writeToScreen("Connection to " + wsUri + "...")
             websocket           = new WebSocket(wsUri);
             websocket.onopen    = function(evt) { onOpen    (evt) };

@@ -1,3 +1,5 @@
+for simulation see thony:
+C:\Users\yaniv\AppData\Local\Programs\Thonny\Lib\site-packages\thonny\plugins\micropython
 
 ![New microWebSrv2](microWebSrv2.png "microWebSrv2")
 ## --> [Go to microWebSrv2 now!](https://github.com/jczic/MicroWebSrv2)

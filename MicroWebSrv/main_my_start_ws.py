@@ -3,18 +3,24 @@ import json
 # from time import sleep
 from _thread import allocate_lock  # ,start_new_thread
 from machine import Pin
-import main_start_ws
 
 led = Pin(1, Pin.OUT)
 btn = Pin(0, Pin.IN)
-
 # led.value(1)
 led.on()  # the opesit on is off and off in on
 
+print('test page load')
+
+global _chatWebSockets
+_chatWebSockets = [ ]
+
+global _chatLock
+_chatLock = allocate_lock()
+
 def btn_change(pin):
     cur_btn = btn()
-    with main_start_ws._chatLock:
-        for ws in main_start_ws._chatWebSockets:
+    with _chatLock:
+        for ws in _chatWebSockets:
             send = {}
             send['btn'] = str(cur_btn == 1)
             ws.SendText(json.dumps(send))
@@ -41,8 +47,8 @@ def _httpHandlerEditWithArgs(httpClient, httpResponse):
         else:
             led.off()
         print('led is: ', args['status'])
-        with main_start_ws._chatLock:
-            for ws in main_start_ws._chatWebSockets:
+        with _chatLock:
+            for ws in _chatWebSockets:
                 send = {}
                 send['led'] = str(args['status'] == 'false')
                 ws.SendText(json.dumps(send))
@@ -60,24 +66,24 @@ def WSJoinChat(webSocket, addr):
     # webSocket.RecvBinaryCallback = _recvBinaryCallback
     webSocket.ClosedCallback = OnWSChatClosed
     # addr = webSocket.Request.UserAddress
-    with main_start_ws._chatLock:
-        for ws in main_start_ws._chatWebSockets:
+    with _chatLock:
+        for ws in _chatWebSockets:
             print('<%s:%s HAS JOINED THE CHAT>' % addr)
-        main_start_ws._chatWebSockets.append(webSocket)
+        _chatWebSockets.append(webSocket)
         print('<WELCOME %s:%s>' % addr)
 
 def OnWSChatTextMsg(webSocket, msg):
     addr = _calcAddr(webSocket)  # webSocket.Request.UserAddress
-    with main_start_ws._chatLock:
-        for ws in main_start_ws._chatWebSockets:
+    with _chatLock:
+        for ws in _chatWebSockets:
             ws.SendText('<%s:%s> %s' % (addr[0], addr[1], msg))
 
 def OnWSChatClosed(webSocket):
     addr = _calcAddr(webSocket)  # webSocket.Request.UserAddress
-    with main_start_ws._chatLock:
-        if webSocket in main_start_ws._chatWebSockets:
-            main_start_ws._chatWebSockets.remove(webSocket)
-            for ws in main_start_ws._chatWebSockets:
+    with _chatLock:
+        if webSocket in _chatWebSockets:
+            _chatWebSockets.remove(webSocket)
+            for ws in _chatWebSockets:
                 ws.SendText('<%s:%s HAS LEFT THE CHAT>' % addr)
 
 def _calcAddr(webSocket):
