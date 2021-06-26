@@ -1,11 +1,14 @@
+
 from microWebSrv import MicroWebSrv
 import json
 # from time import sleep
 from   _thread   import allocate_lock # ,start_new_thread
+import main_my_start_ws
 
 @MicroWebSrv.route('/test-redir')
 def _httpHandlerTestGet(httpClient, httpResponse):
-	httpResponse.WriteResponseRedirect('/test.pdf')
+	httpResponse.WriteResponseRedirect('/my-main-page.html')
+
 # ----------------------------------------------------------------------------
 
 # test get page [/test-post]
@@ -34,6 +37,7 @@ def _httpHandlerTestGet(httpClient, httpResponse):
 								  contentType="text/html",
 								  contentCharset="UTF-8",
 								  content=content)
+
 # ----------------------------------------------------------------------------
 
 # test post data [/test-post]
@@ -61,6 +65,7 @@ def _httpHandlerTestPost(httpClient, httpResponse):
 								  contentType="text/html",
 								  contentCharset="UTF-8",
 								  content=content)
+
 # ----------------------------------------------------------------------------
 
 # test get query parameters [/send?name=yaniv&last=cohen]
@@ -77,9 +82,7 @@ def _httpHandlerEditWithArgs(httpClient, httpResponse):
         </head>
         <body>
 	"""
-	content += "<h1>EDIT item with {} query arguments</h1>"\
-		.format(len(args))
-
+	content += "<h1>EDIT item with {} query arguments</h1>".format(len(args))
 	if 'name' in args:
 		content += "<p>name = {}</p>".format(args['name'])
 
@@ -98,6 +101,7 @@ def _httpHandlerEditWithArgs(httpClient, httpResponse):
 								  contentType="text/html",
 								  contentCharset="UTF-8",
 								  content=content)
+
 # ----------------------------------------------------------------------------
 
 # test path variable [see comments]
@@ -117,8 +121,7 @@ def _httpHandlerEditWithArgs(httpClient, httpResponse, args={}):
         </head>
         <body>
 	"""
-	content += "<h1>EDIT item with {} variable arguments</h1>"\
-		.format(len(args))
+	content += "<h1>EDIT item with {} variable arguments</h1>".format(len(args))
 
 	if 'index' in args:
 		content += "<p>index = {}</p>".format(args['index'])
@@ -130,12 +133,14 @@ def _httpHandlerEditWithArgs(httpClient, httpResponse, args={}):
         </body>
     </html>
 	"""
+
 	httpResponse.WriteResponseOk(headers=None,
 								  contentType="text/html",
 								  contentCharset="UTF-8",
 								  content=content)
 
 # ----------------------------------------------------------------------------
+
 
 # test web socket [/wstest.html]
 def _acceptWebSocketCallback(webSocket, httpClient):
@@ -145,10 +150,12 @@ def _acceptWebSocketCallback(webSocket, httpClient):
 	# print('   - Origin : %s'    % webSocket.Request.Origin)
 	if httpClient.GetRequestTotalPath().lower() == '/wschat' :
 	    WSJoinChat(webSocket, httpClient.GetAddr())
-	else :
+	elif httpClient.GetRequestTotalPath().lower() == '/wstest' :
 		webSocket.RecvTextCallback   = _recvTextCallback
 		webSocket.RecvBinaryCallback = _recvBinaryCallback
 		webSocket.ClosedCallback 	 = _closedCallback
+	elif httpClient.GetRequestTotalPath().lower() == '/my-main-page' :
+		main_my_start_ws.WSJoinChat(webSocket, httpClient.GetAddr())        
 	# For looping see swTimerServer.py
 	# _thread.start_new_thread(cb_timer, (3, webSocket)
 	# OR Using the HW Timer
@@ -168,6 +175,8 @@ def _recvBinaryCallback(webSocket, data) :
 def _closedCallback(webSocket) :
 	print("WS CLOSED")
 
+
+
 # for sending in timer the results in time period
 # def cb_timer(delay_sec, websocket): 
 	# time.sleep(delay_sec)
@@ -176,13 +185,12 @@ def _closedCallback(webSocket) :
     # websocket.SendText(json.dumps(dict))
 # ----------------------------------------------------------------------------
 
+
 # routeHandlers = [
 #	( "/test",	"GET",	_httpHandlerTestGet ),
 #	( "/test",	"POST",	_httpHandlerTestPost )
 # ]
 
-# ============================================================================
-# ============================================================================
 # ============================================================================
 
 global _chatWebSockets
@@ -226,8 +234,7 @@ def _calcAddr(webSocket):
 	z = y.find(")")
 	port=y[3:z]
 	return [host, port]
-# ============================================================================
-# ============================================================================
+
 # ============================================================================
 
 srv = MicroWebSrv(webPath='www/')
@@ -241,4 +248,5 @@ srv.Start(threaded=False) # control+C press
         sleep(2)
 except KeyboardInterrupt : # control+C press
     pass """
+
 # ----------------------------------------------------------------------------
