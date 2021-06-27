@@ -10,8 +10,8 @@ from time import sleep
 global _chatWebSockets
 _chatWebSockets = [ ]
 
-led = Pin(2, Pin.OUT)
-slider = ADC(Pin(34))
+led = Pin(34, Pin.OUT)
+slider = ADC(Pin(35))
 slider.atten(ADC.ATTN_11DB)       #Full range: 3.3v
 # led.value(1)
 led.on()  # the opesit on is off and off in on
