@@ -14,7 +14,7 @@ led = Pin(32, Pin.OUT)
 slider = ADC(Pin(35))
 slider.atten(ADC.ATTN_11DB)       #Full range: 3.3v
 # led.value(1)
-led.on()  # the opesit on is off and off in on
+led.off()
 
 print('boiler page load')
 sliderIn = 1
