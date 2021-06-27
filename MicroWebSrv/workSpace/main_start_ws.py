@@ -4,7 +4,7 @@ import json
 # from time import sleep
 from   _thread   import allocate_lock # ,start_new_thread
 from events_data_page import WSJoinChat as MyWSJoinChat
-from events_data_page import _chatLock
+from events_data_page import _chatLock, routeHandlers
 import socket
 
 global _chatWebSockets
@@ -163,7 +163,10 @@ def _acceptWebSocketCallback(webSocket, httpClient):
 		MyWSJoinChat(webSocket, httpClient.GetAddr())
 	elif httpClient.GetRequestTotalPath().lower() == '/contineuse-data-read' :
 		from contiuse_data_page import WSJoinChat as ContiuseWSJoinChat
-		ContiuseWSJoinChat(webSocket, httpClient.GetAddr())      
+		ContiuseWSJoinChat(webSocket, httpClient.GetAddr())
+	elif httpClient.GetRequestTotalPath().lower() == '/boiler' :
+		from boiler_page import WSJoinChat as BoilerWSJoinChat
+		BoilerWSJoinChat(webSocket, httpClient.GetAddr())     
 	# For looping see swTimerServer.py
 	# _thread.start_new_thread(cb_timer, (3, webSocket)
 	# OR Using the HW Timer
@@ -239,7 +242,7 @@ def _calcAddr(webSocket):
 
 # ============================================================================
 
-srv = MicroWebSrv(webPath='www/')
+srv = MicroWebSrv(webPath='www/', routeHandlers=routeHandlers)
 srv.MaxWebSocketRecvLen     = 256
 srv.WebSocketThreaded		= True
 srv.AcceptWebSocketCallback = _acceptWebSocketCallback

@@ -72,28 +72,16 @@ def cb_timer(delay_sec, websocket):
                 print('ws sending: ', curt_btn)
 
 def OnWSChatTextMsg(webSocket, msg):
-    addr = _calcAddr(webSocket)  # webSocket.Request.UserAddress
     with _chatLock:
         for ws in _chatWebSockets:
-            ws.SendText('<%s:%s> %s' % (addr[0], addr[1], msg))
+            pass
+            # ws.SendText('<%s:%s> %s' % (addr[0], addr[1], msg))
 
 def OnWSChatClosed(webSocket):
-    addr = _calcAddr(webSocket)  # webSocket.Request.UserAddress
     with _chatLock:
         if webSocket in _chatWebSockets:
             _chatWebSockets.remove(webSocket)
             for ws in _chatWebSockets:
-                ws.SendText('<%s:%s HAS LEFT THE CHAT>' % addr)
-
-def _calcAddr(webSocket):
-    addr = str(webSocket._socket)
-    x = addr.find("raddr=('") + 8
-    y = addr[x:]
-    z = y.find("'")
-    host = addr[x:x+z]
-    y = addr[x+z:]
-    z = y.find(")")
-    port = y[3:z]
-    return [host, port]
+                ws.SendText('DISCONNECT')
 
 # ============================================================================
