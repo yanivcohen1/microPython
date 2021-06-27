@@ -155,7 +155,10 @@ def _acceptWebSocketCallback(webSocket, httpClient):
 		webSocket.RecvBinaryCallback = _recvBinaryCallback
 		webSocket.ClosedCallback 	 = _closedCallback
 	elif httpClient.GetRequestTotalPath().lower() == '/my-main-page' :
-		MyWSJoinChat(webSocket, httpClient.GetAddr())        
+		MyWSJoinChat(webSocket, httpClient.GetAddr())
+	elif httpClient.GetRequestTotalPath().lower() == '/contineuse-data-read' :
+		from contiuse_data_read import WSJoinChat as ContiuseWSJoinChat
+		ContiuseWSJoinChat(webSocket, httpClient.GetAddr())      
 	# For looping see swTimerServer.py
 	# _thread.start_new_thread(cb_timer, (3, webSocket)
 	# OR Using the HW Timer

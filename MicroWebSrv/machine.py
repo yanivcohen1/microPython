@@ -16,3 +16,6 @@ class Pin :
 
     def irq(self, btn_change):
         return None
+
+    def value(self):
+        return random.randint(0, 1)
