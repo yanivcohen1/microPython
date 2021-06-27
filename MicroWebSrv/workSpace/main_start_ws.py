@@ -5,6 +5,7 @@ import json
 from   _thread   import allocate_lock # ,start_new_thread
 from events_data_page import WSJoinChat as MyWSJoinChat
 from events_data_page import _chatLock
+import socket
 
 global _chatWebSockets
 _chatWebSockets = [ ]
@@ -153,6 +154,7 @@ def _acceptWebSocketCallback(webSocket, httpClient):
 	# print('   - Origin : %s'    % webSocket.Request.Origin)
 	if httpClient.GetRequestTotalPath().lower() == '/wschat' :
 	    WSJoinChat(webSocket, httpClient.GetAddr())
+	    print('chat socet: ', str(webSocket._socket))
 	elif httpClient.GetRequestTotalPath().lower() == '/wstest' :
 		webSocket.RecvTextCallback   = _recvTextCallback
 		webSocket.RecvBinaryCallback = _recvBinaryCallback
@@ -206,15 +208,15 @@ def WSJoinChat(webSocket, addr) :
     # addr = webSocket.Request.UserAddress
     with _chatLock :
         for ws in _chatWebSockets :
-            ws.SendText('<%s:%s HAS JOINED THE CHAT>' % addr)
-        _chatWebSockets.append(webSocket)
+            ws[0].SendText('<%s:%s HAS JOINED THE CHAT>' % ws[1])
+        _chatWebSockets.append([webSocket, addr])
         webSocket.SendText('<WELCOME %s:%s>' % addr)
 
 def OnWSChatTextMsg(webSocket, msg) :
     addr = _calcAddr(webSocket) # webSocket.Request.UserAddress
     with _chatLock :
         for ws in _chatWebSockets :
-            ws.SendText('<%s:%s> %s' % (addr[0], addr[1], msg))
+            ws[0].SendText('<%s:%s> %s' % (ws[1][0], ws[1][1], msg))
 
 def OnWSChatClosed(webSocket) :
     addr =  _calcAddr(webSocket) # webSocket.Request.UserAddress
@@ -222,7 +224,7 @@ def OnWSChatClosed(webSocket) :
         if webSocket in _chatWebSockets :
             _chatWebSockets.remove(webSocket)
             for ws in _chatWebSockets :
-                ws.SendText('<%s:%s HAS LEFT THE CHAT>' % addr)
+                ws[0].SendText('<%s:%s HAS LEFT THE CHAT>' % ws[1])
 
 def _calcAddr(webSocket):
 	addr= str(webSocket._socket)
