@@ -19,6 +19,15 @@
             padding-right: 20px; /*sets 'padding'*/
             line-height: 50px; /*for this, it sets vertical alignment*/
         }
+        label {
+            display: block;
+            font: 1rem 'Fira Sans', sans-serif;
+        }
+
+        input,
+        label {
+            margin: .4rem 0;
+        }
     </style>
 
 	<body>
@@ -26,6 +35,17 @@
         <a href="#" onclick="ledClick()" id="led">Boiler On Led</a>
         <br>
         <br>
+    
+        <label for="appt">Choose a time to boiler on:</label>
+        <input type="time" id="appt" name="appt"
+            min="05:00" max="00:00" required>
+        <small>hours are 5am to 12pm</small>
+
+        <label for="appt">Choose a time to boiler off:</label>
+        <input type="time" id="appt" name="appt"
+            min="05:00" max="00:00" required>
+        <small>hours are 5am to 12pm</small>
+            
         <h3>Set boiler Temp</h3>
         <input id="sliderIn" type="range" min="1" max="4095" value="50">
         <br>
