@@ -3,8 +3,11 @@ from microWebSrv import MicroWebSrv
 import json
 # from time import sleep
 from   _thread   import allocate_lock # ,start_new_thread
-from main_my_start_ws import WSJoinChat as MyWSJoinChat
-from main_my_start_ws import _chatWebSockets, _chatLock
+from events_data_page import WSJoinChat as MyWSJoinChat
+from events_data_page import _chatLock
+
+global _chatWebSockets
+_chatWebSockets = [ ]
 
 @MicroWebSrv.route('/test-redir')
 def _httpHandlerTestGet(httpClient, httpResponse):
@@ -157,7 +160,7 @@ def _acceptWebSocketCallback(webSocket, httpClient):
 	elif httpClient.GetRequestTotalPath().lower() == '/my-main-page' :
 		MyWSJoinChat(webSocket, httpClient.GetAddr())
 	elif httpClient.GetRequestTotalPath().lower() == '/contineuse-data-read' :
-		from contiuse_data_read import WSJoinChat as ContiuseWSJoinChat
+		from contiuse_data_page import WSJoinChat as ContiuseWSJoinChat
 		ContiuseWSJoinChat(webSocket, httpClient.GetAddr())      
 	# For looping see swTimerServer.py
 	# _thread.start_new_thread(cb_timer, (3, webSocket)

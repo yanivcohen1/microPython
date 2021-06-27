@@ -2,20 +2,24 @@ from microWebSrv import MicroWebSrv
 import json
 # from time import sleep
 from _thread import allocate_lock  # ,start_new_thread
+# C:\Users\yaniv\AppData\Local\Programs\Thonny\Lib\site-packages\thonny\plugins\micropython\api_stubs
 from machine import Pin
-from main_my_start_ws import _chatWebSockets, _chatLock
-from   _thread     import start_new_thread
-from time import sleep
 
-led = Pin(1, Pin.OUT)
-btn = Pin(0, Pin.IN)
+led = Pin(2, Pin.OUT) # 1, Pin.PULL_UP
+btn = Pin(0, Pin.IN) # Pin.PULL_UP
 # led.value(1)
 led.on()  # the opesit on is off and off in on
 
-print('contiuse_data_read load')
+print('events_data page load')
+
+global _chatWebSockets
+_chatWebSockets = [ ]
+
+global _chatLock
+_chatLock = allocate_lock()
 
 def btn_change(pin):
-    cur_btn = btn.value()
+    cur_btn = btn()
     with _chatLock:
         for ws in _chatWebSockets:
             send = {}
@@ -32,6 +36,32 @@ btn.irq(btn_change)
 
 # ----------------------------------------------------------------------------
 
+# test get query parameters [/send?name=yaniv&last=cohen]
+@MicroWebSrv.route('/led')
+def _httpHandlerEditWithArgs(httpClient, httpResponse):
+    args = httpClient.GetRequestQueryParams()
+    # print('QueryParams', args)
+    content = ""
+    if 'status' in args:
+        if args['status'] == 'false':
+            led.on()
+        else:
+            led.off()
+        print('led is: ', args['status'])
+        with _chatLock:
+            for ws in _chatWebSockets:
+                send = {}
+                send['led'] = str(args['status'] == 'false')
+                ws.SendText(json.dumps(send))
+                # ws.SendText('{"led": "'+ str(args['status'] == 'false')+'"}')
+                print('ws sending: ', args['status'] == 'false')
+    httpResponse.WriteResponseOk(headers=None,
+                                 contentType="text/html",
+                                 contentCharset="UTF-8",
+                                 content=content)
+
+# ----------------------------------------------------------------------------
+
 def WSJoinChat(webSocket, addr):
     webSocket.RecvTextCallback = OnWSChatTextMsg
     # webSocket.RecvBinaryCallback = _recvBinaryCallback
@@ -42,31 +72,6 @@ def WSJoinChat(webSocket, addr):
             print('<%s:%s HAS JOINED THE CHAT>' % addr)
         _chatWebSockets.append(webSocket)
         print('<WELCOME %s:%s>' % addr)
-    # For looping see swTimerServer.py
-    try:
-	    start_new_thread(cb_timer, (3, webSocket))
-    except:
-        print ("Error: unable to start thread")
-	# OR Using the HW Timer
-	# from machine import Onewire, RTC, Timer
-	# cb = lambda timer: cb_timer(timer, webSocket)
-	# Init and start timer to poll evry 3 sec temperature sensor
-	# tm = Timer(0)
-	# tm.init(period=3000, callback=cb)
-
-# for sending in timer the results in time period
-def cb_timer(delay_sec, websocket):
-    while True: 
-        sleep(delay_sec)
-        #Read data from sensors and Store in dict
-        #Convert dictionary data to JSON and send
-        curt_btn = btn.value()
-        with _chatLock:
-            for ws in _chatWebSockets:
-                send = {}
-                send['btn'] = str(curt_btn == 1)
-                ws.SendText(json.dumps(send))
-                print('ws sending: ', curt_btn)
 
 def OnWSChatTextMsg(webSocket, msg):
     addr = _calcAddr(webSocket)  # webSocket.Request.UserAddress
