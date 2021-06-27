@@ -19,6 +19,8 @@ led.off()
 print('boiler page load')
 sliderIn = 1
 ledOn = False
+last_slider = 1
+last_temp = 0
 # ----------------------------------------------------------------------------
 # in comment to not upload all page on the web load
 # @MicroWebSrv.route('/boiler')
@@ -45,8 +47,10 @@ def WSJoinChat(webSocket, addr):
     webSocket.ClosedCallback = OnWSChatClosed
     # addr = webSocket.Request.UserAddress
     with _chatLock:
-        for ws in _chatWebSockets:
-            print('<%s:%s HAS JOINED THE CHAT>' % addr)
+        print('<%s:%s HAS JOINED THE CHAT>' % addr)
+        send = {}
+        send['slider'] = str(sliderIn)
+        webSocket.SendText(json.dumps(send))
         _chatWebSockets.append(webSocket)
         print('<WELCOME %s:%s>' % addr)
     # For looping see swTimerServer.py
@@ -98,10 +102,14 @@ def OnWSChatTextMsg(webSocket, msg):
     recv = json.loads(msg)
     if 'temp' in recv:
         global sliderIn
-        sliderIn = recv['temp']
+        sliderIn = int(recv['temp'])
         print('slider set to is: ', recv['temp'])
+        with _chatLock:
+            for ws in _chatWebSockets:
+                send = {}
+                send['slider'] = str(sliderIn)
+                ws.SendText(json.dumps(send))
     
-
 def OnWSChatClosed(webSocket):
     with _chatLock:
         if webSocket in _chatWebSockets:

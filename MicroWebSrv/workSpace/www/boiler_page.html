@@ -34,8 +34,7 @@
 		<h1>Test boiler control Page</h1>
         <a href="#" onclick="ledClick()" id="led">Boiler On Led</a>
         <br>
-        <br>
-    
+   
         <label for="appt">Choose a time to boiler on:</label>
         <input type="time" id="appt" name="appt"
             min="05:00" max="00:00" required>
@@ -45,16 +44,16 @@
         <input type="time" id="appt" name="appt"
             min="05:00" max="00:00" required>
         <small>hours are 5am to 12pm</small>
-            
+        <p id=output></p>
         <h3>Set boiler Temp</h3>
         <input id="sliderIn" type="range" min="1" max="4095" value="50">
         <br>
-        <p id=output></p>
-        <br>
+        <p id=sliderInPrint></p>
         <h3>read boiler Temp</h3>
         <input id="sliderOut" type="range" disabled min="1" max="4095" value="50">
         <br>
-        <p id=output2></p>
+        <p id=sliderOutPrint></p>
+       
         
         <!--for slider  -->
         <script> 
@@ -62,12 +61,15 @@
             let ledOn = false
             var sliderIn = document.getElementById("sliderIn");
             sliderIn.value = 1;
-            var output = document.getElementById("output");
-            output.innerHTML = parseInt(parseInt(sliderIn.value)*100/4095); ;
+            var sliderInPrint = document.getElementById("sliderInPrint");
+            sliderInPrint.innerHTML = parseInt(parseInt(sliderIn.value)*100/4095);
+
             sliderIn.oninput = function() {
-                output.innerHTML = parseInt(parseInt(this.value)*100/4095);
-                msg='{"temp": '+ this.value+ '}'
-                websocket.send(msg);
+                sliderInPrint.innerHTML = parseInt(parseInt(this.value)*100/4095);
+                msg = {}
+                msg["temp"] = this.value
+                // msg='{"temp": '+ this.value+ '}'
+                websocket.send(JSON.stringify(msg));
             }
 
             var output;
@@ -104,13 +106,16 @@
                 rcv = JSON.parse(evt.data)
                 if (rcv.hasOwnProperty('temp')){
                     document.getElementById("sliderOut").value = rcv.temp;
-                    document.getElementById("output2").innerHTML = parseInt(parseInt(rcv.temp)*100/4095);
+                    document.getElementById("sliderOutPrint").innerHTML = parseInt(parseInt(rcv.temp)*100/4095);
                 }else if(rcv.hasOwnProperty('led')){
                     if (rcv.led === 'True') {
                         document.getElementById("led").style.background = 'blue';
                     } else {
                         document.getElementById("led").style.background = 'black';
                     }
+                }else if(rcv.hasOwnProperty('slider')){
+                    sliderIn.value = rcv.slider
+                    sliderInPrint.innerHTML = parseInt(parseInt(sliderIn.value)*100/4095);
                 }
                     // writeToScreen('MSG FROM SERVER : <span style="color: blue;">' + evt.data + '</span>');
             }
