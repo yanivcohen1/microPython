@@ -11,7 +11,7 @@ _chatWebSockets = [ ]
 
 @MicroWebSrv.route('/test-redir')
 def _httpHandlerTestGet(httpClient, httpResponse):
-	httpResponse.WriteResponseRedirect('/my-main-page.html')
+	httpResponse.WriteResponseRedirect('/events_data_page.html')
 
 # ----------------------------------------------------------------------------
 
