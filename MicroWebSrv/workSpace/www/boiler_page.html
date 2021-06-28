@@ -76,6 +76,7 @@
             function init()
             {
                 output = document.getElementById("output");
+                output.style.wordWrap = "break-word"
                 testWebSocket();
             }
     
@@ -133,10 +134,11 @@
     
             function writeToScreen(s)
             {
-                var pre = document.createElement("p");
+                output.innerHTML = s
+                /* var pre = document.createElement("p");
                 pre.style.wordWrap = "break-word";
                 pre.innerHTML = s;
-                output.appendChild(pre);
+                output.appendChild(pre); */
             }
     
             window.addEventListener("load", init, false);
