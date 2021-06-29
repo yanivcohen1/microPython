@@ -44,7 +44,7 @@ last_temp = 0
 def WSJoinChat(webSocket, addr):
     webSocket.RecvTextCallback = OnWSChatTextMsg
     # webSocket.RecvBinaryCallback = _recvBinaryCallback
-    webSocket.ClosedCallback = OnWSChatClosed
+    # webSocket.ClosedCallback = OnWSChatClosed
     # addr = webSocket.Request.UserAddress
     with _chatLock:
         print('<%s:%s HAS JOINED THE CHAT>' % addr)
@@ -109,13 +109,6 @@ def OnWSChatTextMsg(webSocket, msg):
                 send = {}
                 send[SendData.slider] = str(sliderIn)
                 ws.SendText(json.dumps(send))
-    
-def OnWSChatClosed(webSocket):
-    with _chatLock:
-        if webSocket in _chatWebSockets:
-            _chatWebSockets.remove(webSocket)
-            for ws in _chatWebSockets:
-                ws.SendText('DISCONNECT')
 
 # ============================================================================
 

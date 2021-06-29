@@ -38,7 +38,7 @@ btn.irq(btn_change)
 def WSJoinChat(webSocket, addr):
     webSocket.RecvTextCallback = OnWSChatTextMsg
     # webSocket.RecvBinaryCallback = _recvBinaryCallback
-    webSocket.ClosedCallback = OnWSChatClosed
+    # webSocket.ClosedCallback = OnWSChatClosed
     # addr = webSocket.Request.UserAddress
     with _chatLock:
         for ws in _chatWebSockets:
@@ -76,12 +76,5 @@ def OnWSChatTextMsg(webSocket, msg):
         for ws in _chatWebSockets:
             pass
             # ws.SendText('<%s:%s> %s' % (addr[0], addr[1], msg))
-
-def OnWSChatClosed(webSocket):
-    with _chatLock:
-        if webSocket in _chatWebSockets:
-            _chatWebSockets.remove(webSocket)
-            for ws in _chatWebSockets:
-                ws.SendText('DISCONNECT')
 
 # ============================================================================
