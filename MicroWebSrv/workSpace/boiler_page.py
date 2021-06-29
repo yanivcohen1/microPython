@@ -49,7 +49,7 @@ def WSJoinChat(webSocket, addr):
     with _chatLock:
         print('<%s:%s HAS JOINED THE CHAT>' % addr)
         send = {}
-        send['slider'] = str(sliderIn)
+        send[SendData.slider] = str(sliderIn)
         webSocket.SendText(json.dumps(send))
         _chatWebSockets.append(webSocket)
         print('<WELCOME %s:%s>' % addr)
@@ -75,7 +75,7 @@ def cb_timer(delay_sec, websocket):
         with _chatLock:
             for ws in _chatWebSockets:
                 send = {}
-                send['temp'] = str(curt_slider)
+                send[SendData.temp] = str(curt_slider)
                 ws.SendText(json.dumps(send))
                 print('ws sending temp: ', curt_slider)
         global ledOn
@@ -83,7 +83,7 @@ def cb_timer(delay_sec, websocket):
             with _chatLock:
                 for ws in _chatWebSockets:
                     send = {}
-                    send['led'] = str(False)
+                    send[SendData.led] = str(False)
                     ws.SendText(json.dumps(send))
                     print('ws sending led: ', False)
                     ledOn = False
@@ -92,7 +92,7 @@ def cb_timer(delay_sec, websocket):
             with _chatLock:
                 for ws in _chatWebSockets:
                     send = {}
-                    send['led'] = str(True)
+                    send[SendData.led] = str(True)
                     ws.SendText(json.dumps(send))
                     print('ws sending led: ', True)
                     ledOn = True
@@ -100,14 +100,14 @@ def cb_timer(delay_sec, websocket):
 
 def OnWSChatTextMsg(webSocket, msg):
     recv = json.loads(msg)
-    if 'temp' in recv:
+    if RecData.temp in recv:
         global sliderIn
-        sliderIn = int(recv['temp'])
-        print('slider set to is: ', recv['temp'])
+        sliderIn = int(recv[RecData.temp])
+        print('slider set to is: ', recv[RecData.temp])
         with _chatLock:
             for ws in _chatWebSockets:
                 send = {}
-                send['slider'] = str(sliderIn)
+                send[SendData.slider] = str(sliderIn)
                 ws.SendText(json.dumps(send))
     
 def OnWSChatClosed(webSocket):
@@ -119,4 +119,11 @@ def OnWSChatClosed(webSocket):
 
 # ============================================================================
 
+class SendData :
+    temp = 'temp'
+    led = 'led'
+    slider = 'slider'
+
+class RecData:
+   temp = 'temp' 
 
