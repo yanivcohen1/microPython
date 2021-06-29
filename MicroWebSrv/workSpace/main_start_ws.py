@@ -246,13 +246,13 @@ def _calcAddr(webSocket):
 
 # ============================================================================
 
-srv = MicroWebSrv(webPath='www/', routeHandlers=routeHandlers)
+srv = MicroWebSrv(webPath='www/', routeHandlers=routeHandlers) # port=<portNumber> default is 80
 srv.MaxWebSocketRecvLen     = 256
 srv.WebSocketThreaded		= True
 srv.AcceptWebSocketCallback = _acceptWebSocketCallback
 print('running WebServer')
 # control+C press
-srv.Start(threaded=False) # port=<portNumber> default is 80
+srv.Start(threaded=False) 
 """ try : # srv.Start(threaded=True)
     while True :
         sleep(2)
