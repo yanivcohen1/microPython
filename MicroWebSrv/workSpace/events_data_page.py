@@ -70,7 +70,7 @@ def _httpHandlerEditWithArgs(httpClient, httpResponse):
 def WSJoinChat(webSocket, addr):
     webSocket.RecvTextCallback = OnWSChatTextMsg
     # webSocket.RecvBinaryCallback = _recvBinaryCallback
-    # webSocket.ClosedCallback = OnWSChatClosed
+    webSocket.ClosedCallback = OnWSChatClosed
     # addr = webSocket.Request.UserAddress
     with _chatLock:
         for ws in _chatWebSockets:
@@ -84,4 +84,7 @@ def OnWSChatTextMsg(webSocket, msg):
             pass
             # ws.SendText('<%s:%s> %s' % (addr[0], addr[1], msg))
 
+
+def OnWSChatClosed(webSocket) :
+	print("WS CLOSED")
 # ============================================================================

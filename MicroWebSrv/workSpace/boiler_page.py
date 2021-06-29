@@ -44,7 +44,7 @@ last_temp = 0
 def WSJoinChat(webSocket, addr):
     webSocket.RecvTextCallback = OnWSChatTextMsg
     # webSocket.RecvBinaryCallback = _recvBinaryCallback
-    # webSocket.ClosedCallback = OnWSChatClosed
+    webSocket.ClosedCallback = OnWSChatClosed
     # addr = webSocket.Request.UserAddress
     with _chatLock:
         print('<%s:%s HAS JOINED THE CHAT>' % addr)
@@ -65,6 +65,9 @@ def WSJoinChat(webSocket, addr):
 	# tm = Timer(0)
 	# tm.init(period=3000, callback=cb)
 
+def OnWSChatClosed(webSocket) :
+	print("WS CLOSED")
+    
 # for sending in timer the results in time period
 def cb_timer(delay_sec, websocket):
     while True: 
