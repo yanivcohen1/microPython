@@ -67,7 +67,7 @@
             sliderIn.oninput = function() {
                 sliderInPrint.innerHTML = parseInt(parseInt(this.value)*100/4095);
                 msg = {}
-                msg["temp"] = this.value
+                msg[SendData.temp] = this.value
                 // msg='{"temp": '+ this.value+ '}'
                 websocket.send(JSON.stringify(msg));
             }
@@ -105,17 +105,17 @@
             {
                 console.log('status: ' + evt.data)
                 rcv = JSON.parse(evt.data)
-                if (rcv.hasOwnProperty('temp')){
-                    document.getElementById("sliderOut").value = rcv.temp;
+                if (rcv.hasOwnProperty(RecData.temp)){
+                    document.getElementById("sliderOut").value = rcv[RecData.temp];
                     document.getElementById("sliderOutPrint").innerHTML = parseInt(parseInt(rcv.temp)*100/4095);
-                }else if(rcv.hasOwnProperty('led')){
-                    if (rcv.led === 'True') {
+                }else if(rcv.hasOwnProperty(RecData.led)){
+                    if (rcv[RecData.led] === 'True') {
                         document.getElementById("led").style.background = 'blue';
                     } else {
                         document.getElementById("led").style.background = 'black';
                     }
-                }else if(rcv.hasOwnProperty('slider')){
-                    sliderIn.value = rcv.slider
+                }else if(rcv.hasOwnProperty(RecData.slider)){
+                    sliderIn.value = rcv[RecData.slider]
                     sliderInPrint.innerHTML = parseInt(parseInt(sliderIn.value)*100/4095);
                 }
                     // writeToScreen('MSG FROM SERVER : <span style="color: blue;">' + evt.data + '</span>');
@@ -143,6 +143,15 @@
     
             window.addEventListener("load", init, false);
     
+            class RecData {
+                static temp = 'temp'
+                static led = 'led'
+                static slider = 'slider'
+            }
+
+            class SendData {
+                static temp = 'temp'
+            } 
         </script>
 	</body>
 
