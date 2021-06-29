@@ -61,7 +61,7 @@
     
             function testWebSocket()
             {
-                var wsUri           = "ws://" + window.location.hostname + '/my-main-page';
+                var wsUri           = "ws://" + window.location.hostname + '/events_data_page';
                 writeToScreen("Connection to " + wsUri + "...")
                 websocket           = new WebSocket(wsUri);
                 websocket.onopen    = function(evt) { onOpen    (evt) };

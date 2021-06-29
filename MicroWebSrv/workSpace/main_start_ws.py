@@ -158,7 +158,7 @@ def _acceptWebSocketCallback(webSocket, httpClient):
 		webSocket.RecvTextCallback   = _recvTextCallback
 		webSocket.RecvBinaryCallback = _recvBinaryCallback
 		webSocket.ClosedCallback 	 = _closedCallback
-	elif httpClient.GetRequestTotalPath().lower() == '/my-main-page' :
+	elif httpClient.GetRequestTotalPath().lower() == '/events_data_page' :
 		MyWSJoinChat(webSocket, httpClient.GetAddr())
 	elif httpClient.GetRequestTotalPath().lower() == '/contineuse-data-read' :
 		from contiuse_data_page import WSJoinChat as ContiuseWSJoinChat
@@ -207,7 +207,6 @@ def WSJoinChat(webSocket, addr) :
     webSocket.RecvTextCallback = OnWSChatTextMsg
     webSocket.RecvBinaryCallback = _recvBinaryCallback
     webSocket.ClosedCallback      = OnWSChatClosed
-    # addr = webSocket.Request.UserAddress
     with _chatLock :
         for ws in _chatWebSockets :
             ws[0].SendText('<%s:%s HAS JOINED THE CHAT>' % addr) # ws[1] self addr
