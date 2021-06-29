@@ -107,7 +107,7 @@
                 rcv = JSON.parse(evt.data)
                 if (rcv.hasOwnProperty(RecData.temp)){
                     document.getElementById("sliderOut").value = rcv[RecData.temp];
-                    document.getElementById("sliderOutPrint").innerHTML = parseInt(parseInt(rcv.temp)*100/4095);
+                    document.getElementById("sliderOutPrint").innerHTML = parseInt(parseInt(RecData.temp)*100/4095);
                 }else if(rcv.hasOwnProperty(RecData.led)){
                     if (rcv[RecData.led] === 'True') {
                         document.getElementById("led").style.background = 'blue';
