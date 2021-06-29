@@ -247,7 +247,8 @@ srv.MaxWebSocketRecvLen     = 256
 srv.WebSocketThreaded		= True
 srv.AcceptWebSocketCallback = _acceptWebSocketCallback
 print('running WebServer')
-srv.Start(threaded=False) # control+C press
+# control+C press
+srv.Start(threaded=False) # port=<portNumber> default is 80
 """ try : # srv.Start(threaded=True)
     while True :
         sleep(2)
