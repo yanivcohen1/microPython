@@ -1,4 +1,4 @@
-from microWebSrv import MicroWebSrv
+from microWebSrv.microWebSrv import MicroWebSrv
 import json
 # from time import sleep
 from _thread import allocate_lock  # ,start_new_thread
