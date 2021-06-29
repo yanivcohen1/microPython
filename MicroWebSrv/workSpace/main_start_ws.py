@@ -154,7 +154,6 @@ def _acceptWebSocketCallback(webSocket, httpClient):
 	# print('   - Origin : %s'    % webSocket.Request.Origin)
 	if httpClient.GetRequestTotalPath().lower() == '/wschat' :
 	    WSJoinChat(webSocket, httpClient.GetAddr())
-	    print('chat socet: ', str(webSocket._socket))
 	elif httpClient.GetRequestTotalPath().lower() == '/wstest' :
 		webSocket.RecvTextCallback   = _recvTextCallback
 		webSocket.RecvBinaryCallback = _recvBinaryCallback
@@ -211,23 +210,29 @@ def WSJoinChat(webSocket, addr) :
     # addr = webSocket.Request.UserAddress
     with _chatLock :
         for ws in _chatWebSockets :
-            ws[0].SendText('<%s:%s HAS JOINED THE CHAT>' % ws[1])
+            ws[0].SendText('<%s:%s HAS JOINED THE CHAT>' % addr) # ws[1] self addr
         _chatWebSockets.append([webSocket, addr])
         webSocket.SendText('<WELCOME %s:%s>' % addr)
 
 def OnWSChatTextMsg(webSocket, msg) :
-    addr = _calcAddr(webSocket) # webSocket.Request.UserAddress
-    with _chatLock :
-        for ws in _chatWebSockets :
-            ws[0].SendText('<%s:%s> %s' % (ws[1][0], ws[1][1], msg))
+    # addr = _calcAddr(webSocket) # webSocket.Request.UserAddress
+	addr = None
+	for ws in _chatWebSockets :
+		if ws[0] == webSocket: addr=ws[1]
+	with _chatLock :
+		for ws in _chatWebSockets :
+			ws[0].SendText('<%s:%s> %s' % (addr[0], addr[1], msg)) # ws[1][0], sw[1][1] self addr
 
 def OnWSChatClosed(webSocket) :
-    addr =  _calcAddr(webSocket) # webSocket.Request.UserAddress
-    with _chatLock :
-        if webSocket in _chatWebSockets :
-            _chatWebSockets.remove(webSocket)
-            for ws in _chatWebSockets :
-                ws[0].SendText('<%s:%s HAS LEFT THE CHAT>' % ws[1])
+    # addr =  _calcAddr(webSocket) # webSocket.Request.UserAddress
+	addr = None
+	for ws in _chatWebSockets :
+		if ws[0] == webSocket: addr=ws[1]
+	with _chatLock :
+		if webSocket in _chatWebSockets :
+			_chatWebSockets.remove(webSocket)
+			for ws in _chatWebSockets :
+				ws[0].SendText('<%s:%s HAS LEFT THE CHAT>' % addr) # ws[1] self addr
 
 def _calcAddr(webSocket):
 	addr= str(webSocket._socket)
