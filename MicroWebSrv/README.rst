@@ -52,13 +52,25 @@ Or on Windows cmd::
     $ esptool --chip esp32 --port COM6 flash_id
     $ python -m pip install rshell
     $ rshell --buffer-size=30 -p COM6
+    $ rsync ./workSpace/  /pyboard
     $ repl
     ## control + c to exit
-    $ rsync ./workSpace/  /pyboard
     ## to run the code
     $ import ws
     ## control + c to stop the code
     ## control + x to exit repl
+
+With PS:
+cd C:\Users\yaniv\OneDrive\microPython\MicroWebSrv\
+venv\Scripts\activate
+rshell --buffer-size=30 -p COM6
+rsync ./workSpace/  /pyboard
+repl
+## control + c to exit
+## to run the code
+>> import ws
+## control + c to stop the code
+## control + x to exit repl
 
 Install Flaskr::
 
