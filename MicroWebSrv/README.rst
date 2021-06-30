@@ -46,6 +46,19 @@ Or on Windows cmd::
     $ py -m venv venv
     $ venv\Scripts\activate.bat
     $ venv\Scripts\activate
+    $ python -m pip install esptool
+    $ esptool version
+    ## test it
+    $ esptool --chip esp32 --port COM6 flash_id
+    $ python -m pip install rshell
+    $ rshell --buffer-size=30 -p COM6
+    $ repl
+    ## control + c to exit
+    $ rsync ./workSpace/  /pyboard
+    ## to run the code
+    $ import ws
+    ## control + c to stop the code
+    ## control + x to exit repl
 
 Install Flaskr::
 

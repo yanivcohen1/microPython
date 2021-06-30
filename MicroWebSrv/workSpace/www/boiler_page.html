@@ -55,7 +55,7 @@
         <p id=sliderOutPrint></p>
        
         
-        <!--for slider  -->
+        <!-- for slider  -->
         <script> 
             // init
             let ledOn = false
@@ -68,7 +68,7 @@
                 sliderInPrint.innerHTML = parseInt(parseInt(this.value)*100/4095);
                 msg = {}
                 msg[SendData.temp] = this.value
-                // msg='{"temp": '+ this.value+ '}'
+                // msg='{"temp": '+ this.value + '}'
                 websocket.send(JSON.stringify(msg));
             }
 
@@ -107,7 +107,7 @@
                 rcv = JSON.parse(evt.data)
                 if (rcv.hasOwnProperty(RecData.temp)){
                     document.getElementById("sliderOut").value = rcv[RecData.temp];
-                    document.getElementById("sliderOutPrint").innerHTML = parseInt(parseInt(RecData.temp)*100/4095);
+                    document.getElementById("sliderOutPrint").innerHTML = parseInt(parseInt(rcv[RecData.temp])*100/4095);
                 }else if(rcv.hasOwnProperty(RecData.led)){
                     if (rcv[RecData.led] === 'True') {
                         document.getElementById("led").style.background = 'blue';

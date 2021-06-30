@@ -113,7 +113,7 @@ def OnWSChatTextMsg(webSocket, msg):
                 send[SendData.slider] = str(sliderIn)
                 ws.SendText(json.dumps(send))
 
-# ============================================================================
+# =============================================================================
 
 class SendData :
     temp = 'temp'
