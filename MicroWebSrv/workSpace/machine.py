@@ -35,9 +35,29 @@ class ADC :
     def read(self):
         return random.randint(0, 4095)
 
+class SoftI2C:
+    def __init__(self, scl=1, sda=2):
+        return None
+
+class ssd1306:
+    def __init__(self):
+        pass
+    def SSD1306_I2C(self,a,b):
+        return ssd1306()
+    def SH1106_I2C(self,a,b):
+        return ssd1306()
+    def text(self,a,b,c):
+        pass
+    def show(self):
+        pass
+    def sleep(self,a):
+        pass
+    def fill(self,a):
+        pass
+
+
 def time_pulse_us(pin, level):
     return random.randint(1, int(100*2/0.034))
 
 def sleep_us(num):
     sleep(num/1000000)
-
