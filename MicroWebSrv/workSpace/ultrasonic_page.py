@@ -6,6 +6,10 @@ from machine import Pin, ADC, time_pulse_us
 from events_data_page import _chatLock , routeHandlers
 from   _thread     import start_new_thread
 from time import sleep
+try:
+    from time import sleep_us
+except:
+    from machine import sleep_us
 
 global _chatWebSockets
 _chatWebSockets = [ ]
@@ -91,10 +95,10 @@ def calcDistance():
     distance = 0
     for i in range(10):
         trigPin.off() # digitalWrite(trigPin, LOW);
-        sleep(2/1000000) # delayMicroseconds(2);
+        sleep_us(2) # delayMicroseconds(2);
         # Sets the trigPin on HIGH state for 10 micro seconds
         trigPin.on() # digitalWrite(trigPin, HIGH);
-        sleep(10/1000000) # delayMicroseconds(10);
+        sleep_us(10) # delayMicroseconds(10);
         trigPin.off() # digitalWrite(trigPin, LOW);
         # Reads the echoPin, returns the sound wave travel time in microseconds
         # calculate how mach time is on (time to go forword and back)

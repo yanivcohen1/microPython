@@ -38,3 +38,6 @@ class ADC :
 def time_pulse_us(pin, level):
     return random.randint(1, int(100*2/0.034))
 
+def sleep_us(num):
+    sleep(num/1000000)
+
