@@ -23,6 +23,8 @@ _chatWebSockets = [ ]
 global _chatLock
 _chatLock = allocate_lock()
 
+global res
+
 def btn_change(pin):
     cur_btn = btn()
     with _chatLock:
@@ -79,11 +81,19 @@ def WSJoinChat(webSocket, addr):
         print('<WELCOME %s:%s>' % addr)
 
 def OnWSChatTextMsg(webSocket, msg):
-    with _chatLock:
-        for ws in _chatWebSockets:
-            pass
-            # ws.SendText('<%s:%s> %s' % (addr[0], addr[1], msg))
-
+    print('msg is: ', msg)
+    recv = json.loads(msg)
+    if 'msg' in recv:
+        msgIn = recv['msg']
+        print('msg is: ', msgIn)
+        global res
+        res = None
+        exec(msgIn)
+        if res != None:
+            print('res is: ', res)
+            send = {}
+            send['res'] = str(res)
+            webSocket.SendText(json.dumps(send))
 
 def OnWSChatClosed(webSocket) :
 	print("WS CLOSED")

@@ -19,6 +19,13 @@
             "program": "machine.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/workSpace"
+        },
+        {
+            "name": "Python: current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
         }
     ]
 }

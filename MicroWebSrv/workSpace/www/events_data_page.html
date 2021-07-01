@@ -29,6 +29,16 @@
         <a href="#" id="btn">On bord Button</a>
         <br>
         <p id=output></p>
+
+        <label for="w3review">send: (ret in: global res)</label>
+        <br>
+        <textarea id="w3review" name="w3review" rows="4" cols="50">
+        
+        </textarea>
+        <br><br>
+        <button type="text" onclick="sendClick()" value="Send">Send</button>
+        <br>
+        <p id=res></p>
         
         <!--for led  -->
         <script> 
@@ -46,20 +56,30 @@
                 xhttp.setRequestHeader('Content-type', 'application/json');
                 xhttp.send(ledOn);
             }
+            function sendClick() {
+                txt = document.getElementById("w3review").value
+                msg = {}
+                msg['msg'] = txt
+                websocket.send(JSON.stringify(msg));
+            }
+        
         </script>
 
         <!--for btn  -->
         <script language="javascript">
 
             var output;
+            var res;
             document.getElementById("btn").style.background = 'black';
             function init()
             {
                 output = document.getElementById("output");
-                testWebSocket();
+                res = document.getElementById("res");
+                res.style.wordWrap = "break-word"
+                openWebSocket();
             }
     
-            function testWebSocket()
+            function openWebSocket()
             {
                 var wsUri           = "ws://" + window.location.hostname + '/events_data_page';
                 writeToScreen("Connection to " + wsUri + "...")
@@ -84,19 +104,22 @@
             {
                 console.log('status: ' + evt.data)
                 rcv = JSON.parse(evt.data)
-                if (rcv.hasOwnProperty('btn'))
+                if (rcv.hasOwnProperty('btn')) {
                     if (rcv.btn === 'False') {
                         document.getElementById("btn").style.background = 'blue';
                     } else {
                         document.getElementById("btn").style.background = 'black';
-                 }
-                 else if(rcv.hasOwnProperty('led')){
+                    }
+                }else if(rcv.hasOwnProperty('led')){
                      if (rcv.led === 'False') {
                         document.getElementById("led").style.background = 'blue';
                     } else {
                         document.getElementById("led").style.background = 'black';
                     }
+                 }else if(rcv.hasOwnProperty('res')){
+                    res.innerHTML = "return: " + rcv.res
                  }
+
                     // writeToScreen('MSG FROM SERVER : <span style="color: blue;">' + evt.data + '</span>');
             }
     
