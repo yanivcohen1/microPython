@@ -165,7 +165,10 @@ def _acceptWebSocketCallback(webSocket, httpClient):
 		ContiuseWSJoinChat(webSocket, httpClient.GetAddr())
 	elif httpClient.GetRequestTotalPath().lower() == '/boiler' :
 		from boiler_page import WSJoinChat as BoilerWSJoinChat
-		BoilerWSJoinChat(webSocket, httpClient.GetAddr())     
+		BoilerWSJoinChat(webSocket, httpClient.GetAddr())
+	elif httpClient.GetRequestTotalPath().lower() == '/ultrasonic_page' :
+		from ultrasonic_page import WSJoinChat as ultrasonicWSJoinChat
+		ultrasonicWSJoinChat(webSocket, httpClient.GetAddr())     
 	# For looping see swTimerServer.py
 	# _thread.start_new_thread(cb_timer, (3, webSocket)
 	# OR Using the HW Timer

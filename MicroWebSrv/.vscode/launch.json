@@ -5,10 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "Python: main File",
             "type": "python",
             "request": "launch",
             "program": "main_start_ws.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/workSpace"
+        },
+        {
+            "name": "Python: machine",
+            "type": "python",
+            "request": "launch",
+            "program": "machine.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/workSpace"
         }

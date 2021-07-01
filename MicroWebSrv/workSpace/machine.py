@@ -1,5 +1,7 @@
 # C:\Users\yaniv\AppData\Local\Programs\Thonny\Lib\site-packages\thonny\plugins\micropython\api_stubs
 import random
+import subprocess
+from time import sleep
 class Pin :
     IN=1
     OUT=2
@@ -32,3 +34,7 @@ class ADC :
 
     def read(self):
         return random.randint(0, 4095)
+
+def time_pulse_us(pin, level):
+    return random.randint(1, int(100*2/0.034))
+
