@@ -32,9 +32,7 @@
 
         <label for="w3review">send: (ret in: global res)</label>
         <br>
-        <textarea id="w3review" name="w3review" rows="4" cols="50">
-        
-        </textarea>
+        <textarea id="w3review" name="w3review" rows="4" cols="50"></textarea>
         <br><br>
         <button type="text" onclick="sendClick()" value="Send">Send</button>
         <br>
@@ -61,6 +59,7 @@
                 msg = {}
                 msg['msg'] = txt
                 websocket.send(JSON.stringify(msg));
+                res.innerHTML = "return: "
             }
         
         </script>
@@ -71,7 +70,8 @@
             var output;
             var res;
             document.getElementById("btn").style.background = 'black';
-            function init()
+            window.addEventListener("load", init_window_load, false);
+            function init_window_load()
             {
                 output = document.getElementById("output");
                 res = document.getElementById("res");
@@ -141,8 +141,6 @@
                 pre.innerHTML = s;
                 output.appendChild(pre);
             }
-    
-            window.addEventListener("load", init, false);
     
         </script>
 	</body>

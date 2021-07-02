@@ -52,7 +52,7 @@ Or on Windows cmd::
     $ esptool --chip esp32 --port COM6 flash_id
     $ python -m pip install rshell
     $ rshell --buffer-size=30 -p COM6
-    $ rsync ./  /pyboard
+    $ rsync ./workSpace  /pyboard
     $ repl
     >> import ws
     ## control + c to exit
