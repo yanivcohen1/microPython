@@ -1,9 +1,6 @@
-from microWebSrv.microWebSrv import MicroWebSrv
 import json
-# from time import sleep
-from _thread import allocate_lock  # ,start_new_thread
 from machine import Pin, ADC, time_pulse_us, SoftI2C
-from events_data_page import _chatLock , routeHandlers
+from events_data_page import _chatLock
 from   _thread     import start_new_thread
 from time import sleep
 try:
@@ -24,13 +21,7 @@ oled = ssd1306.SH1106_I2C(oled_width, oled_height, i2c) # SSD1306_I2C
 
 # display in 4 rows
 oled.sleep(False)
-oled.fill(0)
-
-# oled.text('Welcome', 0, 0)
-# oled.text('OLED Display', 0, 10)
-# oled.text('how2electronics', 0, 20)
-# oled.text('Makerfabs', 0, 30)
-# oled.show()
+oled.fill(0) # clear display
 
 global _chatWebSockets
 _chatWebSockets = [ ]
@@ -40,12 +31,10 @@ echoPin = Pin(35, Pin.IN)
 trigPin = Pin(33, Pin.OUT)
 # led.value(1)
 led.off()
-
-print('ultrasonic page load')
 sliderIn = 25
 ledOn = False
-alarmIs = 'OFF'
-curt_slider = 0
+current_distance = 0
+print('ultrasonic page load')
 # ----------------------------------------------------------------------------
 
 def WSJoinChat(webSocket, addr):
@@ -74,18 +63,17 @@ def OnWSChatClosed(webSocket) :
 def cb_timer(delay_sec, websocket):
     while True: 
         sleep(delay_sec)
-        global curt_slider
-        global alarmIs
-        curt_slider = calcDistance()
+        global current_distance
+        current_distance = calcDistance()
         with _chatLock:
             for ws in _chatWebSockets:
                 send = {}
-                send[SendData.distance] = str(curt_slider)
+                send[SendData.distance] = str(current_distance)
                 ws.SendText(json.dumps(send))
-                print('ws sending distance: ', curt_slider)
+                print('ws sending distance: ', current_distance)
                 oldDisplay()
         global ledOn
-        if curt_slider > sliderIn and ledOn :
+        if current_distance > sliderIn and ledOn :
             with _chatLock:
                 for ws in _chatWebSockets:
                     send = {}
@@ -94,9 +82,8 @@ def cb_timer(delay_sec, websocket):
                     print('ws sending led: ', False)
                     ledOn = False
                     led.off()
-                    alarmIs = 'OFF'
                     oldDisplay()
-        elif curt_slider <= sliderIn and not ledOn :
+        elif current_distance <= sliderIn and not ledOn :
             with _chatLock:
                 for ws in _chatWebSockets:
                     send = {}
@@ -105,7 +92,6 @@ def cb_timer(delay_sec, websocket):
                     print('ws sending led: ', True)
                     ledOn = True
                     led.on()
-                    alarmIs = 'ON'
                     oldDisplay()
         
 def OnWSChatTextMsg(webSocket, msg):
@@ -141,9 +127,9 @@ def calcDistance():
 def oldDisplay():
     oled.fill(0)
     oled.text('Distance System!', 0, 0) # 16 lines
-    oled.text('Distance is: ' + str(curt_slider), 0, 10)
+    oled.text('Distance is: ' + str(current_distance), 0, 10)
     oled.text('Distance Set ' + str(sliderIn), 0, 20)
-    oled.text('Alarm is ' + alarmIs, 0, 30)
+    oled.text('Alarm is ' + "ON" if ledOn else "OFF", 0, 30)
     oled.show()
 # =============================================================================
 
