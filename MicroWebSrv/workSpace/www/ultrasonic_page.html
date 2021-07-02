@@ -25,7 +25,7 @@
         }
         input,
         p {
-            margin: .4rem 0;
+            margin: .2rem 0;
         }
     </style>
 
@@ -36,8 +36,10 @@
         <p id=output></p>
         <h3>Set distance</h3>
         <input id="sliderIn" type="range" min="1" max="100" value="50">
-        <br>
         <p id=sliderInPrint></p>
+        <button id="send" type="text" onclick="sendClick()">Send set distance</button>
+        <br>
+        <br>
         <h3>Read distance</h3>
         <input id="sliderOut" type="range" disabled min="1" max="100" value="50">
         <br>
@@ -51,15 +53,22 @@
             sliderIn.value = 1;
             var sliderInPrint = document.getElementById("sliderInPrint");
             sliderInPrint.innerHTML = parseInt(parseInt(sliderIn.value)*100/100);
-
+            var send = document.getElementById("send")
+            send.disabled = true;
+            function sendClick() {
+                msg = {}
+                msg[SendData.slider] = sliderInPrint.innerHTML
+                websocket.send(JSON.stringify(msg));
+                send.disabled = true;
+            }
+            
             sliderIn.oninput = function() {
                 sliderInPrint.innerHTML = parseInt(parseInt(this.value)*100/100);
-                msg = {}
-                msg[SendData.slider] = this.value
-                websocket.send(JSON.stringify(msg));
+                send.disabled = false;  
             }
 
             var output;
+            window.addEventListener("load", init, false);
             function init()
             {
                 output = document.getElementById("output");
@@ -122,8 +131,6 @@
             {
                 output.innerHTML = s
             }
-    
-            window.addEventListener("load", init, false);
     
             class RecData {
                 static distance = 'distance'
