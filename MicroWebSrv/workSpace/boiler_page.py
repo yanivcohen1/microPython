@@ -15,7 +15,7 @@ slider = ADC(Pin(35))
 slider.atten(ADC.ATTN_11DB)       #Full range: 3.3v
 # led.value(1)
 led.off()
-
+firstLoad = True
 print('boiler page load')
 sliderIn = 1
 ledOn = False
@@ -55,7 +55,10 @@ def WSJoinChat(webSocket, addr):
         print('<WELCOME %s:%s>' % addr)
     # For looping see swTimerServer.py
     try:
-	    start_new_thread(cb_timer, (3, webSocket))
+        global firstLoad
+        if firstLoad:
+	        start_new_thread(cb_timer, (3, webSocket))
+	        firstLoad = False
     except:
         print ("Error: unable to start thread")
 	# OR Using the HW Timer
@@ -66,7 +69,8 @@ def WSJoinChat(webSocket, addr):
 	# tm.init(period=3000, callback=cb)
 
 def OnWSChatClosed(webSocket) :
-	print("WS CLOSED")
+    _chatWebSockets.remove(webSocket)
+    print("WS CLOSED")
     
 # for sending in timer the results in time period
 def cb_timer(delay_sec, websocket):

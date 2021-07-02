@@ -26,6 +26,7 @@ oled.fill(0) # clear display
 global _chatWebSockets
 _chatWebSockets = [ ]
 
+firstLoad = True
 led = Pin(32, Pin.OUT)
 echoPin = Pin(35, Pin.IN)
 trigPin = Pin(33, Pin.OUT)
@@ -43,7 +44,6 @@ def WSJoinChat(webSocket, addr):
     webSocket.ClosedCallback = OnWSChatClosed
     # addr = webSocket.Request.UserAddress
     with _chatLock:
-        print('<%s:%s HAS JOINED THE CHAT>' % addr)
         send = {}
         send[SendData.slider] = str(sliderIn)
         webSocket.SendText(json.dumps(send))
@@ -52,12 +52,16 @@ def WSJoinChat(webSocket, addr):
         oldDisplay()
     # For looping see swTimerServer.py
     try:
-	    start_new_thread(cb_timer, (1, webSocket))
+        global firstLoad
+        if firstLoad:
+	        start_new_thread(cb_timer, (1, webSocket))
+	        firstLoad = False
     except:
         print ("Error: unable to start thread")
 
 def OnWSChatClosed(webSocket) :
-	print("WS CLOSED")
+    _chatWebSockets.remove(webSocket)
+    print("WS CLOSED")
     
 # for sending in timer the results in time period
 def cb_timer(delay_sec, websocket):

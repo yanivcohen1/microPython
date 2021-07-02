@@ -14,7 +14,7 @@ led = Pin(2, Pin.OUT)
 btn = Pin(0, Pin.IN)
 # led.value(1)
 led.on()  # the opesit on is off and off in on
-
+firstLoad = True
 print('contiuse_data page load')
 
 def btn_change(pin):
@@ -47,7 +47,10 @@ def WSJoinChat(webSocket, addr):
         print('<WELCOME %s:%s>' % addr)
     # For looping see swTimerServer.py
     try:
-	    start_new_thread(cb_timer, (3, webSocket))
+        global firstLoad
+        if firstLoad:
+	        start_new_thread(cb_timer, (3, webSocket))
+	        firstLoad = False
     except:
         print ("Error: unable to start thread")
 	# OR Using the HW Timer
@@ -79,5 +82,6 @@ def OnWSChatTextMsg(webSocket, msg):
 
 
 def OnWSChatClosed(webSocket) :
+	_chatWebSockets.remove(webSocket)
 	print("WS CLOSED")
 # ============================================================================

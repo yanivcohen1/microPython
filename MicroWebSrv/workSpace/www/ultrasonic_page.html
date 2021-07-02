@@ -55,6 +55,16 @@
             sliderInPrint.innerHTML = parseInt(parseInt(sliderIn.value)*100/100);
             var send = document.getElementById("send")
             send.disabled = true;
+            var output;
+            window.addEventListener("load", onWindowLoad, false);
+
+            function onWindowLoad()
+            {
+                output = document.getElementById("output");
+                output.style.wordWrap = "break-word"
+                openWebSocket();
+            }
+
             function sendClick() {
                 msg = {}
                 msg[SendData.slider] = sliderInPrint.innerHTML
@@ -67,16 +77,7 @@
                 send.disabled = false;  
             }
 
-            var output;
-            window.addEventListener("load", init, false);
-            function init()
-            {
-                output = document.getElementById("output");
-                output.style.wordWrap = "break-word"
-                testWebSocket();
-            }
-    
-            function testWebSocket()
+            function openWebSocket()
             {
                 var wsUri           = "ws://" + window.location.hostname + '/ultrasonic_page';
                 writeToScreen("Connection to " + wsUri + "...")
