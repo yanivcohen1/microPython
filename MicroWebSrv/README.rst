@@ -53,6 +53,7 @@ Or on Windows cmd::
     $ python -m pip install rshell
     $ rshell --buffer-size=30 -p COM6
     $ rsync ./workSpace  /pyboard
+    $ rsync ./  /pyboard
     $ repl
     >> import ws
     ## control + c to exit

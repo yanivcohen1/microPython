@@ -38,10 +38,10 @@ current_distance = 0
 print('ultrasonic page load')
 # ----------------------------------------------------------------------------
 
-def WSJoinChat(webSocket, addr):
-    webSocket.RecvTextCallback = OnWSChatTextMsg
+def WSJoin(webSocket, addr):
+    webSocket.RecvTextCallback = OnWSTextMsg
     # webSocket.RecvBinaryCallback = _recvBinaryCallback
-    webSocket.ClosedCallback = OnWSChatClosed
+    webSocket.ClosedCallback = OnWSClosed
     # addr = webSocket.Request.UserAddress
     with _chatLock:
         send = {}
@@ -59,7 +59,7 @@ def WSJoinChat(webSocket, addr):
     except:
         print ("Error: unable to start thread")
 
-def OnWSChatClosed(webSocket) :
+def OnWSClosed(webSocket) :
     _chatWebSockets.remove(webSocket)
     print("WS CLOSED")
     
@@ -98,7 +98,7 @@ def cb_timer(delay_sec, websocket):
                     led.on()
                     oldDisplay()
         
-def OnWSChatTextMsg(webSocket, msg):
+def OnWSTextMsg(webSocket, msg):
     recv = json.loads(msg)
     if RecData.slider in recv:
         global sliderIn
