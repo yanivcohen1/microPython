@@ -124,7 +124,7 @@ def calcDistance():
         # Reads the echoPin, returns the sound wave travel time in microseconds
         # calculate how mach time is on (time to go forword and back)
         duration = time_pulse_us(echoPin, 1) # pulseIn(echoPin, HIGH);
-        # Calculating the distance(cm) - duration(µs) * 0.034cm/µs (speed of sound) / 2(distance is duble forword and backword)
+        # Calculating the distance(cm) = duration(µs) * 0.034cm/µs (speed of sound) / 2(distance is duble forword and backword)
         distance += duration*0.034/2
     return int(distance / 10) # distace in (cm)
 
