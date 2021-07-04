@@ -33,7 +33,7 @@
 		<h2>Ultrasonic control Page</h2>
         <a href="#" id="led">Proximity On Led</a>
         <br>
-        <p id=output></p>
+        <p id=WSconnectInfo></p>
         <h3>Set distance</h3>
         <input id="sliderIn" type="range" min="1" max="100" value="50">
         <p id=sliderInPrint></p>
@@ -45,7 +45,6 @@
         <br>
         <p id=sliderOutPrint></p>
         
-        <!-- for slider  -->
         <script> 
             // init
             let ledOn = false
@@ -55,13 +54,13 @@
             sliderInPrint.innerHTML = parseInt(parseInt(sliderIn.value)*100/100);
             var send = document.getElementById("send")
             send.disabled = true;
-            var output;
+            var WSconnectInfo;
             window.addEventListener("load", onWindowLoad, false);
 
             function onWindowLoad()
             {
-                output = document.getElementById("output");
-                output.style.wordWrap = "break-word"
+                WSconnectInfo = document.getElementById("WSconnectInfo");
+                WSconnectInfo.style.wordWrap = "break-word"
                 openWebSocket();
             }
 
@@ -130,7 +129,7 @@
     
             function writeToScreen(s)
             {
-                output.innerHTML = s
+                WSconnectInfo.innerHTML = s
             }
     
             class RecData {
