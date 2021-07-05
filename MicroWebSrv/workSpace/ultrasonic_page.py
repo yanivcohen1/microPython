@@ -13,6 +13,8 @@ try:
 except:
     from machine import ssd1306
 
+sliderPot = ADC(Pin(34))
+sliderPot.atten(ADC.ATTN_11DB) # Full range: 3.3v
 # ESP32 Pin assignment 
 i2c = SoftI2C(scl=Pin(22), sda=Pin(21))
 oled_width = 128
@@ -36,6 +38,7 @@ sliderIn = 25
 ledOn = False
 current_distance = 0
 print('ultrasonic page load')
+last_sliderPot = 0
 # ----------------------------------------------------------------------------
 
 def WSJoin(webSocket, addr):
@@ -68,7 +71,20 @@ def cb_timer(delay_sec, websocket):
     while True: 
         sleep(delay_sec)
         global current_distance
+        global sliderIn
+        global last_sliderPot
         current_distance = calcDistance()
+        curt_slider = int(sliderPot.read() * 100 / 4095)
+        if not (last_sliderPot == curt_slider or last_sliderPot + 1 == curt_slider or last_sliderPot - 1 == curt_slider):
+            last_sliderPot = curt_slider
+            sliderIn = curt_slider
+            print('slider set to is: ', sliderIn)
+            with _chatLock:
+                for ws in _chatWebSockets:
+                    send = {}
+                    send[SendData.slider] = str(sliderIn)
+                    ws.SendText(json.dumps(send))
+                    oldDisplay()
         with _chatLock:
             for ws in _chatWebSockets:
                 send = {}
