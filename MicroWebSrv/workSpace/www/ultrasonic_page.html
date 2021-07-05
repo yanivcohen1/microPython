@@ -135,14 +135,10 @@
             
             function addData(chart, labelIn, dataIn) {
                 const MAX_SIZE = 50
-                if (chart.data.labels.length > MAX_SIZE) {
-                    chart.data.labels.shift()
-                }
+                if (chart.data.labels.length > MAX_SIZE)  chart.data.labels.shift()
                 chart.data.labels.push(labelIn);
                 chart.data.datasets.forEach((dataset) => {
-                    if (dataset.data.length > MAX_SIZE) {
-                        dataset.data.shift()
-                    }
+                    if (dataset.data.length > MAX_SIZE)  dataset.data.shift()
                     dataset.data.push(dataIn);
                 });
                 chart.update();
