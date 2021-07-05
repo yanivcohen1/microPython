@@ -50,9 +50,13 @@
         <br>
         <br>
         <h3>Read distance</h3>
-        <input id="sliderOut" type="range" disabled min="1" max="100" value="50">
+        <progress id="sliderOut" disabled max="100" value="50"></progress>
         <br>
         <p id=sliderOutPrint></p>
+        <details>
+            <summary>Details</summary>
+            <p>this project is final project by yair cohen.</p>
+        </details>
         <div>
             <canvas id="myChart"></canvas>
         </div>
@@ -123,7 +127,9 @@
             var config = {
                     type: 'line',
                     data,
-                    options: {}
+                    options: {
+                        maintainAspectRatio: false,
+                    }
             }
             var chart = new Chart(
                 document.getElementById('myChart'),
