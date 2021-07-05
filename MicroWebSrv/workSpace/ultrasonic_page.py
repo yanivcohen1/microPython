@@ -90,7 +90,7 @@ def cb_timer(delay_sec, websocket):
                 send = {}
                 send[SendData.distance] = str(current_distance)
                 ws.SendText(json.dumps(send))
-                print('ws sending distance: ', current_distance)
+                # print('ws sending distance: ', current_distance)
                 oldDisplay()
         global ledOn
         if current_distance > sliderIn and ledOn :
