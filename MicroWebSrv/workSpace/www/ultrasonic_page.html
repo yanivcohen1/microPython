@@ -79,6 +79,28 @@
             var send = document.getElementById("send")
             send.disabled = true;
             var WSconnectInfo;
+            document.getElementById('myChart').height = 200;
+            var labels = [];
+            var data = {
+                labels: labels,
+                datasets: [{
+                    label: 'Didtance',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [],
+                }]
+            };
+            var config = {
+                    type: 'line',
+                    data,
+                    options: {
+                        maintainAspectRatio: false,
+                    }
+            }
+            var chart = new Chart(
+                document.getElementById('myChart'),
+                config
+            );
             window.addEventListener("load", onWindowLoad, false);
 
             function onWindowLoad()
@@ -120,36 +142,22 @@
             {
                 writeToScreen("<strong>-- DISCONNECTED --</strong>");
             }
-            // document.getElementById('myChart').width  = '50%';
-            document.getElementById('myChart').height = 200;
-            var labels = [];
-            var data = {
-                labels: labels,
-                datasets: [{
-                    label: 'Didtance',
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: [],
-                }]
-            };
-            var config = {
-                    type: 'line',
-                    data,
-                    options: {
-                        maintainAspectRatio: false,
-                    }
-            }
-            var chart = new Chart(
-                document.getElementById('myChart'),
-                config
-            );
+            
             function addData(chart, labelIn, dataIn) {
-                        chart.data.labels.push(labelIn);
-                        chart.data.datasets.forEach((dataset) => {
-                            dataset.data.push(dataIn);
-                        });
-                        chart.update();
+                const MAX_SIZE = 50
+                if (chart.data.labels.length > MAX_SIZE) {
+                    chart.data.labels.shift()
+                }
+                chart.data.labels.push(labelIn);
+                chart.data.datasets.forEach((dataset) => {
+                    if (dataset.data.length > MAX_SIZE) {
+                        dataset.data.shift()
+                    }
+                    dataset.data.push(dataIn);
+                });
+                chart.update();
             }
+
             function onMessage(evt)
             {
                 console.log('status: ' + evt.data)
