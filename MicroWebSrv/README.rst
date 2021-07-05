@@ -62,6 +62,10 @@ Or on Windows cmd::
     ## control + c to stop the code
     ## control + x to exit repl
 
+in PS for mobile simulation
+    cd C:\Users\yaniv\OneDrive\microPython\MicroWebSrv\workSpace
+    py .\main_start_ws.py
+
 With PS:
 cd C:\Users\yaniv\OneDrive\microPython\MicroWebSrv\
 venv\Scripts\activate
