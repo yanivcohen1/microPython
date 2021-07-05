@@ -6,6 +6,7 @@
 		<meta charset="UTF-8" />
 		<title>MicroWebSrv Test Page</title>
 		<link rel="stylesheet" href="style.css" />
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
 	</head>
 
     <style>
@@ -44,6 +45,9 @@
         <input id="sliderOut" type="range" disabled min="1" max="100" value="50">
         <br>
         <p id=sliderOutPrint></p>
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
         
         <script> 
             // init
@@ -96,7 +100,34 @@
             {
                 writeToScreen("<strong>-- DISCONNECTED --</strong>");
             }
-    
+            // document.getElementById('myChart').width  = '50%';
+            document.getElementById('myChart').height = 55;
+            var labels = [];
+            var data = {
+                labels: labels,
+                datasets: [{
+                    label: 'Didtance',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [],
+                }]
+            };
+            var config = {
+                    type: 'line',
+                    data,
+                    options: {}
+            }
+            var chart = new Chart(
+                document.getElementById('myChart'),
+                config
+            );
+            function addData(chart, labelIn, dataIn) {
+                        chart.data.labels.push(labelIn);
+                        chart.data.datasets.forEach((dataset) => {
+                            dataset.data.push(dataIn);
+                        });
+                        chart.update();
+            }
             function onMessage(evt)
             {
                 console.log('status: ' + evt.data)
@@ -104,6 +135,11 @@
                 if (rcv.hasOwnProperty(RecData.distance)){
                     document.getElementById("sliderOut").value = rcv[RecData.distance];
                     document.getElementById("sliderOutPrint").innerHTML = parseInt(parseInt(rcv[RecData.distance])*100/100);
+                   if(rcv[RecData.distance] < 170) {
+                        labelIn = new Date().getSeconds()
+                        dataIn = rcv[RecData.distance]
+                        addData(chart, labelIn, dataIn)
+                   }
                 }else if(rcv.hasOwnProperty(RecData.led)){
                     if (rcv[RecData.led] === 'True') {
                         document.getElementById("led").style.background = 'blue';
@@ -131,7 +167,7 @@
             {
                 WSconnectInfo.innerHTML = s
             }
-    
+
             class RecData {
                 static distance = 'distance'
                 static led = 'led'
