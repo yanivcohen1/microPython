@@ -40,23 +40,27 @@
 
 	<body>
 		<h1>Ultrasonic control Page</h1>
+        <hr>
         <p id=WSconnectInfo></p>
         <hr>
         <a href="#" id="led">Proximity On Led</a>
         <br>
-        <div style="line-height: 5px;">
-            <h3>Set distance</h3>
-            <input id="sliderIn" type="range" min="1" max="100" value="50" style="width: 200px">
-            <p id=sliderInPrint></p>
-            <button id="send" type="text" onclick="sendClick()">Send set distance</button>
-        </div>
-        <br>
-        <div style="line-height: 5px;">
-            <h3>Read distance</h3>
-            <progress id="sliderOut" disabled max="100" value="50" style="width: 200px"></progress>
-            <br>
-            <p id=sliderOutPrint></p>
-        </div>
+        <fieldset>
+            <legend>Set distance:</legend>
+            <div style="line-height: 3px;">
+                <input id="sliderIn" type="range" min="1" max="100" value="50" style="width: 200px">
+                <p id=sliderInPrint></p>
+                <button id="send" type="text" onclick="sendClick()">Send set distance</button>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Read distance:</legend>
+            <div style="line-height: 3px;">
+                <progress id="sliderOut" disabled max="100" value="50" style="width: 200px"></progress>
+                <br>
+                <p id=sliderOutPrint></p>
+            </div>
+        </fieldset>
         <details>
             <summary><dfn>Details</dfn></summary>
             <p>this project is final project by yair cohen.</p>
