@@ -4,6 +4,7 @@
 
 	<head>
 		<meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>MicroWebSrv Test Page</title>
 		<link rel="stylesheet" href="style.css" />
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
@@ -28,6 +29,13 @@
         p {
             margin: .2rem 0;
         }
+       /*  html, body {
+            position:fixed;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+        } */
     </style>
 
 	<body>
@@ -101,7 +109,7 @@
                 writeToScreen("<strong>-- DISCONNECTED --</strong>");
             }
             // document.getElementById('myChart').width  = '50%';
-            document.getElementById('myChart').height = 55;
+            document.getElementById('myChart').height = 200;
             var labels = [];
             var data = {
                 labels: labels,
