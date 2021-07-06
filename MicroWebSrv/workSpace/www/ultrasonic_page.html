@@ -35,10 +35,15 @@
 	<body>
 		<h2>Ultrasonic Control Page</h2>
         <hr>
-        <p id=WSconnectInfo></p>
+        <fieldset>
+            <legend >Status:</legend>
+            <p style="line-height: 2px;" id=WSconnectInfo></p>
+        </fieldset>
         <fieldset>
             <legend>Alarms:</legend>
-            <span>Proximity Led: </span><a href="#" id="led">OFF</a>
+            <div style="line-height: 2px;">
+                <span>Proximity Led: </span><a href="#" id="led">OFF</a>
+            </div>
         </fieldset>
         <fieldset>
             <legend>Set distance:</legend>
