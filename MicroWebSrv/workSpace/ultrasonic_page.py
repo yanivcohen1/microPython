@@ -52,15 +52,12 @@ def WSJoin(webSocket, addr):
         webSocket.SendText(json.dumps(send))
         _chatWebSockets.append(webSocket)
         print('<WELCOME %s:%s>' % addr)
-        oldDisplay()
+    oldDisplay()
     # For looping see swTimerServer.py
-    try:
-        global firstLoad
-        if firstLoad:
-	        start_new_thread(cb_timer, (1, webSocket))
-	        firstLoad = False
-    except:
-        print ("Error: unable to start thread")
+    global firstLoad
+    if firstLoad:
+        start_new_thread(cb_timer, (1, webSocket))
+        firstLoad = False
 
 def OnWSClosed(webSocket) :
     _chatWebSockets.remove(webSocket)
@@ -84,14 +81,11 @@ def cb_timer(delay_sec, websocket):
                     send = {}
                     send[SendData.slider] = str(sliderIn)
                     ws.SendText(json.dumps(send))
-                    oldDisplay()
         with _chatLock:
             for ws in _chatWebSockets:
                 send = {}
                 send[SendData.distance] = str(current_distance)
                 ws.SendText(json.dumps(send))
-                # print('ws sending distance: ', current_distance)
-                oldDisplay()
         global ledOn
         if current_distance > sliderIn and ledOn :
             with _chatLock:
@@ -102,7 +96,6 @@ def cb_timer(delay_sec, websocket):
                     print('ws sending led: ', False)
                     ledOn = False
                     led.off()
-                    oldDisplay()
         elif current_distance <= sliderIn and not ledOn :
             with _chatLock:
                 for ws in _chatWebSockets:
@@ -112,7 +105,8 @@ def cb_timer(delay_sec, websocket):
                     print('ws sending led: ', True)
                     ledOn = True
                     led.on()
-                    oldDisplay()
+        # print('ws sending distance: ', current_distance)
+        oldDisplay()
         
 def OnWSTextMsg(webSocket, msg):
     recv = json.loads(msg)
@@ -125,7 +119,7 @@ def OnWSTextMsg(webSocket, msg):
                 send = {}
                 send[SendData.slider] = str(sliderIn)
                 ws.SendText(json.dumps(send))
-                oldDisplay()
+        oldDisplay()
 
 #https://create.arduino.cc/projecthub/abdularbi17/ultrasonic-sensor-hc-sr04-with-arduino-tutorial-327ff6
 def calcDistance():
