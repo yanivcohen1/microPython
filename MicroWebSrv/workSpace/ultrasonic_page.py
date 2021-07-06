@@ -70,11 +70,6 @@ def cb_timer(delay_sec, websocket):
         global current_distance
         global sliderIn
         global last_sliderPot
-        distance = calcDistance()
-        if (distance > 180 and current_distance == 180): continue
-        if (distance > 180 and current_distance != 180):
-            current_distance = 180 
-        else: current_distance = distance
         curt_slider = int(sliderPot.read() * 100 / 4095)
         if not (last_sliderPot == curt_slider or last_sliderPot + 1 == curt_slider or last_sliderPot - 1 == curt_slider):
             last_sliderPot = curt_slider
@@ -85,6 +80,11 @@ def cb_timer(delay_sec, websocket):
                     send = {}
                     send[SendData.slider] = str(sliderIn)
                     ws.SendText(json.dumps(send))
+        distance = calcDistance()
+        if (distance > 180 and current_distance == 180): continue
+        if (distance > 180 and current_distance != 180):
+            current_distance = 180 
+        else: current_distance = distance
         with _chatLock:
             for ws in _chatWebSockets:
                 send = {}
