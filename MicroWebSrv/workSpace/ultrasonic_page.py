@@ -3,10 +3,12 @@ from machine import Pin, ADC, time_pulse_us, SoftI2C
 from events_data_page import _chatLock
 from   _thread     import start_new_thread
 from time import sleep
+simulation = False
 try:
     from time import sleep_us
 except:
     from machine import sleep_us
+    simulation = True
 try:
     # import user_lib.SSD1315_OLED_DISP as ssd1306
     import user_lib.sh1106 as ssd1306
@@ -57,6 +59,11 @@ def WSJoin(webSocket, addr):
     global firstLoad
     if firstLoad:
         start_new_thread(cb_timer, (1, webSocket))
+        # WH Timer
+        # if not simulation:
+        # timer0 = Timer(0)
+        # cb = lambda timer: cb_timer(timer, webSocket)
+        # timer0.init(period=3000, callback=cb)
         firstLoad = False
 
 def OnWSClosed(webSocket) :
