@@ -1,5 +1,5 @@
 import json
-from machine import Pin, ADC, time_pulse_us, SoftI2C
+from machine import Pin, ADC, time_pulse_us, SoftI2C, Timer
 from events_data_page import _chatLock
 from   _thread     import start_new_thread
 from time import sleep
@@ -34,6 +34,7 @@ firstLoad = True
 led = Pin(0, Pin.OUT, Pin.PULL_UP)
 echoPin = Pin(15, Pin.IN, pull=None)
 trigPin = Pin(2, Pin.OUT, pull=None)
+timer0 = Timer(0)
 # led.value(1)
 led.off()
 sliderIn = 25
@@ -51,19 +52,22 @@ def WSJoin(webSocket, addr):
     with _chatLock:
         send = {}
         send[SendData.slider] = str(sliderIn)
-        webSocket.SendText(json.dumps(send))
+        try:
+            webSocket.SendText(json.dumps(send))
+        except:
+            pass
         _chatWebSockets.append(webSocket)
         print('<WELCOME %s:%s>' % addr)
     OLED_display()
     # For looping see swTimerServer.py
     global firstLoad
     if firstLoad:
-        start_new_thread(cb_timer, (1, webSocket))
         # WH Timer
-        # if not simulation:
-        # timer0 = Timer(0)
-        # cb = lambda timer: cb_timer(timer, webSocket)
-        # timer0.init(period=3000, callback=cb)
+        if not simulation:
+            cb = lambda timer: fun_timer(timer, webSocket)
+            timer0.init(period=1000, callback=cb)
+        else: 
+            start_new_thread(cb_timer, (1, webSocket))
         firstLoad = False
 
 def OnWSClosed(webSocket) :
@@ -74,51 +78,66 @@ def OnWSClosed(webSocket) :
 def cb_timer(delay_sec, websocket):
     while True: 
         sleep(delay_sec)
-        global current_distance
-        global sliderIn
-        global last_sliderPot
-        curt_slider = int(sliderPot.read() * 100 / 4095)
-        if not (last_sliderPot == curt_slider or last_sliderPot + 1 == curt_slider or last_sliderPot - 1 == curt_slider):
-            last_sliderPot = curt_slider
-            sliderIn = curt_slider
-            print('slider set to is: ', sliderIn)
-            with _chatLock:
-                for ws in _chatWebSockets:
-                    send = {}
-                    send[SendData.slider] = str(sliderIn)
-                    ws.SendText(json.dumps(send))
-        distance = calcDistance()
-        if (distance > 180 and current_distance == 180): continue
-        if (distance > 180 and current_distance != 180):
-            current_distance = 180 
-        else: current_distance = distance
+        fun_timer(None, websocket)
+        
+def fun_timer(delay, websocket):
+    global current_distance
+    global sliderIn
+    global last_sliderPot
+    curt_slider = int(sliderPot.read() * 100 / 4095)
+    if not (last_sliderPot == curt_slider or last_sliderPot + 1 == curt_slider or last_sliderPot - 1 == curt_slider):
+        last_sliderPot = curt_slider
+        sliderIn = curt_slider
+        print('slider set to is: ', sliderIn)
         with _chatLock:
             for ws in _chatWebSockets:
                 send = {}
-                send[SendData.distance] = str(current_distance)
+                send[SendData.slider] = str(sliderIn)
+                try:
+                    ws.SendText(json.dumps(send))
+                except:
+                    pass
+    distance = calcDistance()
+    if (distance > 180 and current_distance == 180): return
+    if (distance > 180 and current_distance != 180):
+        current_distance = 180 
+    else: current_distance = distance
+    with _chatLock:
+        for ws in _chatWebSockets:
+            send = {}
+            send[SendData.distance] = str(current_distance)
+            try:
                 ws.SendText(json.dumps(send))
-        global ledOn
-        if current_distance > sliderIn and ledOn :
-            with _chatLock:
-                for ws in _chatWebSockets:
-                    send = {}
-                    send[SendData.led] = str(False)
+            except:
+                pass
+    global ledOn
+    if current_distance > sliderIn and ledOn :
+        ledOn = False
+        led.off()
+        with _chatLock:
+            for ws in _chatWebSockets:
+                send = {}
+                send[SendData.led] = str(False)
+                try:
                     ws.SendText(json.dumps(send))
-                    print('ws sending led: ', False)
-                    ledOn = False
-                    led.off()
-        elif current_distance <= sliderIn and not ledOn :
-            with _chatLock:
-                for ws in _chatWebSockets:
-                    send = {}
-                    send[SendData.led] = str(True)
+                except:
+                    pass
+                print('ws sending led: ', False)
+    elif current_distance <= sliderIn and not ledOn :
+        ledOn = True
+        led.on()
+        with _chatLock:
+            for ws in _chatWebSockets:
+                send = {}
+                send[SendData.led] = str(True)
+                try:
                     ws.SendText(json.dumps(send))
-                    print('ws sending led: ', True)
-                    ledOn = True
-                    led.on()
-        # print('ws sending distance: ', current_distance)
-        OLED_display()
-        
+                except:
+                    pass
+                print('ws sending led: ', True)
+    OLED_display()
+    # print('ws sending distance: ', current_distance)
+
 def OnWSTextMsg(webSocket, msg):
     recv = json.loads(msg)
     if RecData.slider in recv:
@@ -129,7 +148,10 @@ def OnWSTextMsg(webSocket, msg):
             for ws in _chatWebSockets:
                 send = {}
                 send[SendData.slider] = str(sliderIn)
-                ws.SendText(json.dumps(send))
+                try:
+                    ws.SendText(json.dumps(send))
+                except:
+                    pass
         OLED_display()
 
 #https://create.arduino.cc/projecthub/abdularbi17/ultrasonic-sensor-hc-sr04-with-arduino-tutorial-327ff6
