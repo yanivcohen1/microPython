@@ -147,8 +147,7 @@ def oldDisplay():
     oled.text('Distance System!', 0, 0) # 16 lines
     oled.text('Distance is: ' + str(current_distance), 0, 10)
     oled.text('Distance Set ' + str(sliderIn), 0, 20)
-    alarm = "ON" if ledOn else "OFF"
-    oled.text('Alarm is ' + alarm, 0, 30)
+    oled.text('Alarm is ' + ("ON" if ledOn else "OFF"), 0, 30)
     oled.show()
 # =============================================================================
 
