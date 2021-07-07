@@ -31,9 +31,9 @@ global _chatWebSockets
 _chatWebSockets = [ ]
 
 firstLoad = True
-led = Pin(32, Pin.OUT)
-echoPin = Pin(35, Pin.IN)
-trigPin = Pin(33, Pin.OUT)
+led = Pin(0, Pin.OUT)
+echoPin = Pin(15, Pin.IN)
+trigPin = Pin(2, Pin.OUT)
 # led.value(1)
 led.off()
 sliderIn = 25

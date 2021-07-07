@@ -10,10 +10,10 @@ routeHandlers = []
 #	( "/test",	"POST",	_httpHandlerTestPost )
 # ]
 
-led = Pin(2, Pin.OUT) # 1, Pin.PULL_UP
-btn = Pin(0, Pin.IN) # Pin.PULL_UP
+led = Pin(0, Pin.OUT) # 1, Pin.PULL_UP
+# btn = Pin(0, Pin.IN) # Pin.PULL_UP
 # led.value(1)
-led.on()  # the opesit on is off and off in on
+# led.off()  # the opesit on is off and off in on
 
 print('events_data page load')
 
@@ -26,7 +26,7 @@ _chatLock = allocate_lock()
 global res
 
 def btn_change(pin):
-    cur_btn = btn()
+    cur_btn = 1 # btn()
     with _chatLock:
         for ws in _chatWebSockets:
             send = {}
@@ -39,7 +39,7 @@ def btn_change(pin):
     else:
         print('btn pressed')
 
-btn.irq(btn_change)
+# btn.irq(btn_change)
 
 # ----------------------------------------------------------------------------
 
@@ -51,9 +51,9 @@ def _httpHandlerEditWithArgs(httpClient, httpResponse):
     content = ""
     if 'status' in args:
         if args['status'] == 'false':
-            led.on()
-        else:
             led.off()
+        else:
+            led.on()
         print('led is: ', args['status'])
         with _chatLock:
             for ws in _chatWebSockets:
