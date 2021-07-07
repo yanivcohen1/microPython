@@ -2,7 +2,7 @@ from microWebSrv.microWebSrv import MicroWebSrv
 import json
 # from time import sleep
 from _thread import allocate_lock  # ,start_new_thread
-from machine import Pin
+from machine import Pin, Timer
 from events_data_page import _chatLock
 from   _thread     import start_new_thread
 from time import sleep
@@ -10,12 +10,16 @@ from time import sleep
 global _chatWebSockets
 _chatWebSockets = [ ]
 
-led = Pin(2, Pin.OUT)
+timer0 = Timer(0)
+# timer0.deinit() # destroy timer
+led = Pin(32, Pin.OUT)
 btn = Pin(0, Pin.IN)
 # led.value(1)
-led.on()  # the opesit on is off and off in on
+led.off()  # the opesit on is off and off in on
 firstLoad = True
 print('contiuse_data page load')
+
+# -----------------------------------------------------------
 
 def btn_change(pin):
     cur_btn = btn.value()
@@ -49,7 +53,7 @@ def WSJoinChat(webSocket, addr):
     try:
         global firstLoad
         if firstLoad:
-	        start_new_thread(cb_timer, (3, webSocket))
+	        start_new_thread(cb_thread, (3, webSocket))
 	        firstLoad = False
     except:
         print ("Error: unable to start thread")
@@ -61,7 +65,7 @@ def WSJoinChat(webSocket, addr):
 	# tm.init(period=3000, callback=cb)
 
 # for sending in timer the results in time period
-def cb_timer(delay_sec, websocket):
+def cb_thread(delay_sec, websocket):
     while True: 
         sleep(delay_sec)
         #Read data from sensors and Store in dict
@@ -72,16 +76,39 @@ def cb_timer(delay_sec, websocket):
                 send = {}
                 send['btn'] = str(curt_btn == 1)
                 ws.SendText(json.dumps(send))
-                print('ws sending: ', curt_btn)
+                # print('ws sending: ', curt_btn)
 
 def OnWSChatTextMsg(webSocket, msg):
+    print('msg is: ', msg)
+    recv = json.loads(msg)
+    if 'blink' in recv and not recv['blink']:
+        timer0.deinit()
+        led1(str(recv['led']))
+    elif 'blink' in recv and recv['blink']:
+        cb = lambda timer: cb_timer(timer, webSocket)
+        # Init and start timer to poll temperature sensor
+        timer0.init(period=3000, callback=cb)
+
+def cb_timer(timer, webSocket):
+    led1('True')
+    sleep(1)
+    led1('False')
+
+
+def led1(status):
+    if  status == 'False':
+        led.off()
+    else:
+        led.on()
+    print('led is: ', status)
     with _chatLock:
         for ws in _chatWebSockets:
-            pass
-            # ws.SendText('<%s:%s> %s' % (addr[0], addr[1], msg))
-
+            send = {}
+            send['led'] = str(status == 'True')
+            ws.SendText(json.dumps(send))
+            # ws.SendText('{"led": "'+ str(args['status'] == 'false')+'"}')
+            print('ws sending: ', status == 'True')
 
 def OnWSChatClosed(webSocket) :
-	_chatWebSockets.remove(webSocket)
 	print("WS CLOSED")
 # ============================================================================

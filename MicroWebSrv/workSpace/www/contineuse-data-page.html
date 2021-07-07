@@ -23,8 +23,11 @@
 
 	<body>
 		<h1>Test continuse Control Page</h1>
-        <!-- <a href="#" onclick="ledClick()" id="led">On bord Led</a>
-        <br> -->
+        <input type="checkbox" name="blink" value="Bike" id="blink" checked>
+        <label for="blink"> To Blink (HW Timer Test)</label><br>
+        <a href="#" onclick="ledClick()" id="led">On bord Led</a>
+        <br>
+        <br>
         <br>
         <a href="#" id="btn">On bord Button</a>
         <br>
@@ -34,17 +37,13 @@
         <script> 
             let ledOn = false
             document.getElementById("led").style.background = 'black';
+            blink = document.getElementById("blink")
             function ledClick() {
+                msg = {}
+                msg['blink'] = blink.checked
+                msg['led'] = ledOn
+                websocket.send(JSON.stringify(msg));
                 ledOn = !ledOn
-                if (ledOn) {
-                    // document.getElementById("led").style.background = 'blue';
-                } else {
-                    // document.getElementById("led").style.background = 'black';
-                }
-                var xhttp = new XMLHttpRequest();
-                xhttp.open('GET', 'http://' + window.location.hostname + '/led?status='+ ledOn, true);
-                xhttp.setRequestHeader('Content-type', 'application/json');
-                xhttp.send(ledOn);
             }
         </script>
 
@@ -92,9 +91,9 @@
                  }
                  else if(rcv.hasOwnProperty('led')){
                      if (rcv.led === 'False') {
-                        document.getElementById("led").style.background = 'blue';
-                    } else {
                         document.getElementById("led").style.background = 'black';
+                    } else {
+                        document.getElementById("led").style.background = 'blue';
                     }
                  }
                     // writeToScreen('MSG FROM SERVER : <span style="color: blue;">' + evt.data + '</span>');

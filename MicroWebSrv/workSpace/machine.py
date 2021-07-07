@@ -55,6 +55,13 @@ class ssd1306:
     def fill(self,a):
         pass
 
+class Timer:
+    def __init__(self, timerNumber):
+        pass
+    def deinit(self):
+        pass
+    def init(self, period=3000, callback=None):
+        pass
 
 def time_pulse_us(pin, level):
     return random.randint(1, int(100*2/0.034))
