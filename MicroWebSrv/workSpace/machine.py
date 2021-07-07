@@ -5,7 +5,9 @@ from time import sleep
 class Pin :
     IN=1
     OUT=2
-    def __init__(self, pinNumber, pinDirection=1):
+    PULL_UP=1
+    PULL_DOWN=0
+    def __init__(self, pinNumber, pinDirection=1, pull=1):
         def randoms(self):
             random.randint(0, 1)
         return None

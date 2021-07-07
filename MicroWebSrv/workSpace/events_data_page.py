@@ -10,7 +10,7 @@ routeHandlers = []
 #	( "/test",	"POST",	_httpHandlerTestPost )
 # ]
 
-led = Pin(0, Pin.OUT) # 1, Pin.PULL_UP
+led = Pin(0, Pin.OUT, Pin.PULL_UP) # 1, Pin.PULL_UP
 # btn = Pin(0, Pin.IN) # Pin.PULL_UP
 # led.value(1)
 # led.off()  # the opesit on is off and off in on

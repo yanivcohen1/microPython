@@ -12,7 +12,7 @@ _chatWebSockets = [ ]
 
 timer0 = Timer(0)
 # timer0.deinit() # destroy timer
-led = Pin(32, Pin.OUT)
+led = Pin(32, Pin.OUT, Pin.PULL_UP)
 btn = Pin(0, Pin.IN)
 # led.value(1)
 led.off()  # the opesit on is off and off in on
