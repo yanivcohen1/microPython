@@ -110,5 +110,6 @@ def led1(status):
             print('ws sending: ', status == 'True')
 
 def OnWSChatClosed(webSocket) :
-	print("WS CLOSED")
+    _chatWebSockets.remove(webSocket)
+    print("WS CLOSED")
 # ============================================================================

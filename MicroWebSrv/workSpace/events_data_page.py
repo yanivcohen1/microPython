@@ -96,5 +96,6 @@ def OnWSChatTextMsg(webSocket, msg):
             webSocket.SendText(json.dumps(send))
 
 def OnWSChatClosed(webSocket) :
-	print("WS CLOSED")
+    _chatWebSockets.remove(webSocket)
+    print("WS CLOSED")
 # ============================================================================
