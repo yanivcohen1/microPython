@@ -54,7 +54,7 @@ def WSJoin(webSocket, addr):
         webSocket.SendText(json.dumps(send))
         _chatWebSockets.append(webSocket)
         print('<WELCOME %s:%s>' % addr)
-    oldDisplay()
+    OLED_display()
     # For looping see swTimerServer.py
     global firstLoad
     if firstLoad:
@@ -117,7 +117,7 @@ def cb_timer(delay_sec, websocket):
                     ledOn = True
                     led.on()
         # print('ws sending distance: ', current_distance)
-        oldDisplay()
+        OLED_display()
         
 def OnWSTextMsg(webSocket, msg):
     recv = json.loads(msg)
@@ -130,7 +130,7 @@ def OnWSTextMsg(webSocket, msg):
                 send = {}
                 send[SendData.slider] = str(sliderIn)
                 ws.SendText(json.dumps(send))
-        oldDisplay()
+        OLED_display()
 
 #https://create.arduino.cc/projecthub/abdularbi17/ultrasonic-sensor-hc-sr04-with-arduino-tutorial-327ff6
 def calcDistance():
@@ -149,7 +149,7 @@ def calcDistance():
         distance += duration*0.034/2
     return int(distance / 10) # distace in (cm)
 
-def oldDisplay():
+def OLED_display():
     oled.fill(0)
     oled.text('Distance System!', 0, 0) # 16 lines
     oled.text('Distance is: ' + str(current_distance), 0, 10)
