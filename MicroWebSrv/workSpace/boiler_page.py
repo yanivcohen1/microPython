@@ -10,11 +10,11 @@ from time import sleep
 global _chatWebSockets
 _chatWebSockets = [ ]
 
-led = Pin(32, Pin.OUT)
-slider = ADC(Pin(35))
+led = Pin(5, Pin.OUT, value=1)
+slider = ADC(Pin(34))
 slider.atten(ADC.ATTN_11DB)       #Full range: 3.3v
 # led.value(1)
-led.off()
+# led.off()
 firstLoad = True
 print('boiler page load')
 sliderIn = 1
@@ -94,7 +94,7 @@ def cb_timer(delay_sec, websocket):
                     ws.SendText(json.dumps(send))
                     print('ws sending led: ', False)
                     ledOn = False
-                    led.off()
+                    led.on()
         elif curt_slider <= sliderIn and not ledOn :
             with _chatLock:
                 for ws in _chatWebSockets:
@@ -103,7 +103,7 @@ def cb_timer(delay_sec, websocket):
                     ws.SendText(json.dumps(send))
                     print('ws sending led: ', True)
                     ledOn = True
-                    led.on()
+                    led.off()
 
 def OnWSChatTextMsg(webSocket, msg):
     recv = json.loads(msg)

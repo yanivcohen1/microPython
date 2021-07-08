@@ -12,17 +12,17 @@ _chatWebSockets = [ ]
 
 timer0 = Timer(0)
 # timer0.deinit() # destroy timer
-led = Pin(32, Pin.OUT, Pin.PULL_UP)
-btn = Pin(0, Pin.IN)
+led = Pin(5, Pin.OUT, value=1)
+# btn = Pin(0, Pin.IN)
 # led.value(1)
-led.off()  # the opesit on is off and off in on
+# led.off()  # the opesit on is off and off in on
 firstLoad = True
 print('contiuse_data page load')
 
 # -----------------------------------------------------------
 
 def btn_change(pin):
-    cur_btn = btn.value()
+    cur_btn = 1 # btn.value()
     with _chatLock:
         for ws in _chatWebSockets:
             send = {}
@@ -35,7 +35,7 @@ def btn_change(pin):
     else:
         print('btn pressed')
 
-btn.irq(btn_change)
+# btn.irq(btn_change)
 
 # ----------------------------------------------------------------------------
 
@@ -97,9 +97,9 @@ def cb_timer(timer, webSocket):
 
 def led1(status):
     if  status == 'False':
-        led.off()
-    else:
         led.on()
+    else:
+        led.off()
     print('led is: ', status)
     with _chatLock:
         for ws in _chatWebSockets:

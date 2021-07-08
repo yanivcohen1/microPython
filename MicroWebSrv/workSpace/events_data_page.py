@@ -10,7 +10,7 @@ routeHandlers = []
 #	( "/test",	"POST",	_httpHandlerTestPost )
 # ]
 
-led = Pin(0, Pin.OUT, Pin.PULL_UP) # 1, Pin.PULL_UP
+led = Pin(5, Pin.OUT, value=1) # 1, Pin.PULL_UP
 # btn = Pin(0, Pin.IN) # Pin.PULL_UP
 # led.value(1)
 # led.off()  # the opesit on is off and off in on
@@ -51,9 +51,9 @@ def _httpHandlerEditWithArgs(httpClient, httpResponse):
     content = ""
     if 'status' in args:
         if args['status'] == 'false':
-            led.off()
-        else:
             led.on()
+        else:
+            led.off()
         print('led is: ', args['status'])
         with _chatLock:
             for ws in _chatWebSockets:
