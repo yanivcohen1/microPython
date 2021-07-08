@@ -1,5 +1,5 @@
 import json
-from machine import Pin, ADC, time_pulse_us, SoftI2C, Timer
+from machine import Pin, ADC, time_pulse_us, SoftI2C, Timer, I2C
 from events_data_page import _chatLock
 from   _thread     import start_new_thread
 from time import sleep
@@ -18,7 +18,8 @@ except:
 sliderPot = ADC(Pin(34))
 sliderPot.atten(ADC.ATTN_11DB) # Full range: 3.3v
 # ESP32 Pin assignment 
-i2c = SoftI2C(scl=Pin(22), sda=Pin(21))
+# i2c = SoftI2C(scl=Pin(22), sda=Pin(21))
+i2c = I2C(scl=Pin(22), sda=Pin(21))
 oled_width = 128
 oled_height = 64
 oled = ssd1306.SH1106_I2C(oled_width, oled_height, i2c) # SSD1306_I2C

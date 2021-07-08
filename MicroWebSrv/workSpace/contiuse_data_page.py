@@ -27,7 +27,8 @@ def btn_change(pin):
         for ws in _chatWebSockets:
             send = {}
             send['btn'] = str(cur_btn == 1)
-            ws.SendText(json.dumps(send))
+            try: ws.SendText(json.dumps(send))
+            except: pass
             print('ws sending: ', cur_btn)
 
     if cur_btn == 1:  # btn is not press
@@ -70,12 +71,13 @@ def cb_thread(delay_sec, websocket):
         sleep(delay_sec)
         #Read data from sensors and Store in dict
         #Convert dictionary data to JSON and send
-        curt_btn = btn.value()
+        curt_btn = 1 # btn.value()
         with _chatLock:
             for ws in _chatWebSockets:
                 send = {}
                 send['btn'] = str(curt_btn == 1)
-                ws.SendText(json.dumps(send))
+                try: ws.SendText(json.dumps(send))
+                except: pass
                 # print('ws sending: ', curt_btn)
 
 def OnWSChatTextMsg(webSocket, msg):
@@ -105,7 +107,8 @@ def led1(status):
         for ws in _chatWebSockets:
             send = {}
             send['led'] = str(status == 'True')
-            ws.SendText(json.dumps(send))
+            try: ws.SendText(json.dumps(send))
+            except: pass
             # ws.SendText('{"led": "'+ str(args['status'] == 'false')+'"}')
             print('ws sending: ', status == 'True')
 

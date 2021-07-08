@@ -7,7 +7,7 @@ class Pin :
     OUT=2
     PULL_UP=1
     PULL_DOWN=0
-    def __init__(self, pinNumber, pinDirection=1, pull=1):
+    def __init__(self, pinNumber, pinDirection=1, pull=1, value=1):
         def randoms(self):
             random.randint(0, 1)
         return None
@@ -41,6 +41,9 @@ class SoftI2C:
     def __init__(self, scl=1, sda=2):
         return None
 
+class I2C:
+    def __init__(self, scl=1, sda=2):
+        return None
 class ssd1306:
     def __init__(self):
         pass

@@ -31,7 +31,8 @@ def btn_change(pin):
         for ws in _chatWebSockets:
             send = {}
             send['btn'] = str(cur_btn == 1)
-            ws.SendText(json.dumps(send))
+            try: ws.SendText(json.dumps(send))
+            except: pass
             print('ws sending: ', cur_btn)
 
     if cur_btn == 1:  # btn is not press
@@ -59,7 +60,8 @@ def _httpHandlerEditWithArgs(httpClient, httpResponse):
             for ws in _chatWebSockets:
                 send = {}
                 send['led'] = str(args['status'] == 'false')
-                ws.SendText(json.dumps(send))
+                try: ws.SendText(json.dumps(send))
+                except: pass
                 # ws.SendText('{"led": "'+ str(args['status'] == 'false')+'"}')
                 print('ws sending: ', args['status'] == 'false')
     httpResponse.WriteResponseOk(headers=None,
@@ -93,7 +95,8 @@ def OnWSChatTextMsg(webSocket, msg):
             print('res is: ', res)
             send = {}
             send['res'] = str(res)
-            webSocket.SendText(json.dumps(send))
+            try: webSocket.SendText(json.dumps(send))
+            except: pass
 
 def OnWSChatClosed(webSocket) :
     _chatWebSockets.remove(webSocket)

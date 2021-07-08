@@ -50,7 +50,8 @@ def WSJoinChat(webSocket, addr):
         print('<%s:%s HAS JOINED THE CHAT>' % addr)
         send = {}
         send[SendData.slider] = str(sliderIn)
-        webSocket.SendText(json.dumps(send))
+        try: webSocket.SendText(json.dumps(send))
+        except: pass
         _chatWebSockets.append(webSocket)
         print('<WELCOME %s:%s>' % addr)
     # For looping see swTimerServer.py
@@ -83,7 +84,8 @@ def cb_timer(delay_sec, websocket):
             for ws in _chatWebSockets:
                 send = {}
                 send[SendData.temp] = str(curt_slider)
-                ws.SendText(json.dumps(send))
+                try: ws.SendText(json.dumps(send))
+                except: pass
                 print('ws sending temp: ', curt_slider)
         global ledOn
         if curt_slider > sliderIn and ledOn :
@@ -91,7 +93,8 @@ def cb_timer(delay_sec, websocket):
                 for ws in _chatWebSockets:
                     send = {}
                     send[SendData.led] = str(False)
-                    ws.SendText(json.dumps(send))
+                    try: ws.SendText(json.dumps(send))
+                    except: pass
                     print('ws sending led: ', False)
                     ledOn = False
                     led.on()
@@ -100,7 +103,8 @@ def cb_timer(delay_sec, websocket):
                 for ws in _chatWebSockets:
                     send = {}
                     send[SendData.led] = str(True)
-                    ws.SendText(json.dumps(send))
+                    try: ws.SendText(json.dumps(send))
+                    except: pass
                     print('ws sending led: ', True)
                     ledOn = True
                     led.off()
@@ -115,7 +119,8 @@ def OnWSChatTextMsg(webSocket, msg):
             for ws in _chatWebSockets:
                 send = {}
                 send[SendData.slider] = str(sliderIn)
-                ws.SendText(json.dumps(send))
+                try: ws.SendText(json.dumps(send))
+                except: pass
 
 # =============================================================================
 
