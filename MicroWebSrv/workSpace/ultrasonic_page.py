@@ -40,8 +40,8 @@ led.off()
 sliderIn = 25
 ledOn = False
 current_distance = 0
-print('ultrasonic page load')
 last_sliderPot = 0
+print('ultrasonic page load')
 # ----------------------------------------------------------------------------
 
 def WSJoin(webSocket, addr):
@@ -60,12 +60,11 @@ def WSJoin(webSocket, addr):
     # For looping see swTimerServer.py
     global firstLoad
     if firstLoad:
-        # WH Timer
-        if not simulation:
+        if True: 
+            start_new_thread(cb_timer, (1, webSocket))
+        else: # for WH Timer - if not simulation:
             cb = lambda timer: fun_timer(timer, webSocket)
             timer0.init(period=1000, callback=cb)
-        else: 
-            start_new_thread(cb_timer, (1, webSocket))
         firstLoad = False
 
 def OnWSClosed(webSocket) :
