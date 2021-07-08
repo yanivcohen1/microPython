@@ -19,6 +19,7 @@ while(1):
     # p22.value(0)
     # time.sleep_ms(200)
     # p21.value(0)
+    # I2C(scl) port test
     for i in io_scl:
         io_flash(i)
     # TFT port test
