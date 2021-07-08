@@ -52,10 +52,8 @@ def WSJoin(webSocket, addr):
     with _chatLock:
         send = {}
         send[SendData.slider] = str(sliderIn)
-        try:
-            webSocket.SendText(json.dumps(send))
-        except:
-            pass
+        try: webSocket.SendText(json.dumps(send))
+        except: pass
         _chatWebSockets.append(webSocket)
         print('<WELCOME %s:%s>' % addr)
     OLED_display()
@@ -93,10 +91,8 @@ def fun_timer(delay, websocket):
             for ws in _chatWebSockets:
                 send = {}
                 send[SendData.slider] = str(sliderIn)
-                try:
-                    ws.SendText(json.dumps(send))
-                except:
-                    pass
+                try: ws.SendText(json.dumps(send))
+                except: pass
     distance = calcDistance()
     if (distance > 180 and current_distance == 180): return
     if (distance > 180 and current_distance != 180):
@@ -106,10 +102,8 @@ def fun_timer(delay, websocket):
         for ws in _chatWebSockets:
             send = {}
             send[SendData.distance] = str(current_distance)
-            try:
-                ws.SendText(json.dumps(send))
-            except:
-                pass
+            try: ws.SendText(json.dumps(send))
+            except: pass
     global ledOn
     if current_distance > sliderIn and ledOn :
         ledOn = False
@@ -118,10 +112,8 @@ def fun_timer(delay, websocket):
             for ws in _chatWebSockets:
                 send = {}
                 send[SendData.led] = str(False)
-                try:
-                    ws.SendText(json.dumps(send))
-                except:
-                    pass
+                try: ws.SendText(json.dumps(send))
+                except: pass
                 print('ws sending led: ', False)
     elif current_distance <= sliderIn and not ledOn :
         ledOn = True
@@ -130,10 +122,8 @@ def fun_timer(delay, websocket):
             for ws in _chatWebSockets:
                 send = {}
                 send[SendData.led] = str(True)
-                try:
-                    ws.SendText(json.dumps(send))
-                except:
-                    pass
+                try: ws.SendText(json.dumps(send))
+                except: pass
                 print('ws sending led: ', True)
     OLED_display()
     # print('ws sending distance: ', current_distance)
@@ -148,10 +138,8 @@ def OnWSTextMsg(webSocket, msg):
             for ws in _chatWebSockets:
                 send = {}
                 send[SendData.slider] = str(sliderIn)
-                try:
-                    ws.SendText(json.dumps(send))
-                except:
-                    pass
+                try: ws.SendText(json.dumps(send))
+                except: pass
         OLED_display()
 
 #https://create.arduino.cc/projecthub/abdularbi17/ultrasonic-sensor-hc-sr04-with-arduino-tutorial-327ff6
