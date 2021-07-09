@@ -261,5 +261,6 @@ srv.Start(threaded=False)
         sleep(2)
 except KeyboardInterrupt : # control+C press
     pass """
-
+print('stopping server and cleanup')
+srv.Stop()
 # ----------------------------------------------------------------------------
