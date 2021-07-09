@@ -44,8 +44,8 @@ Set-ExecutionPolicy RemoteSigned
 Or on Windows cmd::
 
     $ py -m venv venv
-    $ venv\Scripts\activate.bat
     $ venv\Scripts\activate
+    $ venv\Scripts\activate.bat
     $ python -m pip install esptool
     $ esptool version
     ## test it
