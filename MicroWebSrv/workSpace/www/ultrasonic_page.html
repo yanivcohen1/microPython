@@ -48,7 +48,7 @@
         <fieldset>
             <legend>Set distance:</legend>
             <div style="line-height: 3px;">
-                <input id="sliderIn" type="range" min="1" max="100" value="50" style="width: 200px">
+                <input id="sliderIn" type="range" oninput="sliderChange()" min="1" max="100" value="50" style="width: 200px">
                 <p id=sliderInPrint></p>
                 <button id="send" type="text" onclick="sendClick()">Send set distance</button>
             </div>
@@ -117,8 +117,8 @@
                 send.disabled = true;
             }
             
-            sliderIn.oninput = function() {
-                sliderInPrint.innerHTML = parseInt(parseInt(this.value)*100/100);
+            function sliderChange() {
+                sliderInPrint.innerHTML = parseInt(parseInt(sliderIn.value)*100/100);
                 send.disabled = false;  
             }
 
