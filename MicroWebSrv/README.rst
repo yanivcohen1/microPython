@@ -40,6 +40,7 @@ pip install virtualenv
 //for anaconda3 open powerShell in admin and type:
 Set-ExecutionPolicy RemoteSigned
 // then "control"+"shift"+"p" and type "reload window"
+**************************************************************
 
 Or on Windows cmd::
 
@@ -78,8 +79,15 @@ repl
 >> import ws
 ## control + c to stop the code
 ## control + x to exit repl
+*****************************************************
 
-for tester ( in event page )::
+for REPL tester ( in event page )::
+# read from other programs variables
+global res
+from ultrasonic_page import sliderIn
+res = sliderIn
+
+# read and set HW
 global res
 from machine import Pin, ADC
 from time import sleep
@@ -94,6 +102,7 @@ led.off()
 sliderPot = ADC(Pin(34)) 
 sliderPot.atten(ADC.ATTN_11DB)
 res = int(sliderPot.read() * 100 / 4095)
+***********************************************
 
 Install Flaskr::
 
