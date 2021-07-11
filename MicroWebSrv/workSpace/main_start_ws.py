@@ -250,7 +250,7 @@ def _calcAddr(webSocket):
 # ============================================================================
 
 srv = MicroWebSrv(webPath='www/', routeHandlers=routeHandlers) # port=<portNumber> default is 80
-srv.MaxWebSocketRecvLen     = 256
+srv.MaxWebSocketRecvLen     = 500
 srv.WebSocketThreaded		= True
 srv.AcceptWebSocketCallback = _acceptWebSocketCallback
 print('running WebServer')

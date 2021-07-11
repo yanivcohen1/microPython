@@ -79,6 +79,22 @@ repl
 ## control + c to stop the code
 ## control + x to exit repl
 
+for tester ( in event page )::
+global res
+from machine import Pin, ADC
+from time import sleep
+
+# led on and off
+led = Pin(0, Pin.OUT, Pin.PULL_UP) 
+led.on()
+sleep(2)
+led.off()
+
+# read potentiometer
+sliderPot = ADC(Pin(34)) 
+sliderPot.atten(ADC.ATTN_11DB)
+res = int(sliderPot.read() * 100 / 4095)
+
 Install Flaskr::
 
     $ pip install -e .
