@@ -1,2 +1,3 @@
 *.pyc
 MicroWebSrv/venv/
+MicroWebSrv/workSpace/data.txt
