@@ -45,7 +45,11 @@ print('ultrasonic page load')
 # ----------------------------------------------------------------------------
 
 def WSJoin(webSocket, addr):
-    if sliderIn == None: readLastSlider()
+    global sliderIn
+    if sliderIn == None:
+        global last_sliderPot
+        last_sliderPot = int(sliderPot.read() * 100 / 4095)
+        sliderIn = readLastSlider()
     webSocket.RecvTextCallback = OnWSTextMsg
     # webSocket.RecvBinaryCallback = _recvBinaryCallback
     webSocket.ClosedCallback = OnWSClosed
@@ -182,12 +186,12 @@ def saveLastSlider(sliderIn: int):
 
 def readLastSlider():
     data = readFromDataFile()
-    global sliderIn
     sliderIn = None
     try: 
         jsonData = json.loads(data)
         if RecData.slider in jsonData:
             sliderIn = int(jsonData[RecData.slider])
+        else: sliderIn = 25
     except:
         sliderIn = 25
     return sliderIn
