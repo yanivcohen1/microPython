@@ -183,9 +183,8 @@ def saveLastSlider(sliderIn: int):
     data = readFromDataFile()
     try: 
         jsonData = json.loads(data)
-        if RecData.slider in jsonData:
-            jsonData[RecData.slider] = sliderIn
-            saveToDataFile(json.dumps(jsonData))
+        jsonData[RecData.slider] = sliderIn
+        saveToDataFile(json.dumps(jsonData))
     except:
         send = {}
         send[RecData.slider] = sliderIn
@@ -204,7 +203,7 @@ def readLastSlider():
     return sliderIn
 
 def saveToDataFile(data):
-    with open('data.txt', 'w') as f:
+    with open('data.txt', 'w') as f: # "a"-for Append, 'w'=for Overwrite
         f.write(data)
 
 def readFromDataFile():
