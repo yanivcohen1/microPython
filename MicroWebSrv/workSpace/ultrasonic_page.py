@@ -182,7 +182,7 @@ def saveLastSlider(sliderIn: int):
             saveToDataFile(json.dumps(jsonData))
     except:
         send = {}
-        send[RecData.slider] = str(sliderIn)
+        send[RecData.slider] = sliderIn
         saveToDataFile(json.dumps(send))
 
 def readLastSlider():
