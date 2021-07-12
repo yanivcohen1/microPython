@@ -87,6 +87,7 @@ def fun_timer(delay, websocket):
         last_sliderPot = curt_slider
         sliderIn = curt_slider
         print('slider set to is: ', sliderIn)
+        saveLastSlider(sliderIn)
         with _chatLock:
             for ws in _chatWebSockets:
                 send = {}
