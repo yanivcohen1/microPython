@@ -3,17 +3,16 @@ from machine import Pin, ADC, time_pulse_us, SoftI2C, Timer, I2C
 from events_data_page import _chatLock
 from   _thread     import start_new_thread
 from time import sleep
+
 simulation = False
 try:
     from time import sleep_us
-except:
-    from machine import sleep_us
-    simulation = True
-try:
     # import user_lib.SSD1315_OLED_DISP as ssd1306
     import user_lib.sh1106 as ssd1306
 except:
+    from machine import sleep_us
     from machine import ssd1306
+    simulation = True 
 
 sliderPot = ADC(Pin(34))
 sliderPot.atten(ADC.ATTN_11DB) # Full range: 3.3v
@@ -38,14 +37,15 @@ trigPin = Pin(2, Pin.OUT, pull=None)
 timer0 = Timer(0)
 # led.value(1)
 led.off()
-sliderIn = 25
 ledOn = False
 current_distance = 0
-last_sliderPot = 0
+last_sliderPot = -1
+sliderIn = None
 print('ultrasonic page load')
 # ----------------------------------------------------------------------------
 
 def WSJoin(webSocket, addr):
+    if sliderIn == None: readLastSlider()
     webSocket.RecvTextCallback = OnWSTextMsg
     # webSocket.RecvBinaryCallback = _recvBinaryCallback
     webSocket.ClosedCallback = OnWSClosed
@@ -67,10 +67,6 @@ def WSJoin(webSocket, addr):
             cb = lambda timer: fun_timer(timer, webSocket)
             timer0.init(period=1000, callback=cb)
         firstLoad = False
-
-def OnWSClosed(webSocket) :
-    _chatWebSockets.remove(webSocket)
-    print("WS CLOSED")
     
 # for sending in timer the results in time period
 def cb_timer(delay_sec, websocket):
@@ -133,6 +129,7 @@ def OnWSTextMsg(webSocket, msg):
     if RecData.slider in recv:
         global sliderIn
         sliderIn = int(recv[RecData.slider])
+        saveLastSlider(sliderIn)
         print('slider set to is: ', recv[RecData.slider])
         with _chatLock:
             for ws in _chatWebSockets:
@@ -141,6 +138,10 @@ def OnWSTextMsg(webSocket, msg):
                 try: ws.SendText(json.dumps(send))
                 except: pass
         OLED_display()
+
+def OnWSClosed(webSocket) :
+    _chatWebSockets.remove(webSocket)
+    print("WS CLOSED")
 
 #https://create.arduino.cc/projecthub/abdularbi17/ultrasonic-sensor-hc-sr04-with-arduino-tutorial-327ff6
 def calcDistance():
@@ -166,6 +167,48 @@ def OLED_display():
     oled.text('Distance Set ' + str(sliderIn), 0, 20)
     oled.text('Alarm is ' + ("ON" if ledOn else "OFF"), 0, 30)
     oled.show()
+
+def saveLastSlider(sliderIn: int):
+    data = readFromDataFile()
+    try: 
+        jsonData = json.loads(data)
+        if RecData.slider in jsonData:
+            jsonData[RecData.slider] = sliderIn
+            saveToDataFile(json.dumps(jsonData))
+    except:
+        send = {}
+        send[RecData.slider] = str(sliderIn)
+        saveToDataFile(json.dumps(send))
+
+def readLastSlider():
+    data = readFromDataFile()
+    global sliderIn
+    sliderIn = None
+    try: 
+        jsonData = json.loads(data)
+        if RecData.slider in jsonData:
+            sliderIn = int(jsonData[RecData.slider])
+    except:
+        sliderIn = 25
+    return sliderIn
+
+def saveToDataFile(data):
+    with open('data.txt', 'w') as f:
+        f.write(data)
+
+def readFromDataFile():
+    with open('data.txt', 'r') as f:
+        data = f.read()
+    return data
+
+# insted of:
+# f = open('data.txt', 'w')
+# f.write('some test data')
+# f.close()
+# # read it
+# f1 = open('data.txt')
+# f1.read()
+# f1.close()
 # =============================================================================
 
 class SendData :
