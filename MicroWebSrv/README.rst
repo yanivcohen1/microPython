@@ -129,6 +129,7 @@ while True:
         time.sleep(1/400) # 400Hz
 
 # PWM dim buildin led pin-5
+# PWM(Pin(5), freq=20000, duty=950) # duty is how mach off 1023 is on
 from machine import Pin, PWM
 from time import sleep
 frequency = 5000
