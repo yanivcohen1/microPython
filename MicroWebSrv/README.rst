@@ -87,6 +87,11 @@ global res
 from ultrasonic_page import sliderIn
 res = sliderIn
 
+# read avaleble RAM memory
+import micropython
+gc.collect()
+micropython.mem_info()
+
 # read and set HW
 global res
 from machine import Pin, ADC
