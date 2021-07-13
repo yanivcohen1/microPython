@@ -111,10 +111,11 @@ led.on()
 sleep(2)
 led.off()
 
-# read potentiometer
-sliderPot = ADC(Pin(34)) 
-sliderPot.atten(ADC.ATTN_11DB)
-res = int(sliderPot.read() * 100 / 4095)
+# ADC read potentiometer
+adc = ADC(Pin(34)) 
+adc.atten(ADC.ATTN_11DB)    # set 11dB input attenuation (voltage range roughly 0.0v - 3.6v)
+adc.width(ADC.WIDTH_12BIT)   # set 12 bit return values (returned range 0-4095)
+res = int(adc.read() * 100 / 4095)
 
 # DAC make sinus wave DAC pin-25
 import math
