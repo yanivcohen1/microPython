@@ -73,7 +73,7 @@ def WSJoin(webSocket, addr):
             timer0.init(period=1000, callback=cb)
         firstLoad = False
     
-# for sending in timer the results in time period
+# for sending in timer the results in time period cb(callback)
 def cb_timer(delay_sec, websocket):
     while True: 
         sleep(delay_sec)
