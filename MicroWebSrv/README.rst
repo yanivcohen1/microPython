@@ -114,6 +114,32 @@ led.off()
 sliderPot = ADC(Pin(34)) 
 sliderPot.atten(ADC.ATTN_11DB)
 res = int(sliderPot.read() * 100 / 4095)
+
+# DAC make sinus wave
+import math
+import time
+from machine import DAC, Pin
+
+dac = DAC(Pin(25, Pin.OUT), bits=8)
+# create a buffer containing a sine-wave
+buf = bytearray(255)
+while True:
+    for i in range(len(buf)):
+        buf[i] = 128 + int(127 * math.sin(2 * math.pi * i / len(buf)))
+        dac.write(buf[i])
+        time.sleep(1/400) # 400Hz
+
+# PWM dim buildin led
+from machine import Pin, PWM
+from time import sleep
+
+frequency = 5000
+led = PWM(Pin(5), frequency)
+
+while True:
+  for duty_cycle in range(0, 1024):
+    led.duty(duty_cycle)
+    sleep(0.005)
 ***********************************************
 
 Install Flaskr::
