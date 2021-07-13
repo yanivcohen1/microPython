@@ -139,6 +139,20 @@ while True:
     pwm_led.duty(duty_cycle)
     sleep(0.005)
 # pwm_led.deinit() # free resource
+
+# Time difrance calc
+import time
+start = time.ticks_ms() # get millisecond counter
+delta = time.ticks_diff(time.ticks_ms(), start) # compute time difference
+
+# timer number 0 - timers 0 to 3
+from machine import Timer
+tim0 = Timer(0)
+tim0.init(period=5000, mode=Timer.ONE_SHOT, callback=lambda t:print(0)) # internal function
+def cb_timer(time, someParameter): # timer callback function
+    print(time)
+cb = lambda timer: cb_timer(timer, someParameter)
+timer0.init(period=1000, callback=cb) # defoult is mode=Timer.PERIODIC, The period is in milliseconds
 ***********************************************
 
 Install Flaskr::
