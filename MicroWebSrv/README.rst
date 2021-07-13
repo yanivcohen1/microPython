@@ -88,7 +88,7 @@ from ultrasonic_page import sliderIn
 res = sliderIn
 
 # read avaleble RAM memory
-import micropython
+import micropython, gc
 gc.collect()
 micropython.mem_info()
 
