@@ -100,6 +100,7 @@ fs_free = fs_stat[0] * fs_stat[3]
 print("File System Size {:,} - Free Space {:,}".format(fs_size, fs_free))
 
 # read and set HW
+# https://docs.micropython.org/en/latest/esp32/quickref.html
 global res
 from machine import Pin, ADC
 from time import sleep
