@@ -154,6 +154,12 @@ def cb_timer(time, someParameter): # timer callback function
     print(time)
 cb = lambda timer: cb_timer(timer, someParameter)
 timer0.init(period=1000, callback=cb) # defoult is mode=Timer.PERIODIC, The period is in milliseconds
+
+# WDT (Watchdog timer) reset if program is stack
+# application must “feed” the watchdog periodically
+from machine import WDT
+wdt = WDT(timeout=5000) # enable the WDT with a timeout of 5s (1s is the minimum)
+wdt.feed()
 ***********************************************
 
 Install Flaskr::
