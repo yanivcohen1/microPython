@@ -105,7 +105,7 @@ from machine import Pin, ADC
 from time import sleep
 
 # led on and off
-led = Pin(0, Pin.OUT, Pin.PULL_UP) 
+led = Pin(0, Pin.OUT, Pin.PULL_UP, value=1) # set pin high on creation
 led.on()
 sleep(2)
 led.off()
@@ -131,11 +131,12 @@ while True:
 from machine import Pin, PWM
 from time import sleep
 frequency = 5000
-led = PWM(Pin(5), frequency)
+pwm_led = PWM(Pin(5), frequency)
 while True:
   for duty_cycle in range(0, 1024):
-    led.duty(duty_cycle)
+    pwm_led.duty(duty_cycle)
     sleep(0.005)
+# pwm_led.deinit() # free resource
 ***********************************************
 
 Install Flaskr::
