@@ -87,12 +87,12 @@ global res
 from ultrasonic_page import sliderIn
 res = sliderIn
 
-# read avaleble RAM memory
+# read free RAM memory
 import micropython, gc
 gc.collect()
 micropython.mem_info()
 
-# read avalble flash memory
+# read free flash memory
 import uos
 fs_stat = uos.statvfs('/')
 fs_size = fs_stat[0] * fs_stat[2]
