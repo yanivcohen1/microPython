@@ -85,7 +85,7 @@ def fun_timer(delay, websocket):
     global last_sliderPot
     global markForSave
     curt_slider = int(sliderPot.read() * 100 / 4095)
-    if not (last_sliderPot == curt_slider or last_sliderPot + 1 == curt_slider or last_sliderPot - 1 == curt_slider):
+    if not (last_sliderPot == curt_slider):
         markForSave = True
         last_sliderPot = curt_slider
         sliderIn = curt_slider

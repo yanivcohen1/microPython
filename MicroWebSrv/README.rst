@@ -1,3 +1,4 @@
+// https://www.wemos.cc/en/latest/d32/d32_pro.html
 // for testting python ident run
 python -tt
 Flaskr
