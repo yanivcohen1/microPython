@@ -6,6 +6,9 @@ from   _thread   import allocate_lock # ,start_new_thread
 from events_data_page import WSJoinChat as MyWSJoinChat
 from events_data_page import _chatLock, routeHandlers
 import socket
+# for ultrasonic page auto load
+# from ultrasonic_page import WSJoin as ultrasonicWSJoin 	
+# ultrasonicWSJoin(None, None) # for page auto load	
 
 global _chatWebSockets
 _chatWebSockets = [ ]

@@ -51,9 +51,11 @@ def WSJoin(webSocket, addr):
         global last_sliderPot
         last_sliderPot = int(sliderPot.read() * 100 / 4095)
         sliderIn = readLastSlider()
-    webSocket.RecvTextCallback = OnWSTextMsg
-    # webSocket.RecvBinaryCallback = _recvBinaryCallback
-    webSocket.ClosedCallback = OnWSClosed
+    if webSocket != None:
+        webSocket.RecvTextCallback = OnWSTextMsg
+        # webSocket.RecvBinaryCallback = _recvBinaryCallback
+        webSocket.ClosedCallback = OnWSClosed
+        print('<WELCOME %s:%s>' % addr)
     # addr = webSocket.Request.UserAddress
     with _chatLock:
         send = {}
@@ -61,7 +63,6 @@ def WSJoin(webSocket, addr):
         try: webSocket.SendText(json.dumps(send))
         except: pass
         _chatWebSockets.append(webSocket)
-        print('<WELCOME %s:%s>' % addr)
     OLED_display()
     # For looping see swTimerServer.py
     global firstLoad
