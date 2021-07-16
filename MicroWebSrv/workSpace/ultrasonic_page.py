@@ -1,5 +1,5 @@
 import json
-from machine import Pin, ADC, time_pulse_us, SoftI2C, Timer, I2C
+from machine import Pin, ADC, time_pulse_us, SoftI2C, Timer, I2C, WDT
 from events_data_page import _chatLock
 from   _thread     import start_new_thread
 from time import sleep
@@ -14,6 +14,7 @@ except:
     from machine import ssd1306
     simulation = True 
 
+wachdog = WDT(timeout=5000) # enable the wachdog with a timeout of 5s (1s is the minimum)
 sliderPot = ADC(Pin(34))
 sliderPot.atten(ADC.ATTN_11DB) # Full range: 3.3v
 # ESP32 Pin assignment 
@@ -79,6 +80,7 @@ def WSJoin(webSocket, addr):
 def cb_timer(delay_sec, websocket):
     while True: 
         sleep(delay_sec)
+        wachdog.feed() # need to call this wachdog fun minimum evry 5s or the bord will restart itself
         fun_timer(None, websocket)
         
 def fun_timer(delay, websocket):

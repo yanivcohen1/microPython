@@ -68,6 +68,12 @@ class Timer:
     def init(self, period=3000, callback=None):
         pass
 
+class WDT:
+    def __init__(self, timeout=5000):
+        pass
+    def feed(self):
+        pass
+
 def time_pulse_us(pin, level):
     return random.randint(1, int(100*2/0.034))
 
