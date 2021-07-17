@@ -160,7 +160,11 @@ timer0.init(period=1000, callback=cb) # defoult is mode=Timer.PERIODIC, The peri
 # application must “feed” the watchdog periodically
 from machine import WDT
 wdt = WDT(timeout=5000) # enable the WDT with a timeout of 5s (1s is the minimum)
-wdt.feed() # need to call this fun minimum evry 5s or the bord will restart itself
+wdt.feed() # need to call these two fun minimum evry 5s or the bord will restart itself
+
+# read clock
+import time
+y, m, d, h, m, s, mi, n = time.gmtime()
 ***********************************************
 
 Install Flaskr::
