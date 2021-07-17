@@ -84,3 +84,9 @@ def time_pulse_us(pin, level):
 
 def sleep_us(num):
     sleep(num/1000000)
+
+def ticks_ms(num):
+    return datetime.datetime.now()
+
+def ticks_diff(last, now):
+    return now - last
