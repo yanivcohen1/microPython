@@ -14,7 +14,7 @@ except:
     from machine import ssd1306
     simulation = True 
 
-wachdog = WDT(timeout=5000) # enable the wachdog with a timeout of 5s (1s is the minimum)
+wachdog = WDT(timeout=20000) # enable the wachdog with a timeout of 20s (1s is the minimum)
 sliderPot = ADC(Pin(34))
 sliderPot.atten(ADC.ATTN_11DB) # Full range: 3.3v
 # ESP32 Pin assignment 
