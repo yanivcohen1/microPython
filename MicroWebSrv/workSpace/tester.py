@@ -1,7 +1,8 @@
-a=2
-result = "is bigger" if a > 1 else "is smaller"
-print(result)
+# https://github.com/shawwwn/uMail
 
-a=True
-result = "is True" if a else "is False"
-print(result)
+import user_lib.umail as umail
+
+smtp = umail.SMTP('smtp.gmail.com', 587, username='yanco54321@gmail.com', password='thePassword')
+smtp.to('yaniv.choen.1@gmail.com')
+smtp.send("This is an example.")
+smtp.quit()
