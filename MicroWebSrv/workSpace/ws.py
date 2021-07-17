@@ -5,5 +5,5 @@ except :
     pass
     # print ("machine not exist")
 print (os.listdir())
-import ynet
+import user_lib.ynet
 import main_start_ws
