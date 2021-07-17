@@ -162,9 +162,14 @@ from machine import WDT
 wdt = WDT(timeout=5000) # enable the WDT with a timeout of 5s (1s is the minimum)
 wdt.feed() # need to call these two fun minimum evry 5s or the bord will restart itself
 
-# read clock
-import time
-year, monte, day, houre, mimite, secend, mi, n = time.gmtime()
+# read time from internet
+from machine import RTC
+rtc = RTC()
+# synchronize with ntp
+# need to be connected to wifi
+import ntptime
+ntptime.settime() # set the rtc datetime from the remote server
+year, monte, day, houre, mimite, secend, mi, n = rtc.datetime()    # get the date and time in UTC
 ***********************************************
 
 Install Flaskr::
