@@ -2,11 +2,11 @@ import json
 from machine import Pin, ADC, time_pulse_us, SoftI2C, Timer, I2C, WDT
 from events_data_page import _chatLock
 from   _thread     import start_new_thread
-from time import sleep, ticks_ms, ticks_diff
+from time import sleep
 
 simulation = False
 try:
-    from time import sleep_us
+    from time import sleep_us, ticks_ms, ticks_diff
     # import user_lib.SSD1315_OLED_DISP as ssd1306
     import user_lib.sh1106 as ssd1306
 except:
@@ -14,7 +14,7 @@ except:
     from machine import ssd1306
     simulation = True 
 
-wdt_last = ticks_ms()
+# wdt_last = ticks_ms()
 sliderPot = ADC(Pin(34))
 sliderPot.atten(ADC.ATTN_11DB) # Full range: 3.3v
 # ESP32 Pin assignment 
