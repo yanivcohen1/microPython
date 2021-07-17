@@ -2,7 +2,7 @@ import json
 from machine import Pin, ADC, time_pulse_us, SoftI2C, Timer, I2C, WDT
 from events_data_page import _chatLock
 from   _thread     import start_new_thread
-from time import sleep
+from time import sleep, ticks_ms, ticks_diff
 
 simulation = False
 try:
@@ -14,7 +14,7 @@ except:
     from machine import ssd1306
     simulation = True 
 
-wachdog = WDT(timeout=20000) # enable the wachdog with a timeout of 20s (1s is the minimum)
+wdt_last = ticks_ms()
 sliderPot = ADC(Pin(34))
 sliderPot.atten(ADC.ATTN_11DB) # Full range: 3.3v
 # ESP32 Pin assignment 
@@ -78,9 +78,14 @@ def WSJoin(webSocket, addr):
     
 # for sending in timer the results in time period cb(callback)
 def cb_timer(delay_sec, websocket):
-    while True: 
+    while True:
+        # global wdt_last
         sleep(delay_sec)
-        wachdog.feed() # need to call this wachdog fun minimum evry 5s or the bord will restart itself
+        # wtd_now = ticks_ms()
+        # print('wtd: ', wtd_now - wdt_last)
+        #wdt_last = wtd_now
+        wdt = WDT(timeout=10000) # enable the wachdog with a timeout of 20s (1s is the minimum)
+        wdt.feed() # need to call this wachdog fun minimum evry 20s or the bord will restart itself
         fun_timer(None, websocket)
         
 def fun_timer(delay, websocket):
@@ -89,7 +94,8 @@ def fun_timer(delay, websocket):
     global last_sliderPot
     global markForSave
     curt_slider = int(sliderPot.read() * 100 / 4095)
-    if not (last_sliderPot == curt_slider):
+    if not (last_sliderPot == curt_slider or last_sliderPot + 1 == curt_slider or
+            last_sliderPot - 1 == curt_slider):
         markForSave = True
         last_sliderPot = curt_slider
         sliderIn = curt_slider

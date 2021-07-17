@@ -2,6 +2,7 @@
 import random
 import subprocess
 from time import sleep
+import datetime
 class Pin :
     IN=1
     OUT=2
@@ -69,10 +70,14 @@ class Timer:
         pass
 
 class WDT:
+    last_time = datetime.datetime.now()
     def __init__(self, timeout=5000):
         pass
     def feed(self):
         pass
+        # now_time = datetime.datetime.now()
+        # print('WDT: ',now_time - self.last_time)
+        # self.last_time = now_time
 
 def time_pulse_us(pin, level):
     return random.randint(1, int(100*2/0.034))
