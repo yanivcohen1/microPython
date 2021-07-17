@@ -164,7 +164,7 @@ wdt.feed() # need to call these two fun minimum evry 5s or the bord will restart
 
 # read clock
 import time
-y, m, d, h, m, s, mi, n = time.gmtime()
+year, monte, day, houre, mimite, secend, mi, n = time.gmtime()
 ***********************************************
 
 Install Flaskr::
