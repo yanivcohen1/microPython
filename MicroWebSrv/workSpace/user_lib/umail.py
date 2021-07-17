@@ -1,6 +1,7 @@
 # uMail (MicroMail) for MicroPython
 # Copyright (c) 2018 Shawwwn <shawwwn1@gmai.com>
 # License: MIT
+# https://github.com/shawwwn/uMail
 
 # How to use it - tested is't working
 # import user_lib.umail as umail
