@@ -3,6 +3,7 @@ from machine import Pin, ADC, time_pulse_us, SoftI2C, Timer, I2C, WDT
 from events_data_page import _chatLock
 from   _thread     import start_new_thread
 from time import sleep
+import user_lib.settings as settings
 
 simulation = False
 try:
@@ -190,18 +191,18 @@ def OLED_display():
     oled.show()
 
 def saveLastSlider(sliderIn: int):
-    data = readFromDataFile()
+    data = settings.readFromDataFile()
     try: 
         jsonData = json.loads(data)
         jsonData[RecData.slider] = sliderIn
-        saveToDataFile(json.dumps(jsonData))
+        settings.saveToDataFile(json.dumps(jsonData))
     except:
         send = {}
         send[RecData.slider] = sliderIn
-        saveToDataFile(json.dumps(send))
+        settings.saveToDataFile(json.dumps(send))
 
 def readLastSlider():
-    data = readFromDataFile()
+    data = settings.readFromDataFile()
     sliderIn = None
     try: 
         jsonData = json.loads(data)
@@ -211,15 +212,6 @@ def readLastSlider():
     except:
         sliderIn = 25
     return sliderIn
-
-def saveToDataFile(data):
-    with open('data.txt', 'w') as f: # "a"-for Append, 'w'=for Overwrite
-        f.write(data)
-
-def readFromDataFile():
-    with open('data.txt', 'r') as f:
-        data = f.read()
-    return data
 
 # insted of:
 # f = open('data.txt', 'w')
