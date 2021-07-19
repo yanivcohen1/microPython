@@ -168,6 +168,7 @@ def OnWSClosed(webSocket) :
 #https://create.arduino.cc/projecthub/abdularbi17/ultrasonic-sensor-hc-sr04-with-arduino-tutorial-327ff6
 def calcDistance():
     distance = 0
+    arry = []
     for i in range(10):
         trigPin.off() # digitalWrite(trigPin, LOW);
         sleep_us(2) # delayMicroseconds(2);
@@ -179,8 +180,14 @@ def calcDistance():
         # calculate how mach time is on (time to go forword and back)
         duration = time_pulse_us(echoPin, 1) # pulseIn(echoPin, HIGH);
         # Calculating the distance(cm) = duration(µs) * 0.034cm/µs (speed of sound) / 2(distance is duble forword and backword)
-        distance += duration*0.034/2
-    return int(distance / 10) # distace in (cm)
+        arry.append(duration)
+        # distance += duration # *0.034/2
+    arry.sort()
+    median = arry[4]
+    send = int(median * 0.034 / 2)
+    # print('sending: ', send)
+    # print([item for item in arry if (item < avr + 10 and item > avr - 10)])
+    return send # distace in (cm)
 
 def OLED_display():
     oled.fill(0)
