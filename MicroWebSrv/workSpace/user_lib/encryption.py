@@ -1,17 +1,18 @@
-import binascii
+import ucryptolib
 
 def encrypt(str):
-    bin_res = bin(int(binascii.hexlify(bytearray(str, "utf8")), 16))
-    hex_res = hex(int(bin_res, 2))
-    return hex_res # '0b110100001100101011011000110110001101111'
+    enc = ucryptolib.aes(b'1234567890123456', 1)
+    data_bytes = str.encode()
+    encrypt_res = enc.encrypt(data_bytes + b'\x00' * ((16 - (len(data_bytes) % 16)) % 16))
+    return encrypt_res
 
-def decrypt(str):
-    to_bin = bin(int(str, 16))
-    n = int(to_bin, 2)
-    str_res = binascii.unhexlify('%x' % n).decode("utf-8")
+def decrypt(encrypt_str):
+    dec = ucryptolib.aes(b'1234567890123456', 1)
+    decrypt_res = dec.decrypt(encrypt_str) # b'input plaintext\x00'
+    str_res = decrypt_res.decode("utf-8")
     return str_res
 
-# inc_res = incrapt('hi yaniv')
+# inc_res = encrypt('str to encript')
 # print(inc_res)
 # dec_res = decrypt(inc_res)
 # print(dec_res)
