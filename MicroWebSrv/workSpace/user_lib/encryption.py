@@ -15,7 +15,7 @@ def decrypt(encrypt_bytes_res): # b'\xfe!F\x87?\xdb\x19\x18\xcdM\x83\x9b\xaa\x02
 
 def sha256(str):  # one direction encription on decrypt
     enc_bytes = str.encode("utf-8") # b"test"
-    uhashlib.sha256(enc_bytes).digest()
+    return uhashlib.sha256(enc_bytes).digest() # b'\xc7\xb1\x8a\xd0D\x7f\x94|*C\x04\x95\x1abJY'
 
 # inc_res = encrypt('str to encript')
 # print(inc_res)
