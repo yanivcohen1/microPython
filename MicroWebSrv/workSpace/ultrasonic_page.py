@@ -44,6 +44,7 @@ current_distance = 0
 last_sliderPot = -1
 sliderIn = None
 markForSave = False
+lastDistances = [0,0,0]
 print('ultrasonic page load')
 # ----------------------------------------------------------------------------
 
@@ -184,9 +185,15 @@ def calcDistance():
         # distance += duration # *0.034/2
     arry.sort()
     median = arry[4]
+    # print(arry)
     send = int(median * 0.034 / 2)
+    global lastDistances
+    lastDistances.pop()
+    lastDistances.insert(0, send)
+    _lastDistances = lastDistances.copy()
+    _lastDistances.sort()  
+    send = _lastDistances[int(len(_lastDistances)/2)] # median of last 3 readings
     # print('sending: ', send)
-    # print([item for item in arry if (item < avr + 10 and item > avr - 10)])
     return send # distace in (cm)
 
 def OLED_display():
