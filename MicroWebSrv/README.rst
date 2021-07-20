@@ -74,6 +74,7 @@ cd C:\Users\yaniv\OneDrive\microPython\MicroWebSrv\
 venv\Scripts\activate
 rshell --buffer-size=30 -p COM6
 rsync ./workSpace/  /pyboard
+rsync ./  /pyboard
 repl
 ## control + c to exit
 ## to run the code
