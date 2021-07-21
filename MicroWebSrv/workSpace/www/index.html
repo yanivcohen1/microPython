@@ -1,41 +1,91 @@
 <!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  font-family: "Lato", sans-serif;
+}
 
-<html lang=en>
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
 
-	<head>
-		<meta charset="UTF-8" />
-		<title>MicroWebSrv Page</title>
-		<link rel="stylesheet" href="style.css" />
-	</head>
+.sidenav a {
+  padding: 8px 8px 8px 15px;
+  text-decoration: none;
+  font-size: 15px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
 
-	<body>
-		<h1>MicroWebSrv Page</h1>
-		<h2>Hello !</h2>
-		<p>
-			This is a test page for MicroWebSrv.
-		</p>
-		<br />
-		<hr />
-		<br/>
-		<ul>
-            <li><a href="test-redir">Test a redirection To events data page</a></li>
-			<li><a href="contineuse-data-page.html">contineuse data read Page</a></li>
-			<li><a href="boiler_page.html">Boiler page</a></li>
-			<li><a href="ultrasonic_page.html">UltraSonic page</a></li>
-			<li><a href="send?name=yaniv&last=cohen">Test a GET query parameters</a></li>
-			<li><a href="edit/123/abc/bar">Test a GET path parameters</a></li>
-            <li><a href="test-post">Test a POST form</a></li>
-            <li><a href="wstest.html">Test the WebSockets page</a></li>
-            <li><a href="wschat.html">Test the multi-users chat page</a></li>
-            <li><a href="test.pyhtml">Test a pyhtml template page</a></li>
-        </ul>
-		<br />
-		<div style="text-align: center">
-			<img src="pdf.png" />
-			<p>
-				Autor <a href="test.pdf">Autor PDF</a> »
-			</p>
-		</div>
-	</body>
+.sidenav a:hover {
+  color: #f1f1f1;
+}
 
-</html>
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+</head>
+<body style="margin:0px;padding:0px;overflow:hidden">
+
+<div id="mySidenav" class="sidenav">
+	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+	<a href="main._page.html" target="iframe_a">main</a>
+	<a href="ultrasonic_page.html" target="iframe_a">Ultrasonic</a>
+	<a href="events_data_page.html" target="iframe_a">events</a>
+	<a href="contineuse-data-page.html" target="iframe_a">contineuse</a>
+	<a href="boiler_page.html" target="iframe_a">Boiler</a>
+	<a href="wstest.html" target="iframe_a">WebSockets</a>
+	<a href="wschat.html" target="iframe_a">chate</a>
+	<a href="test.pyhtml" target="iframe_a">pyhtml</a>
+</div>
+
+<div id="main">
+  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+  <iframe id="frame" src="main._page.html" name="iframe_a" frameborder="0" style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:50px;left:0px;right:0px;bottom:0px" height="calc(100% - 2000px)" width="100%"></iframe>
+</div>
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "100px";
+  document.getElementById("main").style.marginLeft = "100px";
+  document.getElementById("frame").style.marginLeft = "100px";
+  document.getElementById("frame").style.width = "calc(100% - 100px)";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+  document.getElementById("frame").style.marginLeft = "0";
+  document.getElementById("frame").style.width = "100%";
+}
+</script>
+   
+</body>
+</html> 
