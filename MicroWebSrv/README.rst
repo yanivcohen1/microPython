@@ -175,7 +175,7 @@ year, monte, day, houre, mimite, secend, mi, n = rtc.datetime()    # get the dat
 # machine reset
 machine.reset()
 
-# read input by event
+# read input by event on press (not on release)
 btn = Pin(0, Pin.IN)
 def blink_fun(pin):
     led.on() if btn()==1 else led.off()  
