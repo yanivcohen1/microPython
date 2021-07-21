@@ -174,6 +174,12 @@ year, monte, day, houre, mimite, secend, mi, n = rtc.datetime()    # get the dat
 
 # machine reset
 machine.reset()
+
+# read input by event
+btn = Pin(0, Pin.IN)
+def blink_fun(pin):
+    led.on() if btn()==1 else led.off()  
+btn.irq(blink_fun)
 ***********************************************
 
 Install Flaskr::
