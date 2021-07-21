@@ -180,6 +180,10 @@ btn = Pin(0, Pin.IN)
 def blink_fun(pin):
     led.on() if btn()==1 else led.off()  
 btn.irq(blink_fun)
+
+# file list
+import os
+print (os.listdir())
 ***********************************************
 
 Install Flaskr::
