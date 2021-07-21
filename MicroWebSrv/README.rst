@@ -171,6 +171,9 @@ rtc = RTC()
 import ntptime
 ntptime.settime() # set the rtc datetime from the remote server
 year, monte, day, houre, mimite, secend, mi, n = rtc.datetime()    # get the date and time in UTC
+
+# machine reset
+machine.reset()
 ***********************************************
 
 Install Flaskr::
