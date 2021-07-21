@@ -227,16 +227,6 @@ def readLastSlider():
         sliderIn = 25
     return sliderIn
 
-# insted of:
-# f = open('data.txt', 'w')
-# f.write('some test data')
-# f.close()
-# # read it
-# f1 = open('data.txt')
-# f1.read()
-# f1.close()
-# =============================================================================
-
 class SendData :
     distance = 'distance'
     led = 'led'
