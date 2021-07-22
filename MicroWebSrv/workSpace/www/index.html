@@ -17,7 +17,7 @@ body {
   background-color: #111;
   overflow-x: hidden;
   transition: 0.5s;
-  padding-top: 60px;
+  padding-top: 0px;
 }
 
 .sidenav a {
@@ -60,7 +60,7 @@ body {
 <body style="margin:0px;padding:0px;overflow:hidden">
 
 <div id="mySidenav" class="sidenav">
-	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+	<!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
 	<a href="main._page.html" target="iframe_a" class="active" onclick="selecte(this)">main</a>
 	<a href="ultrasonic_page.html" target="iframe_a" onclick="selecte(this)">Ultrasonic</a>
 	<a href="events_data_page.html" target="iframe_a" onclick="selecte(this)">events</a>
@@ -77,11 +77,18 @@ body {
 </div>
 
 <script>
+let isOpen = false;
 function openNav() {
-  document.getElementById("mySidenav").style.width = "100px";
-  document.getElementById("main").style.marginLeft = "100px";
-  document.getElementById("frame").style.marginLeft = "100px";
-  document.getElementById("frame").style.width = "calc(100% - 100px)";
+	if(!isOpen){
+		isOpen = true
+		document.getElementById("mySidenav").style.width = "100px";
+		document.getElementById("main").style.marginLeft = "100px";
+		document.getElementById("frame").style.marginLeft = "100px";
+		document.getElementById("frame").style.width = "calc(100% - 100px)";
+	} else {
+		isOpen = false
+		closeNav();
+	}
 }
 
 function closeNav() {
