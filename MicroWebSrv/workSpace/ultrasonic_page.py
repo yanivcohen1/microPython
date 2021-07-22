@@ -209,11 +209,11 @@ def saveLastSlider(sliderIn: int):
     try: 
         jsonData = json.loads(data)
         jsonData[RecData.slider] = sliderIn
-        settings.saveToDataFile(json.dumps(jsonData))
+        if not simulation: settings.saveToDataFile(json.dumps(jsonData))
     except:
         send = {}
         send[RecData.slider] = sliderIn
-        settings.saveToDataFile(json.dumps(send))
+        if not simulation: settings.saveToDataFile(json.dumps(send))
 
 def readLastSlider():
     data = settings.readFromDataFile()
