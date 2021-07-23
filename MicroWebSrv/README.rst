@@ -65,7 +65,7 @@ Or on Windows cmd::
     ## control + c to stop the code
     ## control + x to exit repl
 
-in PS for mobile simulation
+in PS for mobile simulation - need to be without envirment to use external py.exe 
     cd C:\Users\yaniv\OneDrive\microPython\MicroWebSrv\workSpace
     py .\main_start_ws.py
 

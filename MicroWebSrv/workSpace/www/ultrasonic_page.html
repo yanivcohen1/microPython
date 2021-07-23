@@ -25,6 +25,9 @@
             border-radius: 50%; /*for round shape*/
             text-decoration: none; /* for remove uderline */
         }
+        .smallLinesGap{
+            line-height: 1px;
+        }
         /*  p {
             display: block;
             font: 1rem 'Fira Sans', sans-serif;
@@ -38,17 +41,19 @@
         <br>
         <fieldset>
             <legend >Status:</legend>
-            <p style="line-height: 2px;" id=WSconnectInfo></p>
+            <div class="smallLinesGap">
+                <p id=WSconnectInfo></p>
+            </div>
         </fieldset>
         <fieldset>
             <legend>Alarms:</legend>
-            <div style="line-height: 2px;">
+            <div class="smallLinesGap">
                 <span>Proximity Led: </span><a href="#" id="led">OFF</a>
             </div>
         </fieldset>
         <fieldset>
             <legend>Set distance:</legend>
-            <div style="line-height: 3px;">
+            <div class="smallLinesGap">
                 <input id="sliderIn" type="range" oninput="sliderChange()" min="1" max="100" value="50" style="width: 200px">
                 <p id=sliderInPrint></p>
                 <button id="send" type="text" onclick="sendClick()">Send set distance</button>
@@ -56,9 +61,8 @@
         </fieldset>
         <fieldset>
             <legend>Read distance:</legend>
-            <div style="line-height: 3px;">
+            <div class="smallLinesGap">
                 <progress id="sliderOut" disabled max="100" value="50" style="width: 200px"></progress>
-                <br>
                 <p id=sliderOutPrint></p>
             </div>
         </fieldset>
