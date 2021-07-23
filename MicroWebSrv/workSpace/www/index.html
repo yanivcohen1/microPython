@@ -103,6 +103,14 @@ function selecte(elmnt) {
 	current.className = current.className.replace("active", "");
 	elmnt.className += " active";
 }
+
+// msg from iframe - in iframe, window.top.postMessage('hello', '*')
+window.onmessage = function(event) { 
+    if (event.data == 'hello' && event.origin == '*') {
+        alert('It works!');
+    }
+}
+
 </script>
    
 </body>
