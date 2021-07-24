@@ -59,6 +59,7 @@ while True:
   except OSError as e:
     restart_and_reconnect()
 
+# https://www.home-assistant.io/docs/mqtt/discovery/
 # https://www.rototron.info/projects/micropython-vegetable-garden-automation-tutorial/
 # in homeassistant yaml:
 # which is located at /var/packages/homeassistant/target/var/config/configuration.yaml
