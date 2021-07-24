@@ -12,7 +12,7 @@ def sub_cb(topic, msg):
 
 def connect_and_subscribe():
   global client_id, mqtt_server_ip, topic_sub
-  topic_sub = 'homeassistant/sub/some_topic_name'
+  topic_sub = b'homeassistant/sub/some_topic_name'
   client_id="vegepod_client" # mqtt client name
   mqtt_server_ip="10.0.7.99", # mqtt server ip
 
@@ -39,7 +39,7 @@ try:
 except OSError as e:
   restart_and_reconnect()
 
-topic_pub = 'homeassistant/pub/some_topic_name'
+topic_pub = b'homeassistant/pub/some_topic_name'
 counter = 0
 message_interval_sec = 10
 send = {}
@@ -49,7 +49,7 @@ while True:
     client.check_msg()
     # sending mqtt msg evry 10 seconds
     if (time() - last_time_message) > message_interval_sec: 
-      msg = b'Hello #%d' % counter
+      msg = 'Hello #%d' % counter
       send['some_msg'] = msg
       # publish mqtt topic as json
       client.publish(topic_pub, dumps(send))
