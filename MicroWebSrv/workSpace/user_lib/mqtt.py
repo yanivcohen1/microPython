@@ -1,12 +1,13 @@
+# can be tested on thonny in resbery pi and micropython(local)
 from umqtt.simple import MQTTClient
 from machine import reset
 from time import sleep, time
 from json import dumps
 
-# Mqtt topic, msg recive 
+# recive msg from Mqtt topic_sub 
 def sub_cb(topic, msg):
   print((topic, msg))
-  if topic == b'some_topic_name' and msg == b'received':
+  if topic == b'homeassistant/sub/some_topic_name' and msg == b'received':
     print('ESP received hello message')
 
 def connect_and_subscribe():
