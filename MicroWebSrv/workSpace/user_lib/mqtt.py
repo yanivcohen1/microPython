@@ -76,6 +76,7 @@ while True:
 #     unique_id: "vegepod_level"
 #     value_template: "{{ value_json.level}}"
 
+# for binary_sensor only sending 'ON' or 'OFF'
 # binary_sensor:
 #   - platform: mqtt
 #     state_topic: "homeassistant/binary_sensor/vegepod/state"
