@@ -106,9 +106,11 @@ function selecte(elmnt) {
 
 // msg from iframe - in iframe, window.top.postMessage('hello', '*')
 window.onmessage = function(event) { 
-    if (event.data == 'hello' && event.origin == '*') {
-        alert('It works!');
-    }
+	if(event.origin == '*'){ // the msg adress it can be evrythine
+		if (event.data == 'hello') {
+			alert('It works!');
+		}
+	}
 }
 
 </script>
