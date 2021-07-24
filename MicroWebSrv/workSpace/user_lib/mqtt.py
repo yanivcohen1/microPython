@@ -60,6 +60,7 @@ while True:
 
 # https://www.rototron.info/projects/micropython-vegetable-garden-automation-tutorial/
 # in homeassistant yaml:
+# which is located at /var/packages/homeassistant/target/var/config/configuration.yaml
 
 # mqtt:
 #   discovery: false
