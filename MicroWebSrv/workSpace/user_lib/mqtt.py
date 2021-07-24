@@ -52,7 +52,7 @@ while True:
       msg = b'Hello #%d' % counter
       send['some_msg'] = msg
       # publish mqtt topic as json
-      client.publish(topic_pub, send)
+      client.publish(topic_pub, dumps(send))
       last_message = time()
       counter += 1
   except OSError as e:
