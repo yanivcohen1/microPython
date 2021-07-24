@@ -46,7 +46,7 @@ send = {}
 # main Mqtt loop
 while True:
   try:
-    client.check_msg()
+    client.check_msg() # check_msg minimum evry 1 sec
     # sending mqtt msg evry 10 seconds
     if (time() - last_time_message) > message_interval_sec: 
       msg = 'Hello #%d' % counter
