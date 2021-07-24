@@ -3,6 +3,7 @@ from machine import reset
 from time import sleep, time
 from json import dumps
 
+# Mqtt topic, msg recive 
 def sub_cb(topic, msg):
   print((topic, msg))
   if topic == b'some_topic_name' and msg == b'received':
