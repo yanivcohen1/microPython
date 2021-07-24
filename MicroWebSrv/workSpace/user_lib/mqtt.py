@@ -48,12 +48,12 @@ while True:
   try:
     client.check_msg()
     # sending mqtt msg evry 10 seconds
-    if (time() - last_message) > message_interval_sec: 
+    if (time() - last_time_message) > message_interval_sec: 
       msg = b'Hello #%d' % counter
       send['some_msg'] = msg
       # publish mqtt topic as json
       client.publish(topic_pub, dumps(send))
-      last_message = time()
+      last_time_message = time()
       counter += 1
   except OSError as e:
     restart_and_reconnect()
