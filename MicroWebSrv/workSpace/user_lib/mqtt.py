@@ -45,12 +45,11 @@ send = {}
 while True:
   try:
     client.check_msg()
-    # publish mqtt topic as json
-    print("Published MQTT sensor data.")
     # sending mqtt msg evry 10 seconds
     if (time() - last_message) > message_interval_sec: 
       msg = b'Hello #%d' % counter
       send['some_msg'] = msg
+      # publish mqtt topic as json
       client.publish(topic_pub, send)
       last_message = time()
       counter += 1
