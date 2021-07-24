@@ -55,6 +55,7 @@ while True:
       client.publish(topic_pub, dumps(send))
       last_time_message = time()
       counter += 1
+    sleep(1)
   except OSError as e:
     restart_and_reconnect()
 
