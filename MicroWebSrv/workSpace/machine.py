@@ -80,8 +80,29 @@ class WDT:
         # self.last_time = now_time
 
 class PWM:
-    def _init_(self, pinNumber, freq=0):
-        pass
+    _duty = None
+    _freq = None
+    def __init__(self, pinNumber, freq=0 , duty=0):
+        global _freq, _duty
+        _freq = freq
+        _duty = duty
+        return None
+    def duty(self, *duty):
+        global _duty
+        if len(duty) == 1 and isinstance(duty[0], str):
+            _duty = duty[0]
+            return _duty
+        elif len(duty) == 0:
+            return _duty
+        else: raise ValueError('duty function get 0 or 1 parameters')
+    def freq(self, *freq):
+        global _freq
+        if len(freq) == 1 and isinstance(freq[0], str):
+            _freq = freq[0]
+            return _freq
+        elif len(freq) == 0:
+            return _duty
+        else: raise ValueError('freq function get 0 or 1 parameters')
 
 def time_pulse_us(pin, level):
     return random.randint(1, int(100*2/0.034))
