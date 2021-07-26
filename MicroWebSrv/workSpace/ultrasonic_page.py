@@ -1,5 +1,4 @@
 import json
-from machine import Pin, ADC, PWM
 from machine import Pin, ADC, time_pulse_us, SoftI2C, Timer, I2C, WDT, PWM
 from events_data_page import _chatLock
 from   _thread     import start_new_thread
