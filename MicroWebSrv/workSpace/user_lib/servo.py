@@ -20,6 +20,13 @@ POT_MAX_READ = 4095
 sliderPot = ADC(Pin(34))
 sliderPot.atten(ADC.ATTN_11DB) # Full range: 3.3v
 lastDuty = SERVO_MIN_DUTY # init angle=0'
+def dutyForAngle(angle):
+    duty = int(SERVO_MIN_DUTY + SERVO_RANG_DUTY * angle / SERVO_MAX_ANGLE)
+    return duty
+def angleForDuty(duty):
+    if 30 <= duty <= 140:
+        angle = int(SERVO_MAX_DUTY * (duty - SERVO_MIN_DUTY) / SERVO_RANG_DUTY)
+    return angle
 try:
     while True:
         current_sliderPot = sliderPot.read() # min is 0, max read 4095
