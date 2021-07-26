@@ -1,6 +1,12 @@
 # the micro servo 9g, need external power supply for the motor and the grnd connected to esp32 grnd
 # brown = grnd, red = 5v, yellow = signal
-# micro servo PWM freq=50, dutycycle[30=0', 140=180']
+# micro servo PWM freq=50(20ms cycle), dutycycle[30=0°, 140=180°]
+# spec: https://www.jameco.com/z/RS001B-Dagu-HiTech-Electronic-9g-2-kg-cm-Micro-Servo-Motor_2214601.html
+# No-Load Speed (4.8V): 0.08 sec/60°
+# Torque: 1.5 kg.cm @ 4.8V; 2.0 kg/cm @ 6V
+# angle range: 0° - 180°
+# Current: < 500mA
+# Operating Temperature Range: 0°-60°
 from machine import Pin, ADC, PWM
 from time import sleep
 
