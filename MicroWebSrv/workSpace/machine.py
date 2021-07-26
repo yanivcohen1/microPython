@@ -101,7 +101,7 @@ class PWM:
             _freq = freq[0]
             return _freq
         elif len(freq) == 0:
-            return _duty
+            return _freq
         else: raise ValueError('freq function get 0 or 1 int parameters')
 
 def time_pulse_us(pin, level):
