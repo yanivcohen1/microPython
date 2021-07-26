@@ -21,11 +21,14 @@ sliderPot = ADC(Pin(34))
 sliderPot.atten(ADC.ATTN_11DB) # Full range: 3.3v
 lastDuty = SERVO_MIN_DUTY # init angle=0'
 def dutyForAngle(angle):
-    duty = int(SERVO_MIN_DUTY + SERVO_RANG_DUTY * angle / SERVO_MAX_ANGLE)
+    duty = None
+    if 0 <= angle <= 180: duty = int(SERVO_MIN_DUTY + SERVO_RANG_DUTY * angle / SERVO_MAX_ANGLE)
+    else: print('error angle, need to be 0 <= angle <= 180')
     return duty
 def angleForDuty(duty):
-    if 30 <= duty <= 140:
-        angle = int(SERVO_MAX_DUTY * (duty - SERVO_MIN_DUTY) / SERVO_RANG_DUTY)
+    angle = None
+    if 30 <= duty <= 140: angle = int(SERVO_MAX_DUTY * (duty - SERVO_MIN_DUTY) / SERVO_RANG_DUTY)
+    else: print('error duty, need to be 30 <= duty <= 140')
     return angle
 try:
     while True:
