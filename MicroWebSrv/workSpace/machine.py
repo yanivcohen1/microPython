@@ -79,6 +79,10 @@ class WDT:
         # print('WDT: ',now_time - self.last_time)
         # self.last_time = now_time
 
+class PWM:
+    def _init_(self, pinNumber, freq=0):
+        pass
+
 def time_pulse_us(pin, level):
     return random.randint(1, int(100*2/0.034))
 
