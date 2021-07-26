@@ -88,7 +88,6 @@ def WSJoin(webSocket, addr):
 
 def dutyForAngle(angle):
     duty = None
-    if angle > 180: angle = 180
     if 0 <= angle <= 180: duty = int(SERVO_MIN_DUTY + SERVO_RANG_DUTY * angle / SERVO_MAX_ANGLE)
     else: print('error angle, need to be 0 <= angle <= 180')
     return duty
