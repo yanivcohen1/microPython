@@ -1,3 +1,5 @@
+# the micro servo 9g, need external power supply for the motor and the grnd connected to esp32 grnd
+# brown = grnd, red = 5v, yellow = signal
 # micro servo PWM freq=50, dutycycle[30=0', 140=180']
 from machine import Pin, ADC, PWM
 from time import sleep
@@ -27,6 +29,3 @@ try:
 except KeyboardInterrupt : # control+C press
     pass
 servo.deinit()
-
-    
-
