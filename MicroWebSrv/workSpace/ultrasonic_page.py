@@ -1,5 +1,6 @@
 import json
-from machine import Pin, ADC, time_pulse_us, SoftI2C, Timer, I2C, WDT
+from machine import Pin, ADC, PWM
+from machine import Pin, ADC, time_pulse_us, SoftI2C, Timer, I2C, WDT, PWM
 from events_data_page import _chatLock
 from   _thread     import start_new_thread
 from time import sleep
@@ -15,6 +16,7 @@ except:
     from machine import ssd1306
     simulation = True 
 
+servo = PWM(Pin(4), freq=50) # 50HZ = 20ms cycle
 # wdt_last = ticks_ms()
 sliderPot = ADC(Pin(34))
 sliderPot.atten(ADC.ATTN_11DB) # Full range: 3.3v
@@ -45,6 +47,13 @@ last_sliderPot = -1
 sliderIn = None
 markForSave = False
 lastDistances = [0,0,0]
+
+SERVO_MAX_ANGLE = 180
+SERVO_MIN_ANGLE = 0
+SERVO_MAX_DUTY = 140 # angle=180'
+SERVO_MIN_DUTY = 30 # angle=0'
+SERVO_RANG_DUTY = SERVO_MAX_DUTY - SERVO_MIN_DUTY
+POT_MAX_READ = 4095
 print('ultrasonic page load')
 # ----------------------------------------------------------------------------
 
@@ -77,6 +86,13 @@ def WSJoin(webSocket, addr):
             cb = lambda timer: fun_timer(timer, webSocket)
             timer0.init(period=1000, callback=cb)
         firstLoad = False
+
+def dutyForAngle(angle):
+    duty = None
+    if angle > 180: angle = 180
+    if 0 <= angle <= 180: duty = int(SERVO_MIN_DUTY + SERVO_RANG_DUTY * angle / SERVO_MAX_ANGLE)
+    else: print('error angle, need to be 0 <= angle <= 180')
+    return duty
     
 # for sending in timer the results in time period cb(callback)
 def cb_timer(delay_sec, websocket):
@@ -144,6 +160,10 @@ def fun_timer(delay, websocket):
                 try: ws.SendText(json.dumps(send))
                 except: pass
                 print('ws sending led: ', True)
+    servo_distance = int(current_distance)
+    servo_dist_min_move = 60
+    if servo_distance > servo_dist_min_move: servo_distance = servo_dist_min_move
+    servo.duty(dutyForAngle(int(servo_distance * 180/servo_dist_min_move)))
     OLED_display()
     # print('ws sending distance: ', current_distance)
 
