@@ -89,20 +89,20 @@ class PWM:
         return None
     def duty(self, *duty):
         global _duty
-        if len(duty) == 1 and isinstance(duty[0], str):
+        if len(duty) == 1 and isinstance(duty[0], int):
             _duty = duty[0]
             return _duty
         elif len(duty) == 0:
             return _duty
-        else: raise ValueError('duty function get 0 or 1 parameters')
+        else: raise ValueError('duty function get 0 or 1 int parameters')
     def freq(self, *freq):
         global _freq
-        if len(freq) == 1 and isinstance(freq[0], str):
+        if len(freq) == 1 and isinstance(freq[0], int):
             _freq = freq[0]
             return _freq
         elif len(freq) == 0:
             return _duty
-        else: raise ValueError('freq function get 0 or 1 parameters')
+        else: raise ValueError('freq function get 0 or 1 int parameters')
 
 def time_pulse_us(pin, level):
     return random.randint(1, int(100*2/0.034))
