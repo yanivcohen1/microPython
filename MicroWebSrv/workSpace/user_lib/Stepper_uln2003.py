@@ -5,11 +5,10 @@ import time
 # driver web: https://github.com/zhcong/ULN2003-for-ESP32
 class Stepper:
     # http://www.jangeox.be/2013/10/stepper-motor-28byj-48_25.html
-    # the ratio between input and ouput from the geer is 1 to 64 and for one input spin in half step is 8
-    # so number of steps per one circle is = 1*8*64= 512 in 8 HALF_STEPs or 4 FULL_STEPs
-    # also from the spec 5.625/64 angle for one step, you need 8 for one internal cycle in HALF_STEP
-    # so for 360' - 360*64/(5.625*8)=512 in 8 HALF_STEPs or 4 FULL_STEPs
-    FULL_ROTATION = int(4075.7728395061727 / 8) # 512 number of steps for full rotation in 8 HALF_STEPs or 4 FULL_STEPs
+    # from spec- Speed Variation Ratio ：1/64, the ratio between input wheel to output wheel is 64
+    # from the spec (5.625'/64) angle for one HALF_STEP, and for one internal cycle you need 8 HALF_STEPs
+    # so for 360' - (360/(5.625'/64))/8=512(befor any step) and multipy it by one cycle(8 HALF_STEPs or 4 FULL_STEPs)
+    FULL_ROTATION = int(4075.7728395061727 / 8) # 512
 
     HALF_STEP = [
         [0, 0, 0, 1],
