@@ -67,7 +67,8 @@ def create(pin1, pin2, pin3, pin4, delay=2, mode='HALF_STEP'):
 # use it
 # import Stepper
 # from machine import Pin
-# s1 = Stepper.create(Pin(16,Pin.OUT),Pin(17,Pin.OUT),Pin(5,Pin.OUT),Pin(18,Pin.OUT), delay=2) # defoult is HALF_STEP 
+# Recommend 10+ for FULL_STEP, 1 is OK for HALF_STEP, the defoult is HALF_STEP 
+# s1 = Stepper.create(Pin(16,Pin.OUT),Pin(17,Pin.OUT),Pin(5,Pin.OUT),Pin(18,Pin.OUT), delay=2)
 # s1.step(100) # 100 steps of 8 HALF_STEPs eche step
 # s1.step(100,-1) # backwards 100 steps of 8 HALF_STEPs eche step
 # s1.angle(180) # forwards 180'
