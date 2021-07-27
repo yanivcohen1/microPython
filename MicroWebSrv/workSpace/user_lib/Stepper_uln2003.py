@@ -4,7 +4,12 @@ import time
 # spec: http://www.geeetech.com/wiki/index.php/Stepper_Motor_5V_4-Phase_5-Wire_%26_ULN2003_Driver_Board_for_Arduino#Interfacing_circuits
 # driver web: https://github.com/zhcong/ULN2003-for-ESP32
 class Stepper:
-    FULL_ROTATION = int(4075.7728395061727 / 8) # http://www.jangeox.be/2013/10/stepper-motor-28byj-48_25.html
+    # http://www.jangeox.be/2013/10/stepper-motor-28byj-48_25.html
+    # the ratio between input and ouput from the geer is 1 to 64 and for one input spin in half step is 8
+    # so number of steps per one circle is = 1*8*64= 512 in HALF_STEPs
+    # also from the spec 5.625/64 angle for one step, you need 8 for one internal cycle in HALF_STEP
+    # so for 360' - 360*64/(5.625*8)=512 in HALF_STEPs
+    FULL_ROTATION = int(4075.7728395061727 / 8) # number of steps for full rotation in half_step
 
     HALF_STEP = [
         [0, 0, 0, 1],
