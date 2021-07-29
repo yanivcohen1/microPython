@@ -33,7 +33,7 @@ def angleForDuty(duty):
     else: print('error duty, need to be 30 <= duty <= 140')
     return angle
 
-def tester():
+def tester( _callback = None):
     try:
         while True:
             global lastDuty
@@ -46,6 +46,8 @@ def tester():
                 lastDuty = calcPotDuty
                 servo.duty(calcPotDuty)
                 print('angle is:', angleForDuty(calcPotDuty))# current_sliderPot * SERVO_MAX_ANGLE / POT_MAX_READ)
+                if _callback:
+                    _callback('angle is:' + str(angleForDuty(calcPotDuty)))
                 sleep(15/1000) # 15ms time take the motor to get to position
             else: sleep(1/1000) # 1ms loop delay
     except KeyboardInterrupt : # control+C press
