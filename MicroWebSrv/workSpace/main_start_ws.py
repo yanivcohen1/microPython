@@ -5,7 +5,6 @@ from microWebSrv.microWebSrv import MicroWebSrv
 from events_data_page import WSJoinChat as MyWSJoinChat
 from events_data_page import _chatLock, routeHandlers
 import tester.tester_page
-from tester.chat_page import WSJoinChat
 # for ultrasonic page auto load
 # from ultrasonic_page import WSJoin as ultrasonicWSJoin 	
 # ultrasonicWSJoin(None, None) # for page auto load	
@@ -20,6 +19,7 @@ def _acceptWebSocketCallback(webSocket, httpClient):
 	print('   - Path   : %s'    % httpClient.GetRequestTotalPath())
 	# print('   - Origin : %s'    % webSocket.Request.Origin)
 	if httpClient.GetRequestTotalPath().lower() == '/wschat' :
+	    from tester.chat_page import WSJoinChat		
 	    WSJoinChat(webSocket, httpClient.GetAddr())
 	elif httpClient.GetRequestTotalPath().lower() == '/wstest' :
 		webSocket.RecvTextCallback   = _recvTextCallback
