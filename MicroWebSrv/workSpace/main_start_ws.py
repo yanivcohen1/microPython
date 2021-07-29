@@ -1,7 +1,7 @@
 
 from microWebSrv.microWebSrv import MicroWebSrv
 # from time import sleep
-from   _thread   import allocate_lock # ,start_new_thread
+# from   _thread   import allocate_lock ,start_new_thread
 from events_data_page import WSJoinChat as MyWSJoinChat
 from events_data_page import _chatLock, routeHandlers
 import tester.tester_page
