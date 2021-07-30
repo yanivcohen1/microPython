@@ -84,6 +84,7 @@ repl
 *****************************************************
 
 for REPL tester ( in event page )::
+
 # read from other programs variables
 global res
 from ultrasonic_page import sliderIn
@@ -104,14 +105,23 @@ print("File System Size {:,} - Free Space {:,}".format(fs_size, fs_free))
 # read and set HW
 # https://docs.micropython.org/en/latest/esp32/quickref.html
 global res
-from machine import Pin, ADC
+from machine import Pin, ADC, Signal
 from time import sleep
 
 # led on and off
-led = Pin(0, Pin.OUT, Pin.PULL_UP, value=1) # set pin high on creation
+led_pin = Pin(0, Pin.OUT, Pin.PULL_UP, value=1) # set pin high on creation
+# for inverting pin
+led = Signal(led_pin, invert=True)
 led.on()
 sleep(2)
 led.off()
+
+# 5v relay on esp32 pin 13
+relay_pin = Pin(13, Pin.OUT)
+relay = Signal(relay_pin, invert=True)
+relay.on()
+sleep(2)
+relay.off()
 
 # ADC read potentiometer
 adc = ADC(Pin(34)) 
