@@ -110,7 +110,7 @@ from time import sleep
 
 # led on and off
 led_pin = Pin(0, Pin.OUT, Pin.PULL_UP, value=1) # set pin high on creation
-# for inverting pin
+# for inverting pin (true/false)
 led = Signal(led_pin, invert=True)
 led.on()
 sleep(2)
