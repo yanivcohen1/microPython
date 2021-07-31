@@ -104,6 +104,10 @@ class PWM:
             return _freq
         else: raise ValueError('freq function get 0 or 1 int parameters')
 
+class Signal:
+    def __init__(self, pinNumber, invert=False):
+        pass
+
 def time_pulse_us(pin, level):
     return random.randint(1, int(100*2/0.034))
 
