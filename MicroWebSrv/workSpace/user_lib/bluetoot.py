@@ -98,7 +98,8 @@ class BLE:
 if __name__ == '__main__':
     # blue_led = Pin(2, Pin.OUT)
     rcv_trn_led = Pin(0, Pin.OUT, Pin.PULL_UP) # 1-internal led
-    ble = BLE("ESP32", rcv_trn_led) 
+    ble = BLE("ESP32", rcv_trn_led)
+# ble.send ("some message to send") 
 
 # how to use it:
 # Hi, I am developing a code and it is like that at the moment. To use it, just have a serial communication application via BLE on the smartphone (I use the Serial Bluetooth Terminal).
