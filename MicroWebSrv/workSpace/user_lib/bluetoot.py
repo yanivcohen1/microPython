@@ -96,3 +96,24 @@ class BLE:
 # test
 # blue_led = Pin(2, Pin.OUT)
 ble = BLE("ESP32")
+
+# how to use it:
+# Hi, I am developing a code and it is like that at the moment. To use it, just have a serial communication application via BLE on the smartphone (I use the Serial Bluetooth Terminal).
+
+# Serial Bluetooth Terminal: https://play.google.com/store/apps/deta ... l&hl=pt_BR
+
+# Settings (App):
+# 1. Terminal: Font size(14), Font style(Normal), Charset(UTF-8), Display mode(Text), Auto scroll(on),
+# Show connection messages(on), Show timestamps(on), Timestamp(I left default), Buffer size(10 kB).
+# 2. Receive: Newline(LF).
+# 3. Send: Newline(LF), Edit mode(Text), Line delay(0 ms), Character delay(0 ms), Local echo(on), Clear input(on).
+# 4. Misc(I left default).
+
+# MCU: ESP-WROOM-32 (ESP32D0WDQ6)
+# Firmware: MicroPython v1.12 (for ESP32 with IDF4, 2019.12.20) https://micropython.org/resources/firmw ... -v1.12.bin
+# IDE: Thonny Python IDE
+# SO: Windows 10 Home Single Language 2004
+
+# Use ble.send ("<message>") to send messages to the smartphone.
+# Messages sent to ESP32 are displayed on the terminal.
+# Blinking blue LED indicates that BLE communication is available
