@@ -18,7 +18,7 @@ def http_get(url):
     return retData
 
 def liveTest():
-    print('live Test')
+    # print('Testing...')
     # dataList = http_get('http://micropython.org/ks/test.html')
     dataList = http_get('http://api.mathjs.org/v4/?expr=2*(7-3)')
     for data in dataList:
