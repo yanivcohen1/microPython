@@ -47,7 +47,7 @@ class BLE:
             self.advertiser()
             self.disconnected()
 
-        elif event == 4:
+        elif event == 3:
             """New message received"""
 
             buffer = self.ble.gatts_read(self.rx)
@@ -97,6 +97,8 @@ class BLE:
 # test it
 if __name__ == '__main__':
     # blue_led = Pin(2, Pin.OUT)
+    from machine import Pin
+    from user_lib.bluetoot import BLE
     rcv_trn_led = Pin(0, Pin.OUT, Pin.PULL_UP) # 1-internal led
     ble = BLE("ESP32", rcv_trn_led)
 # ble.send("esp32 ble device message to send") 
