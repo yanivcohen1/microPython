@@ -94,7 +94,7 @@ class BLE:
         )
 
 
-# test it
+# how to test it (work for me)
 if __name__ == '__main__':
     # blue_led = Pin(2, Pin.OUT)
     from machine import Pin
