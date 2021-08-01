@@ -13,7 +13,7 @@ class BLE:
 
         self.led = rcv_trn_led 
         self.timer1 = Timer(0)
-        self.timer2 = Timer(1)
+        # self.timer2 = Timer(1)
 
         self.disconnected()
         self.ble.irq(self.ble_irq)
@@ -23,16 +23,16 @@ class BLE:
     def connected(self):
 
         self.timer1.deinit()
-        self.timer2.deinit()
+        # self.timer2.deinit()
 
     def disconnected(self):
+        def blink_led():
+            self.led(1)
+            sleep_ms(500)
+            self.led(0)
 
         self.timer1.init(
-            period=1000, mode=Timer.PERIODIC, callback=lambda t: self.led(1)
-        )
-        sleep_ms(200)
-        self.timer2.init(
-            period=1000, mode=Timer.PERIODIC, callback=lambda t: self.led(0)
+            period=1000, mode=Timer.PERIODIC, callback=lambda t: blink_led()
         )
 
     def ble_irq(self, event, data):
