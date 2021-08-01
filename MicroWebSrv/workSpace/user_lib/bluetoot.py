@@ -1,17 +1,17 @@
 # Write your code here :-)
-from machine import Timer  # ,Pin
+from machine import Timer, Pin
 from time import sleep_ms
 import ubluetooth
 
 
 class BLE:
-    def __init__(self, name):
+    def __init__(self, name, rcv_trn_led):
 
         self.name = name
         self.ble = ubluetooth.BLE()
         self.ble.active(True)
 
-        # self.led = Pin(2, Pin.OUT)
+        self.led = rcv_trn_led 
         self.timer1 = Timer(0)
         self.timer2 = Timer(1)
 
@@ -54,6 +54,7 @@ class BLE:
             message = buffer.decode("UTF-8")[:-1]
             print(message)
 
+            # no need print msg to REPL
             # if received == 'blue_led':
             #    blue_led.value(not blue_led.value())
 
@@ -96,7 +97,8 @@ class BLE:
 # test it
 if __name__ == '__main__':
     # blue_led = Pin(2, Pin.OUT)
-    ble = BLE("ESP32")
+    rcv_trn_led = Pin(0, Pin.OUT, Pin.PULL_UP) # 1-internal led
+    ble = BLE("ESP32", rcv_trn_led) 
 
 # how to use it:
 # Hi, I am developing a code and it is like that at the moment. To use it, just have a serial communication application via BLE on the smartphone (I use the Serial Bluetooth Terminal).
