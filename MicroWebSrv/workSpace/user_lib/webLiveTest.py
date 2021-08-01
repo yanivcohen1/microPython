@@ -20,7 +20,10 @@ def http_get(url):
 def liveTest():
     # print('Testing...')
     # dataList = http_get('http://micropython.org/ks/test.html')
-    dataList = http_get('http://api.mathjs.org/v4/?expr=2*(7-3)')
+    try:
+        dataList = http_get('http://api.mathjs.org/v4/?expr=2*(7-3)')
+    except:
+        dataList = []
     for data in dataList:
         # print(data)
         if str(data).endswith('Via: 1.1 vegur\r\n\r\n8'): return True
