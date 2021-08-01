@@ -95,15 +95,13 @@ class BLE:
 
 
 # how to test it (work for me)
-if __name__ == '__main__':
-    # blue_led = Pin(2, Pin.OUT)
-    from machine import Pin
-    from user_lib.bluetoot import BLE
-    rcv_trn_led = Pin(0, Pin.OUT, Pin.PULL_UP) # 1-internal led
-    ble = BLE("ESP32", rcv_trn_led)
+# from machine import Pin
+# from user_lib.bluetoot import BLE
+# rcv_trn_led = Pin(0, Pin.OUT, Pin.PULL_UP) # 1-internal led
+# ble = BLE("ESP32", rcv_trn_led)
 # ble.send("esp32 ble device message to send") 
 
-# how to use it:
+# how to use it from phone:
 # Hi, I am developing a code and it is like that at the moment. To use it, just have a serial communication application via BLE on the smartphone (I use the Serial Bluetooth Terminal).
 
 # Serial Bluetooth Terminal: https://play.google.com/store/apps/deta ... l&hl=pt_BR
