@@ -93,9 +93,10 @@ class BLE:
         )
 
 
-# test
-# blue_led = Pin(2, Pin.OUT)
-ble = BLE("ESP32")
+# test it
+if __name__ == '__main__':
+    # blue_led = Pin(2, Pin.OUT)
+    ble = BLE("ESP32")
 
 # how to use it:
 # Hi, I am developing a code and it is like that at the moment. To use it, just have a serial communication application via BLE on the smartphone (I use the Serial Bluetooth Terminal).
