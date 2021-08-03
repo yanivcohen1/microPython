@@ -21,9 +21,10 @@ def wait_for_fun():
 def wait_for_event():
 
     async def waiter(event):
-        print('waiting for it ...')
-        await event.wait()
-        print('... got it!')
+        for i in range(2):
+            print(i, 'waiting for it ...')
+            await event.wait()
+            print(i, '... got it!')
 
     async def main():
         # Create an Event object.
@@ -33,6 +34,8 @@ def wait_for_event():
         waiter_task = uasyncio.create_task(waiter(event))
 
         # Sleep for 1 second and set the event.
+        await uasyncio.sleep(1)
+        event.set()
         await uasyncio.sleep(1)
         event.set()
 
