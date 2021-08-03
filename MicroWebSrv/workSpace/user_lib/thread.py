@@ -1,5 +1,24 @@
 from    _thread     import start_new_thread, allocate_lock, get_ident
 from time import sleep
+import uasyncio as asyncio
+
+def thread_event_test():
+    tsf = asyncio.ThreadSafeFlag()
+
+    def cb(_):
+        while True:    
+            tsf.set()
+            sleep(1)
+
+    async def foo():
+        while True:
+            await tsf.wait()
+            # Could set an Event here to trigger multiple tasks
+            print('Triggered from thread')
+
+    # tim = Timer(1, freq=1, callback=cb)
+    start_new_thread(cb, (1,))
+    asyncio.run(foo())
 
 def thread_test():
 
@@ -25,3 +44,4 @@ def thread_test():
 # use it
 # import user_lib.thread as t
 # t.thread_test()
+# t.thread_event_test()
