@@ -20,12 +20,15 @@ def wait_for_fun():
 
 def wait_for_event():
 
+    lock = uasyncio.Lock()
+    
     async def waiter(event):
         for i in range(2):
             print(i, 'waiting for it ...')
             await event.wait()
             event.clear()
-            print(i, '... got it!')
+            async with lock:
+                print(i, '... got it!')
 
     async def main():
         # Create an Event object.
