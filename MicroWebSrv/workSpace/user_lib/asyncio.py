@@ -31,7 +31,7 @@ def wait_for_event():
 
     uasyncio.run(main())
 
-def wait_for_fun():
+def wait_for_async_fun():
     sleep_sec = 2
     async def eternity():
         # Sleep for one hour
@@ -51,4 +51,4 @@ def wait_for_fun():
 # how to use it
 # import user_lib.asyncio as asy
 # asy.wait_for_event()
-# asy.wait_for_fun
+# asy.wait_for_async_fun
