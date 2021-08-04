@@ -63,6 +63,32 @@ class Stepper:
 def create(pin1, pin2, pin3, pin4, delay=2, mode='HALF_STEP'):
 	return Stepper(mode, pin1, pin2, pin3, pin4, delay)
 
+def tester( _callback = None):
+    from machine import Pin, ADC
+    from time import sleep
+    POT_MAX_READ = 4095
+    sliderPot = ADC(Pin(34))
+    sliderPot.atten(ADC.ATTN_11DB) # Full range: 3.3v
+    SETEPER_MAX_ANGLE = 360
+    SETEPER_MIN_ANGLE = 0
+    lastAngle = 0 # init angle=0'
+    stepper = Stepper.create(Pin(16,Pin.OUT),Pin(17,Pin.OUT),Pin(5,Pin.OUT),Pin(18,Pin.OUT), delay=2)
+    try:
+        while True:
+            current_sliderPot = sliderPot.read() # min is 0, max read 4095
+            # print(current_sliderPot)
+            angle = current_sliderPot * SETEPER_MAX_ANGLE / POT_MAX_READ
+            if not(angle == lastAngle):
+                lastAngle = angle
+                stepper.angle(angle) # set angle
+                print('angle is:', angle)# current_sliderPot * SERVO_MAX_ANGLE / POT_MAX_READ)
+                if _callback:
+                    _callback('angle is: ' + str(angle))
+                sleep(15/1000) # 15ms time take the motor to get to position
+            else: sleep(1/1000) # 1ms loop delay
+    except KeyboardInterrupt : # control+C press
+        pass
+
 # use it
 # import Stepper
 # from machine import Pin
@@ -72,3 +98,8 @@ def create(pin1, pin2, pin3, pin4, delay=2, mode='HALF_STEP'):
 # s1.step(100,-1) # backwards 100 steps of 8 HALF_STEPs eche step, step mode(Full/Half) is init on create
 # s1.angle(180) # forwards 180', step mode(Full/Half) is init on create
 # s1.angle(360,-1) # backwards 360', step mode(Full/Half) is init on create
+
+# run tester - change potentiometer to change steper angle
+# from user_lib.Stepper_uln2003 import tester
+# from user_lib.display_msg import display
+# tester(display)

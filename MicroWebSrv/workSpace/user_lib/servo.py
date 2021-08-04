@@ -16,9 +16,6 @@ SERVO_MIN_ANGLE = 0
 SERVO_MAX_DUTY = 140 # angle=180'
 SERVO_MIN_DUTY = 30 # angle=0'
 SERVO_RANG_DUTY = SERVO_MAX_DUTY - SERVO_MIN_DUTY
-POT_MAX_READ = 4095
-sliderPot = ADC(Pin(34))
-sliderPot.atten(ADC.ATTN_11DB) # Full range: 3.3v
 lastDuty = SERVO_MIN_DUTY # init angle=0'
 
 def dutyForAngle(angle):
@@ -34,6 +31,9 @@ def angleForDuty(duty):
     return angle
 
 def tester( _callback = None):
+    POT_MAX_READ = 4095
+    sliderPot = ADC(Pin(34))
+    sliderPot.atten(ADC.ATTN_11DB) # Full range: 3.3v
     try:
         while True:
             global lastDuty
@@ -55,4 +55,6 @@ def tester( _callback = None):
     servo.deinit()
 
 # run tester - change potentiometer to change servo angle
-# tester()
+# from user_lib.servo import tester
+# from user_lib.display_msg import display
+# tester(display)
