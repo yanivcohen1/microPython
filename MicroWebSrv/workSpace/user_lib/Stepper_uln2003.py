@@ -89,7 +89,7 @@ def tester( _callback = None):
             delta = ticks_diff(ticks_ms(), start) # compute time difference
             setAngle = int(current_sliderPot * SETEPER_MAX_ANGLE / POT_MAX_READ)
             deltaAngle = angle - setAngle
-            if delta < 2000 and _callback:
+            if delta < 5000 and _callback: # 5 sec to set new angle
                     _callback('sangl:' + str(setAngle) + ', ' + str(deltaAngle))
                     sleep_ms(1)
             else:
