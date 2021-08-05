@@ -2,7 +2,7 @@
 import random
 import subprocess
 from time import sleep, time
-import datetime
+
 class Pin :
     IN=1
     OUT=2
@@ -70,7 +70,7 @@ class Timer:
         pass
 
 class WDT:
-    last_time = datetime.datetime.now()
+    last_time = time()
     def __init__(self, timeout=5000):
         pass
     def feed(self):
