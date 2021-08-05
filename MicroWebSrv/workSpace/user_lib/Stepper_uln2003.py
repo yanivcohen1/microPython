@@ -121,9 +121,10 @@ def tester( _callback = None):
 # from user_lib.display_msg import display
 # tester(display)
 
-# simulation 
+# simulation from tester
 # import user_lib.Stepper_uln2003 as stp
 # from machine import Pin
 # # Recommend 10ms+ for FULL_STEP, 1ms is OK for HALF_STEP, the defoult is HALF_STEP 
 # s1 = stp.Stepper.create(Pin(13,Pin.OUT),Pin(12,Pin.OUT),Pin(14,Pin.OUT),Pin(27,Pin.OUT), stepDelayMs=1)
+# s1.addAngle(1)
 # print('done')
