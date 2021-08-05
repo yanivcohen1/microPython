@@ -27,7 +27,8 @@ class Stepper:
         [0, 1, 0, 1],
         [1, 0, 0, 1]
     ]
-    def __init__(self, mode, pin1, pin2, pin3, pin4, delay):
+    
+    def __init__(self, mode, pin1, pin2, pin3, pin4, delayMs):
     	if mode=='FULL_STEP':
         	self.mode = self.FULL_STEP
         else:
@@ -36,7 +37,7 @@ class Stepper:
         self.pin2 = pin2
         self.pin3 = pin3
         self.pin4 = pin4
-        self.delay = delay  # Recommend 10+ for FULL_STEP, 1 is OK for HALF_STEP
+        self.delayMs = delayMs  # Recommend 10+ for FULL_STEP, 1 is OK for HALF_STEP
         
         # Initialize all to 0
         self.reset()
@@ -49,10 +50,14 @@ class Stepper:
                 self.pin2(bit[1])
                 self.pin3(bit[2])
                 self.pin4(bit[3])
-                time.sleep_ms(self.delay)
+                time.sleep_ms(self.delayMs) # micropython fun
         self.reset()
-    def angle(self, r, direction=1):
-    	self.step(int(self.FULL_ROTATION * r / 360), direction)
+
+    def angle(self, angle, direction=1):
+        if angle < 0 : direction = -1
+        if angle >= 0 : direction = 1
+    	self.step(int(self.FULL_ROTATION * angle / 360), direction)
+
     def reset(self):
         # Reset to 0, no holding, these are geared, you can't move them
         self.pin1(0) 
@@ -60,8 +65,8 @@ class Stepper:
         self.pin3(0) 
         self.pin4(0)
 
-def create(pin1, pin2, pin3, pin4, delay=2, mode='HALF_STEP'):
-	return Stepper(mode, pin1, pin2, pin3, pin4, delay)
+    def create(pin1, pin2, pin3, pin4, delayMs=2, mode='HALF_STEP'):
+	    return Stepper(mode, pin1, pin2, pin3, pin4, delayMs)
 
 def tester( _callback = None):
     from machine import Pin, ADC
@@ -72,7 +77,7 @@ def tester( _callback = None):
     SETEPER_MAX_ANGLE = 360
     SETEPER_MIN_ANGLE = 0
     lastAngle = 0 # init angle=0'
-    stepper = Stepper.create(Pin(16,Pin.OUT),Pin(17,Pin.OUT),Pin(5,Pin.OUT),Pin(18,Pin.OUT), delay=2)
+    stepper = Stepper.create(Pin(16,Pin.OUT),Pin(17,Pin.OUT),Pin(5,Pin.OUT),Pin(18,Pin.OUT), delayMs=2)
     try:
         while True:
             current_sliderPot = sliderPot.read() # min is 0, max read 4095
@@ -80,7 +85,7 @@ def tester( _callback = None):
             angle = current_sliderPot * SETEPER_MAX_ANGLE / POT_MAX_READ
             if not(angle == lastAngle):
                 lastAngle = angle
-                stepper.angle(angle) # set angle
+                stepper.angle(angle) # set angle +/-
                 print('angle is:', angle)# current_sliderPot * SERVO_MAX_ANGLE / POT_MAX_READ)
                 if _callback:
                     _callback('angle is: ' + str(angle))
@@ -92,8 +97,8 @@ def tester( _callback = None):
 # use it
 # import Stepper
 # from machine import Pin
-# Recommend 10+ for FULL_STEP, 1 is OK for HALF_STEP, the defoult is HALF_STEP 
-# s1 = Stepper.create(Pin(16,Pin.OUT),Pin(17,Pin.OUT),Pin(5,Pin.OUT),Pin(18,Pin.OUT), delay=2)
+# Recommend 10ms+ for FULL_STEP, 1ms is OK for HALF_STEP, the defoult is HALF_STEP 
+# s1 = Stepper.create(Pin(16,Pin.OUT),Pin(17,Pin.OUT),Pin(5,Pin.OUT),Pin(18,Pin.OUT), delayMs=2)
 # s1.step(100) # 100 steps of 8 HALF_STEPs eche step, step mode(Full/Half) is init on create
 # s1.step(100,-1) # backwards 100 steps of 8 HALF_STEPs eche step, step mode(Full/Half) is init on create
 # s1.angle(180) # forwards 180', step mode(Full/Half) is init on create
