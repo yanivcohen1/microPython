@@ -27,7 +27,7 @@ class Stepper:
         [0, 1, 0, 1],
         [1, 0, 0, 1]
     ]
-    
+
     def __init__(self, mode, pin1, pin2, pin3, pin4, delayMs):
     	if mode=='FULL_STEP':
         	self.mode = self.FULL_STEP
@@ -84,9 +84,10 @@ def tester( _callback = None):
             # print(current_sliderPot)
             angle = current_sliderPot * SETEPER_MAX_ANGLE / POT_MAX_READ
             if not(angle == lastAngle):
-                lastAngle = angle
+                if angle < lastAngle: angle = -1*angle
                 stepper.angle(angle) # set angle +/-
                 print('angle is:', angle)# current_sliderPot * SERVO_MAX_ANGLE / POT_MAX_READ)
+                lastAngle = abs(angle)
                 if _callback:
                     _callback('angle is: ' + str(angle))
                 sleep(15/1000) # 15ms time take the motor to get to position
