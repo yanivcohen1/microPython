@@ -94,7 +94,7 @@ def tester( _callback = None):
                     sleep_ms(1)
             else:
                 if abs(deltaAngle) > 2:
-                    print('angle go:', setAngle, ', ' + str(deltaAngle))# current_sliderPot * SERVO_MAX_ANGLE / POT_MAX_READ)
+                    print('angle set:', setAngle, ', delta set:' + str(deltaAngle))# current_sliderPot * SERVO_MAX_ANGLE / POT_MAX_READ)
                     if _callback:
                         _callback('angle:' + str(setAngle) + ', ' + str(deltaAngle))
                     stepper.addAngle(deltaAngle) # set angle +/-
