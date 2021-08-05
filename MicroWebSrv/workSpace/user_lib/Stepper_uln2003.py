@@ -8,6 +8,7 @@ except:
 # driver web: https://github.com/zhcong/ULN2003-for-ESP32
 class Stepper:
     # http://www.jangeox.be/2013/10/stepper-motor-28byj-48_25.html
+    # spec: http://www.geeetech.com/wiki/index.php/Stepper_Motor_5V_4-Phase_5-Wire_%26_ULN2003_Driver_Board_for_Arduino#Interfacing_circuits
     # from spec- Speed Variation Ratio ：1/64, the ratio between input wheel to output wheel is 64
     # from the spec (5.625'/64) angle for one HALF_STEP, and for one internal cycle you need 8 HALF_STEPs
     # so for 360' - (360/(5.625'/64))/8=512(befor any step) and multipy it by one cycle(8 HALF_STEPs or 4 FULL_STEPs)
@@ -78,11 +79,8 @@ def tester( _callback = None):
     sliderPot = ADC(Pin(34))
     sliderPot.atten(ADC.ATTN_11DB) # Full range: 3.3v
     SETEPER_MAX_ANGLE = 360
-    SETEPER_MIN_ANGLE = 0
-    lastAngle = 0 # init angle=0'
-    lastSetAngle = 0
     start = ticks_ms() # get millisecond counter
-    angle = 180
+    angle = 0 # start point off the step motor
     stepper = Stepper.create(Pin(13,Pin.OUT),Pin(12,Pin.OUT),Pin(14,Pin.OUT),Pin(27,Pin.OUT), stepDelayMs=1)
     # stepper = Stepper.create(Pin(16,Pin.OUT),Pin(17,Pin.OUT),Pin(5,Pin.OUT),Pin(18,Pin.OUT), stepDelayMs=2)
     try:
