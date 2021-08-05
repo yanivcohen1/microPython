@@ -77,7 +77,8 @@ def tester( _callback = None):
     SETEPER_MAX_ANGLE = 360
     SETEPER_MIN_ANGLE = 0
     lastAngle = 0 # init angle=0'
-    stepper = Stepper.create(Pin(16,Pin.OUT),Pin(17,Pin.OUT),Pin(5,Pin.OUT),Pin(18,Pin.OUT), delayMs=2)
+    stepper = Stepper.create(Pin(13,Pin.OUT),Pin(12,Pin.OUT),Pin(14,Pin.OUT),Pin(27,Pin.OUT), delayMs=2)
+    # stepper = Stepper.create(Pin(16,Pin.OUT),Pin(17,Pin.OUT),Pin(5,Pin.OUT),Pin(18,Pin.OUT), delayMs=2)
     try:
         while True:
             current_sliderPot = sliderPot.read() # min is 0, max read 4095
