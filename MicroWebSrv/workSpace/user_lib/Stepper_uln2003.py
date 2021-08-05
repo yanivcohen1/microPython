@@ -1,4 +1,7 @@
-import time
+try:
+    from time import sleep_ms, ticks_ms, ticks_diff
+except:
+    from machine import sleep_ms, ticks_ms, ticks_diff
 
 # only test for uln2003
 # spec: http://www.geeetech.com/wiki/index.php/Stepper_Motor_5V_4-Phase_5-Wire_%26_ULN2003_Driver_Board_for_Arduino#Interfacing_circuits
@@ -51,7 +54,7 @@ class Stepper:
                 self.pin2(bit[1])
                 self.pin3(bit[2])
                 self.pin4(bit[3])
-                time.sleep_ms(self.stepDelayMs) # micropython fun
+                sleep_ms(self.stepDelayMs) # micropython fun
         self.reset()
 
     def addAngle(self, angle, direction=1):
@@ -78,19 +81,19 @@ def tester( _callback = None):
     SETEPER_MIN_ANGLE = 0
     lastAngle = 0 # init angle=0'
     lastSetAngle = 0
-    start = time.ticks_ms() # get millisecond counter
+    start = ticks_ms() # get millisecond counter
     angle = 180
     stepper = Stepper.create(Pin(13,Pin.OUT),Pin(12,Pin.OUT),Pin(14,Pin.OUT),Pin(27,Pin.OUT), stepDelayMs=1)
     # stepper = Stepper.create(Pin(16,Pin.OUT),Pin(17,Pin.OUT),Pin(5,Pin.OUT),Pin(18,Pin.OUT), stepDelayMs=2)
     try:
         while True:
             current_sliderPot = sliderPot.read() # min is 0, max read 4095
-            delta = time.ticks_diff(time.ticks_ms(), start) # compute time difference
+            delta = ticks_diff(ticks_ms(), start) # compute time difference
             setAngle = int(current_sliderPot * SETEPER_MAX_ANGLE / POT_MAX_READ)
             deltaAngle = angle - setAngle
             if delta < 2000 and _callback:
                     _callback('sangl:' + str(setAngle) + ', ' + str(deltaAngle))
-                    time.sleep_ms(1)
+                    sleep_ms(1)
             else:
                 if abs(deltaAngle) > 2:
                     print('angle go:', setAngle, ', ' + str(deltaAngle))# current_sliderPot * SERVO_MAX_ANGLE / POT_MAX_READ)
@@ -98,8 +101,8 @@ def tester( _callback = None):
                         _callback('angle:' + str(setAngle) + ', ' + str(deltaAngle))
                     stepper.addAngle(deltaAngle) # set angle +/-
                     angle = setAngle
-                    start = time.ticks_ms() # get millisecond counter
-                else: time.sleep_ms(1) # 1ms loop delay
+                    start = ticks_ms() # get millisecond counter
+                else: sleep_ms(1) # 1ms loop delay
     except KeyboardInterrupt : # control+C press
         pass
 

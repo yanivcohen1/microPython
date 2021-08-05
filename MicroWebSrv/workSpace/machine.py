@@ -1,7 +1,7 @@
 # C:\Users\yaniv\AppData\Local\Programs\Thonny\Lib\site-packages\thonny\plugins\micropython\api_stubs
 import random
 import subprocess
-from time import sleep
+from time import sleep, time
 import datetime
 class Pin :
     IN=1
@@ -113,9 +113,12 @@ def time_pulse_us(pin, level):
 
 def sleep_us(num):
     sleep(num/1000000)
+    
+def sleep_ms(num):
+    sleep(num/1000)
 
 def ticks_ms(num):
-    return datetime.datetime.now()
+    return round(time() * 1000)
 
-def ticks_diff(last, now):
+def ticks_diff(now, last):
     return now - last
