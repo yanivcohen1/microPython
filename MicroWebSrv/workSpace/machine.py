@@ -8,10 +8,10 @@ class Pin :
     OUT=2
     PULL_UP=1
     PULL_DOWN=0
+    val = 0
     def __init__(self, pinNumber, pinDirection=1, pull=1, value=1):
         def randoms(self):
             random.randint(0, 1)
-        return None
 
     def on(self):
         return 0
@@ -25,6 +25,9 @@ class Pin :
     def value(self):
         return random.randint(0, 1)
 
+    def value(self, val):
+        self.val = val
+        
 class ADC :
     ATTN_11DB=1
     def __init__(self, pinNumber):

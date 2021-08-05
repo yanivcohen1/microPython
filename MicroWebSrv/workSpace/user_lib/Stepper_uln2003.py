@@ -32,7 +32,7 @@ class Stepper:
     ]
 
     def __init__(self, mode, pin1, pin2, pin3, pin4, stepDelayMs):
-    	if mode=='FULL_STEP':
+        if mode=='FULL_STEP':
         	self.mode = self.FULL_STEP
         else:
         	self.mode = self.HALF_STEP
@@ -50,24 +50,24 @@ class Stepper:
         # print('dir', direction, 'arry:', self.mode[::direction])
         for x in range(count):
             for bit in self.mode[::direction]:
-                self.pin1(bit[0])
-                self.pin2(bit[1])
-                self.pin3(bit[2])
-                self.pin4(bit[3])
+                self.pin1.value(bit[0])
+                self.pin2.value(bit[1])
+                self.pin3.value(bit[2])
+                self.pin4.value(bit[3])
                 sleep_ms(self.stepDelayMs) # micropython fun
         self.reset()
 
     def addAngle(self, angle, direction=1):
         if angle < 0 : direction = -1
         if angle >= 0 : direction = 1
-    	self.step(int(self.FULL_ROTATION * abs(angle) / 360), direction=direction)
+        self.step(int(self.FULL_ROTATION * abs(angle) / 360), direction=direction)
 
     def reset(self):
         # Reset to 0, no holding, these are geared, you can't move them
-        self.pin1(0) 
-        self.pin2(0) 
-        self.pin3(0) 
-        self.pin4(0)
+        self.pin1.value(0) 
+        self.pin2.value(0) 
+        self.pin3.value(0) 
+        self.pin4.value(0)
 
     def create(pin1, pin2, pin3, pin4, stepDelayMs=2, mode='HALF_STEP'):
 	    return Stepper(mode, pin1, pin2, pin3, pin4, stepDelayMs)
@@ -120,3 +120,10 @@ def tester( _callback = None):
 # from user_lib.Stepper_uln2003 import tester
 # from user_lib.display_msg import display
 # tester(display)
+
+# simulation 
+# import user_lib.Stepper_uln2003 as stp
+# from machine import Pin
+# # Recommend 10ms+ for FULL_STEP, 1ms is OK for HALF_STEP, the defoult is HALF_STEP 
+# s1 = stp.Stepper.create(Pin(13,Pin.OUT),Pin(12,Pin.OUT),Pin(14,Pin.OUT),Pin(27,Pin.OUT), stepDelayMs=1)
+# print('done')
