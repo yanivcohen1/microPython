@@ -181,7 +181,7 @@ rtc = RTC()
 import ntptime
 ntptime.settime() # set the rtc datetime from the remote server
 # get the date and time in UTC-Universal Time Coordinated
-# for jerusalem need to add 3 to houre - GMT+3
+# for jerusalem need to add 3 to houre - (GMT/UTC)+3
 year, monte, day, houre, mimite, secend, mi, n = rtc.datetime()    
 
 # machine reset
