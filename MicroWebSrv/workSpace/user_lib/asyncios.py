@@ -61,3 +61,13 @@ def wait_for_async_fun():
 
 # run in local file
 # wait_for_event()
+
+# wait_for_event print output
+# one 0 waiting for it ...
+# two 0 waiting for it ...
+# one 0 ... got it!
+# one 1 waiting for it ...
+# two 0 ... got it!
+# two 1 waiting for it ...
+# one 1 ... got it!
+# two 1 ... got it!
