@@ -55,8 +55,9 @@ def wait_for_async_fun():
     uasyncio.run(main(sleep_sec-2)) # timeout!
 
 # how to use it
-# import user_lib.asyncio as asy
+# import user_lib.asyncios as asy
 # asy.wait_for_event()
 # asy.wait_for_async_fun
 
+# run in local file
 # wait_for_event()
