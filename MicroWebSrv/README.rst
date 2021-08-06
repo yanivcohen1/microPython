@@ -180,7 +180,9 @@ rtc = RTC()
 # need to be connected to wifi
 import ntptime
 ntptime.settime() # set the rtc datetime from the remote server
-year, monte, day, houre, mimite, secend, mi, n = rtc.datetime()    # get the date and time in UTC
+# get the date and time in UTC-Universal Time Coordinated
+# for jerusalem need to add 3 to houre - GMT+3
+year, monte, day, houre, mimite, secend, mi, n = rtc.datetime()    
 
 # machine reset
 machine.reset()
