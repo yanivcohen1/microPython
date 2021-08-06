@@ -28,7 +28,7 @@ def wait_for_event():
         # Sleep for 1 second and set the event.
         await uasyncio.sleep(2)
         event.set()
-        await uasyncio.sleep(2)
+        await uasyncio.sleep(3)
         event.set()
 
         # Wait until the waiter task is finished.
