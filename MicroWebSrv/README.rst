@@ -153,7 +153,7 @@ while True:
     sleep(0.005)
 # pwm_led.deinit() # free resource
 
-# Time difrance calc
+# Time difrance calc - for simulation this is in machine
 import time
 start = time.ticks_ms() # get millisecond counter
 delta = time.ticks_diff(time.ticks_ms(), start) # compute time difference
