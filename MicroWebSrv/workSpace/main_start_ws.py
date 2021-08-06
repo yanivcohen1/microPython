@@ -1,10 +1,10 @@
 
 from microWebSrv.microWebSrv import MicroWebSrv
+from microWebSrv.microWebSocket import MicroWebSocket
 # from time import sleep
 # from   _thread   import allocate_lock ,start_new_thread
 from events_data_page import WSJoinChat as MyWSJoinChat
 from events_data_page import routeHandlers
-import tester.tester_page
 # for ultrasonic page auto load
 # from ultrasonic_page import WSJoin as ultrasonicWSJoin 	
 # ultrasonicWSJoin(None, None) # for page auto load	
@@ -13,7 +13,7 @@ global _chatWebSockets
 _chatWebSockets = [ ]
 
 # test web socket [/wstest.html]
-def _acceptWebSocketCallback(webSocket, httpClient):
+def _acceptWebSocketCallback(webSocket: MicroWebSocket, httpClient: MicroWebSrv._client)-> None:
 	print('Example WebSocket accepted:')
 	print('   - User   : %s:%s' % (httpClient.GetAddr()[0], httpClient.GetAddr()[1]))
 	print('   - Path   : %s'    % httpClient.GetRequestTotalPath())
@@ -52,7 +52,7 @@ def _acceptWebSocketCallback(webSocket, httpClient):
     # Convert dictionary data to JSON and send
     # websocket.SendText(json.dumps(dict))
 
-def _recvTextCallback(webSocket, msg) :
+def _recvTextCallback(webSocket: MicroWebSocket, msg: str) -> None :
 	print("WS RECV TEXT : %s" % msg)
 	webSocket.SendText("Reply for %s" % msg)
 
@@ -79,11 +79,11 @@ srv.AcceptWebSocketCallback = _acceptWebSocketCallback
 print('running WebServer')
 # control+C press
 srv.Start(threaded=False) 
-""" try : # srv.Start(threaded=True)
-    while True :
-        sleep(2)
-except KeyboardInterrupt : # control+C press
-    pass """
+# try : # srv.Start(threaded=True)
+#     while True :
+#         sleep(2)
+# except KeyboardInterrupt : # control+C press
+#     pass
 print('stopping server and cleanup')
 srv.Stop()
 # ----------------------------------------------------------------------------
