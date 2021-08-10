@@ -162,9 +162,9 @@ def OnWSTextMsg(webSocket, msg):
     if RecData.slider in recv:
         global sliderIn
         sliderIn = int(recv[RecData.slider])
-        saveLastSlider(sliderIn)
         print('slider set to is: ', recv[RecData.slider])
         with _chatLock:
+            saveLastSlider(sliderIn)
             for ws in _chatWebSockets:
                 send = {}
                 send[SendData.slider] = str(sliderIn)
