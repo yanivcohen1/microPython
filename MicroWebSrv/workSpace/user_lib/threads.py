@@ -26,11 +26,15 @@ def thread_test():
 
     def fun_1(num):
         with lock:
-            print('thread_', num, 'ident:', get_ident())
+            # lock.acquire() // use as binary Semaphore- like event.wait()
+            print('thread:', num, 'ident:', get_ident())
+            # lock.release() // use as binary Semaphore- like event.clear() & event.set()
 
     def fun_2(num):
         with lock:
+            # lock.acquire() // use as binary Semaphore- like event.wait()
             print('thread:', num, 'ident:', get_ident())
+            # lock.release() // use as binary Semaphore- like event.clear() & event.set()
 
     def main():
         # Spawn a Task to wait until 'event' is set.
