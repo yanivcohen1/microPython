@@ -3,15 +3,17 @@ from machine import Pin
 # import re
 # import micropython, gc
 import uos
+import machine
+import ubinascii
 
-fs_stat = uos.statvfs('/')
-fs_size = fs_stat[0] * fs_stat[2]
+device_unique_id = ubinascii.hexlify(machine.unique_id()).decode('utf-8')
 
-if fs_size == 2097152:
+if device_unique_id == '2462abe768e4':
     # esp32 without spram - relay test
     relay = Pin(13, Pin.OUT, value=1)
     import user_lib.alive_btn_test
-elif fs_size == 2072576:
+elif device_unique_id == '7c9ebd288188':
     # esp32 with spram - led will power off on reset
     led = Pin(0, Pin.OUT, Pin.PULL_UP)
+
 import ws
