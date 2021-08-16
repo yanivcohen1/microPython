@@ -52,6 +52,8 @@ Or on Windows cmd::
     $ esptool version
     ## test it
     $ esptool --chip esp32 --port COM6 flash_id
+    $ esptool --chip esp32 --port com6 erase_flash
+    $ esptool --chip esp32 --port com6 --baud 460800 write_flash -z 0x1000 "C:\Downloads\esp32-20210623-v1.16.bin"
     $ python -m pip install rshell
     $ rshell --editor nano --buffer-size=30 -p COM6
     $ rshell --buffer-size=30 -p COM7
