@@ -125,3 +125,6 @@ def ticks_ms(num):
 
 def ticks_diff(now, last):
     return now - last
+
+def unique_id():
+    return None
