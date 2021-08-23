@@ -16,6 +16,7 @@ except:
     simulation = True 
     # from machine import ssd1306
 esp32NoSpram = False
+device_unique_id = ""
 try:
     import ubinascii
     import machine
@@ -26,9 +27,9 @@ try:
 except:
     pass
 
-timer0 = Timer(0)
-bazzer = Signal(Pin(27, Pin.OUT, value=0), invert=False) # 
-relay = Signal(Pin(13, Pin.OUT, value=1), invert=True) # 
+# timer0 = Timer(0)
+bazzer = None # Signal(Pin(27, Pin.OUT, value=0), invert=False) # 
+relay = None # Signal(Pin(13, Pin.OUT, value=1), invert=True) # 
 
 routeHandlers = []
 #	( "/test",	"GET",	_httpHandlerTestGet ),
@@ -40,8 +41,6 @@ led = Pin(5, Pin.OUT, value=1) # 1, Pin.PULL_UP
 # led.value(1)
 # led.off()  # the opesit on is off and off in on
 
-print('events_data page load')
-
 global _chatWebSockets
 _chatWebSockets = [ ]
 
@@ -50,29 +49,43 @@ _chatLock = allocate_lock()
 
 global res
 
+firtLoad = True
+
+if device_unique_id == '2462abe768e4':
+    # esp32 without spram - buzzer test
+    bazzer = Signal(Pin(27, Pin.OUT, value=0), invert=False)
+    relay = Signal(Pin(13, Pin.OUT, value=1), invert=True)
+    onbord_btn = Pin(0, Pin.IN)
+    def blink_fun(pin):
+        bazzer.off() if onbord_btn() else bazzer.on() # butten is inverted
+    onbord_btn.irq(blink_fun)
+
 def cb_timer(delay_sec, websocket):
+    global firtLoad
     while True:
         # global wdt_last
-        sleep(delay_sec)
-        fun_timer(None, None)
-        # wtd_now = ticks_ms()
-        # print('wtd: ', wtd_now - wdt_last)
-        #wdt_last = wtd_now
-        #with _chatLock:
-        # need wochdog
-        # print('auarer lock')
+        if firtLoad: 
+            sleep(60)
+            firtLoad = False
+        else: sleep(delay_sec)
+        with _chatLock:
+            fun_timer(None, None)
         
 
 def fun_timer(delay, websocket):
-    wdt = WDT(timeout=60000) # enable the wachdog with a timeout of 20s (1s is the minimum)
+    wdt = WDT(timeout=120000) # 2min=120,000 enable the wachdog with a timeout of 2min (1s is the minimum)
     wdt.feed() # need to call this wachdog fun minimum evry 20s or the bord will restart itself
     from machine import RTC
-    # update clock from internet
     rtc = RTC()
-    year, monte, day, houre1, houre, mimite, secend, n = rtc.datetime()
-    # add time up to log
-    log = str(day) + '-' + str(monte) + ' ' + str(houre+3) \
-                + ':' + str(mimite) + ':' + str(secend) # 2018-03-29 10:26:23
+    log = ""
+    if not simulation:
+        # update clock from internet
+        year, monte, day, houre1, houre, mimite, secend, n = rtc.datetime()
+        # add time up to log
+        log = str(day) + '-' + str(monte) + ' ' + str(houre+3) \
+                    + ':' + str(mimite) + ':' + str(secend) # 2018-03-29 10:26:23
+    else: 
+        log = rtc.datetime()
     if not webLiveTest.liveTest(): # fail test
         bazzer.on()
         sleep(20)
@@ -80,18 +93,20 @@ def fun_timer(delay, websocket):
             relay.on()
             sleep(5)
             relay.off()
+            bazzer.off()
             print("reset wifi")
             print("reset time: " + log)
             settings.appendLineToLogFile("reset time: " + log)
-        bazzer.off()
+            sleep(60)
     else: print("pass live test: " + log)
 
-if simulation and esp32NoSpram:
-    start_new_thread(cb_timer, (1, None))
-elif not simulation and esp32NoSpram: # for WH Timer - if not simulation:
+if esp32NoSpram:
+    start_new_thread(cb_timer, (30, None))
+if False:# not simulation and esp32NoSpram: # for WH Timer - if not simulation:
     cb = lambda timer: fun_timer(timer, None)
     timer0.init(period=30000, callback=cb) # 30sec timer
 
+print('events_data page load')
 
 # ----------------------------------------------------------------------------
 
