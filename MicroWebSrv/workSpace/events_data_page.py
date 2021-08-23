@@ -1,10 +1,24 @@
 from microWebSrv.microWebSrv import MicroWebSrv
 import json
-# from time import sleep
-from _thread import allocate_lock  # ,start_new_thread
+from time import sleep
+from _thread import allocate_lock, start_new_thread
 # C:\Users\yaniv\AppData\Local\Programs\Thonny\Lib\site-packages\thonny\plugins\micropython\api_stubs
 from machine import Pin
 import user_lib.settings as settings
+import user_lib.webLiveTest as webLiveTest
+from machine import Pin, ADC, SoftI2C, Timer, I2C, WDT, PWM, Signal
+simulation = False
+try:
+    from time import sleep_us, ticks_ms, ticks_diff
+    # import user_lib.sh1106 as ssd1306
+except:
+    from machine import sleep_us, ticks_ms, ticks_diff
+    simulation = True 
+    # from machine import ssd1306
+
+timer0 = Timer(0)
+bazzer = Signal(Pin(27, Pin.OUT, value=0), invert=False) # 
+relay = Signal(Pin(13, Pin.OUT, value=1), invert=True) # 
 
 routeHandlers = []
 #	( "/test",	"GET",	_httpHandlerTestGet ),
@@ -26,22 +40,58 @@ _chatLock = allocate_lock()
 
 global res
 
-def btn_change(pin):
-    cur_btn = 1 # btn()
-    with _chatLock:
-        for ws in _chatWebSockets:
-            send = {}
-            send['btn'] = str(cur_btn == 1)
-            try: ws.SendText(json.dumps(send))
-            except: pass
-            print('ws sending: ', cur_btn)
+def cb_timer(delay_sec, websocket):
+    while True:
+        # global wdt_last
+        sleep(delay_sec)
+        fun_timer(None, None)
+        # wtd_now = ticks_ms()
+        # print('wtd: ', wtd_now - wdt_last)
+        #wdt_last = wtd_now
+        #with _chatLock:
+        # need wochdog
+        # print('auarer lock')
+        
 
-    if cur_btn == 1:  # btn is not press
-        print('btn not pressed')
-    else:
-        print('btn pressed')
+def fun_timer(delay, websocket):
+    wdt = WDT(timeout=60000) # enable the wachdog with a timeout of 20s (1s is the minimum)
+    wdt.feed() # need to call this wachdog fun minimum evry 20s or the bord will restart itself
+    from machine import RTC
+    # update clock from internet
+    rtc = RTC()
+    year, monte, day, houre1, houre, mimite, secend, n = rtc.datetime()
+    # add time up to log
+    log = str(day) + '-' + str(monte) + ' ' + str(houre+3) \
+                + ':' + str(mimite) + ':' + str(secend) # 2018-03-29 10:26:23
+    if not webLiveTest.liveTest(): # fail test
+        bazzer.on()
+        sleep(20)
+        if not webLiveTest.liveTest(): # still error
+            relay.on()
+            sleep(5)
+            relay.off()
+            print("reset wifi")
+            print("reset time: " + log)
+            settings.appendLineToLogFile("reset time: " + log)
+    else: print("pass live test: " + log)
+        
+esp32NoSpram = False
+try:
+    import ubinascii
+    import machine
+    device_unique_id = ubinascii.hexlify(machine.unique_id()).decode('utf-8')
+    if device_unique_id == '2462abe768e4':
+        esp32NoSpram = True
+    else: esp32NoSpram = False
+except:
+    pass
 
-# btn.irq(btn_change)
+if simulation and esp32NoSpram:
+    start_new_thread(cb_timer, (1, None))
+elif not simulation and esp32NoSpram: # for WH Timer - if not simulation:
+    cb = lambda timer: fun_timer(timer, None)
+    timer0.init(period=30000, callback=cb) # 30sec timer
+
 
 # ----------------------------------------------------------------------------
 
@@ -112,3 +162,20 @@ def OnWSChatClosed(webSocket) :
     _chatWebSockets.remove(webSocket)
     print("WS CLOSED")
 # ============================================================================
+
+def btn_change(pin):
+    cur_btn = 1 # btn()
+    with _chatLock:
+        for ws in _chatWebSockets:
+            send = {}
+            send['btn'] = str(cur_btn == 1)
+            try: ws.SendText(json.dumps(send))
+            except: pass
+            print('ws sending: ', cur_btn)
+
+    if cur_btn == 1:  # btn is not press
+        print('btn not pressed')
+    else:
+        print('btn pressed')
+
+# btn.irq(btn_change)
