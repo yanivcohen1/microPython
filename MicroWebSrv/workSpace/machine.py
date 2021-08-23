@@ -2,6 +2,7 @@
 import random
 import subprocess
 from time import sleep, time
+import datetime
 
 class Pin :
     IN=1
@@ -110,6 +111,11 @@ class PWM:
 class Signal:
     def __init__(self, pinNumber, invert=False):
         pass
+
+class RTC:
+    def datetime(self):
+        current_time = datetime.datetime.now()
+        return str(current_time)
 
 def time_pulse_us(pin, level):
     return random.randint(1, int(100*2/0.034))
