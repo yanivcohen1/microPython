@@ -15,6 +15,16 @@ except:
     from machine import sleep_us, ticks_ms, ticks_diff
     simulation = True 
     # from machine import ssd1306
+esp32NoSpram = False
+try:
+    import ubinascii
+    import machine
+    device_unique_id = ubinascii.hexlify(machine.unique_id()).decode('utf-8')
+    if device_unique_id == '2462abe768e4':
+        esp32NoSpram = True
+    else: esp32NoSpram = False
+except:
+    pass
 
 timer0 = Timer(0)
 bazzer = Signal(Pin(27, Pin.OUT, value=0), invert=False) # 
@@ -74,17 +84,6 @@ def fun_timer(delay, websocket):
             print("reset time: " + log)
             settings.appendLineToLogFile("reset time: " + log)
     else: print("pass live test: " + log)
-        
-esp32NoSpram = False
-try:
-    import ubinascii
-    import machine
-    device_unique_id = ubinascii.hexlify(machine.unique_id()).decode('utf-8')
-    if device_unique_id == '2462abe768e4':
-        esp32NoSpram = True
-    else: esp32NoSpram = False
-except:
-    pass
 
 if simulation and esp32NoSpram:
     start_new_thread(cb_timer, (1, None))
