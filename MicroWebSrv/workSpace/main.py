@@ -12,7 +12,7 @@ if device_unique_id == '2462abe768e4':
     # esp32 without spram - buzzer test
     relay = Pin(13, Pin.OUT, value=1)
     import user_lib.alive_btn_test
-    # import ws
+    import ws
 elif device_unique_id == '7c9ebd288188':
     # esp32 with spram - led will power off on reset
     led = Pin(0, Pin.OUT, Pin.PULL_UP)
