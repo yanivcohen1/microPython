@@ -22,7 +22,7 @@
     </style>
 
 	<body>
-		<h1>Test bidirection Control Page</h1>
+		<h3>Test bidirection Control Page</h3>
         <a href="#" onclick="ledClick()" id="led">On bord Led</a>
         <br>
         <br>
@@ -37,6 +37,13 @@
         <button type="text" onclick="sendClick()" value="Send">Send</button>
         <br>
         <p id=res></p>
+
+        <label for="w3review1">read log</label>
+        <br>
+        <textarea id="log" name="w3review" rows="4" cols="50"></textarea>
+        <br><br>
+        <button type="text" onclick="logClick()" value="Send">Log</button>
+        <br>
         
         <!--for led  -->
         <script> 
@@ -62,6 +69,13 @@
                 res.innerHTML = "return: "
             }
         
+            function logClick() {
+                msg = {}
+                msg['log'] = 'log'
+                websocket.send(JSON.stringify(msg));
+                document.getElementById("log").innerHTML = "send.. "
+            }
+
         </script>
 
         <!--for btn  -->
@@ -69,16 +83,29 @@
 
             var output;
             var res;
+            var log;
             document.getElementById("btn").style.background = 'black';
             window.addEventListener("load", init_window_load, false);
             function init_window_load()
             {
                 output = document.getElementById("output");
                 res = document.getElementById("res");
+                log = document.getElementById('log');
                 res.style.wordWrap = "break-word"
                 openWebSocket();
+                eventFire(document.getElementById('log'), 'click');
             }
     
+            function eventFire(el, etype){
+                if (el.fireEvent) {
+                    el.fireEvent('on' + etype);
+                } else {
+                    var evObj = document.createEvent('Events');
+                    evObj.initEvent(etype, true, false);
+                    el.dispatchEvent(evObj);
+                }
+            }
+
             function openWebSocket()
             {
                 var wsUri           = "ws://" + window.location.hostname + '/events_data_page';
@@ -118,6 +145,8 @@
                     }
                  }else if(rcv.hasOwnProperty('res')){
                     res.innerHTML = "return: " + rcv.res
+                 }else if(rcv.hasOwnProperty('log')){
+                    log.innerHTML = rcv.log
                  }
 
                     // writeToScreen('MSG FROM SERVER : <span style="color: blue;">' + evt.data + '</span>');

@@ -8,6 +8,27 @@ from events_data_page import routeHandlers
 # for ultrasonic page auto load
 # from ultrasonic_page import WSJoin as ultrasonicWSJoin 	
 # ultrasonicWSJoin(None, None) # for page auto load	
+import user_lib.settings as settings
+from machine import RTC
+
+# update clock from internet
+rtc = RTC()
+# synchronize with ntp
+# need to be connected to wifi
+import ntptime
+ntptime.settime() # set the rtc datetime from the remote server
+year, monte, day, houre1, houre, mimite, secend, n = rtc.datetime()
+print(houre1)
+# add time up to log
+log = "Up time: " +  str(day) + '-' + str(monte) + ' ' + str(houre+3) \
+		    + ':' + str(mimite) + ':' + str(secend) # 2018-03-29 10:26:23
+print(log)
+settings.appendLineToLogFile(log)
+
+# read log file
+# lines = settings.readLinesFromLogFile()
+# for line in lines:
+#     print(line)
 
 global _chatWebSockets
 _chatWebSockets = [ ]

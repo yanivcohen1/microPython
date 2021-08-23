@@ -4,6 +4,7 @@ import json
 from _thread import allocate_lock  # ,start_new_thread
 # C:\Users\yaniv\AppData\Local\Programs\Thonny\Lib\site-packages\thonny\plugins\micropython\api_stubs
 from machine import Pin
+import user_lib.settings as settings
 
 routeHandlers = []
 #	( "/test",	"GET",	_httpHandlerTestGet ),
@@ -97,6 +98,15 @@ def OnWSChatTextMsg(webSocket, msg):
             send['res'] = str(res)
             try: webSocket.SendText(json.dumps(send))
             except: pass
+    elif 'log' in recv:
+        logIn = recv['log']
+        print('ws sending log')
+        lines = settings.readLinesFromLogFile()
+        lines.reverse()
+        send = {}
+        send['log'] = lines
+        try: webSocket.SendText(json.dumps(send))
+        except: pass
 
 def OnWSChatClosed(webSocket) :
     _chatWebSockets.remove(webSocket)
