@@ -22,11 +22,11 @@ except:
 rtc = RTC()
 if not simulation:
 	i = 0
-	while i < 7:
+	while i < 10:
 		try:
 			ntptime.settime() # set the rtc datetime from the remote server	
 			year, monte, day, houre1, houre, mimite, secend, n = rtc.datetime()
-			i = 8
+			i = 11
 		except:
 			print("main waiting for the internet")
 			sleep(10)

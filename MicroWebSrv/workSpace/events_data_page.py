@@ -65,7 +65,7 @@ def cb_timer(delay_sec, websocket):
     while True:
         # global wdt_last
         if firtLoad: 
-            sleep(60)
+            sleep(110)
             firtLoad = False
         else: sleep(delay_sec)
         with _chatLock:
