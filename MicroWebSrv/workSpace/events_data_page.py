@@ -73,7 +73,7 @@ def cb_timer(delay_sec, websocket):
         
 
 def fun_timer(delay, websocket):
-    wdt = WDT(timeout=120000) # 2min=120,000 enable the wachdog with a timeout of 2min (1s is the minimum)
+    wdt = WDT(timeout=180000) # 2min=120,000 enable the wachdog with a timeout of 2min (1s is the minimum)
     wdt.feed() # need to call this wachdog fun minimum evry 20s or the bord will restart itself
     from machine import RTC
     rtc = RTC()
