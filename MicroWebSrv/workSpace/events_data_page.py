@@ -89,25 +89,25 @@ def fun_timer(delay, websocket):
     else: 
         log = rtc.datetime()
     if not webLiveTest.liveTest(): # fail test
-        bazzer.on()
-        sleep(15)
-        if not webLiveTest.liveTest(): # still error
-            connect = False
-            try:
-                ntptime.settime() # set the rtc datetime from the remote server	
-                connect = True
-            except:
-                pass
-            if not connect:
+        connect = False
+        try:
+            ntptime.settime() # set the rtc datetime from the remote server	
+            connect = True
+        except:
+            pass
+        if not connect:
+            bazzer.on()
+            sleep(15)
+            if not webLiveTest.liveTest(): # still error
                 relay.on()
-                sleep(5)
+                sleep(3)
                 relay.off()
                 bazzer.off()
                 print("reset wifi")
                 print("reset time: " + log)
                 settings.appendLineToLogFile("reset time: " + log)
                 sleep(60)
-        bazzer.off()
+            bazzer.off()
     else: print("pass live test: " + log)
 
 if esp32NoSpram:
