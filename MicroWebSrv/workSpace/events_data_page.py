@@ -11,6 +11,7 @@ from machine import Pin, ADC, SoftI2C, Timer, I2C, WDT, PWM, Signal
 simulation = False
 try:
     from time import sleep_us, ticks_ms, ticks_diff
+    import ntptime
     # import user_lib.sh1106 as ssd1306
 except:
     from machine import sleep_us, ticks_ms, ticks_diff
@@ -89,16 +90,23 @@ def fun_timer(delay, websocket):
         log = rtc.datetime()
     if not webLiveTest.liveTest(): # fail test
         bazzer.on()
-        sleep(20)
+        sleep(15)
         if not webLiveTest.liveTest(): # still error
-            relay.on()
-            sleep(5)
-            relay.off()
-            bazzer.off()
-            print("reset wifi")
-            print("reset time: " + log)
-            settings.appendLineToLogFile("reset time: " + log)
-            sleep(60)
+            connect = False
+            try:
+                ntptime.settime() # set the rtc datetime from the remote server	
+                connect = True
+            except:
+                pass
+            if not connect:
+                relay.on()
+                sleep(5)
+                relay.off()
+                bazzer.off()
+                print("reset wifi")
+                print("reset time: " + log)
+                settings.appendLineToLogFile("reset time: " + log)
+                sleep(60)
         bazzer.off()
     else: print("pass live test: " + log)
 
