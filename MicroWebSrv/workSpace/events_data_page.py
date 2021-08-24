@@ -106,7 +106,7 @@ def fun_timer(delay, websocket):
                 print("reset wifi")
                 print("reset time: " + log)
                 settings.appendLineToLogFile("reset time: " + log)
-                sleep(60)
+                sleep(90)
             bazzer.off()
     else: print("pass live test: " + log)
 
