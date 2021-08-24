@@ -7,45 +7,9 @@ from microWebSrv.microWebSocket import MicroWebSocket
 # for ultrasonic page auto load
 # from ultrasonic_page import WSJoin as ultrasonicWSJoin 	
 # ultrasonicWSJoin(None, None) # for page auto load	
-import user_lib.settings as settings
 from events_data_page import WSJoinChat as MyWSJoinChat
 from events_data_page import routeHandlers
-from machine import RTC
-simulation = False
-try:
-	import ntptime
-except:
-	simulation = True
-# update clock from internet
-# synchronize with ntp
-# need to be connected to wifi
-rtc = RTC()
-if not simulation:
-	i = 0
-	while i < 10:
-		try:
-			ntptime.settime() # set the rtc datetime from the remote server	
-			year, monte, day, houre1, houre, mimite, secend, n = rtc.datetime()
-			i = 11
-		except:
-			print("main waiting for the internet")
-			sleep(10)
-			i += 1
-
-if year == 2000:
-	print("error connect to ntptime remote server")
-# add time up to log
-log = "Up time: " +  str(day) + '-' + str(monte) + ' ' + str(houre+3) \
-		    + ':' + str(mimite) + ':' + str(secend) # 2018-03-29 10:26:23
-if simulation:
-	log = rtc.datetime()
-print(log)
-settings.appendLineToLogFile(log)
-
-# read log file
-# lines = settings.readLinesFromLogFile()
-# for line in lines:
-#     print(line)
+import user_lib.clock_update
 
 global _chatWebSockets
 _chatWebSockets = [ ]
