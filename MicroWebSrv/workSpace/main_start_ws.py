@@ -9,10 +9,12 @@ from microWebSrv.microWebSocket import MicroWebSocket
 # ultrasonicWSJoin(None, None) # for page auto load	
 from events_data_page import WSJoinChat as MyWSJoinChat
 from events_data_page import routeHandlers
-import user_lib.clock_update
+import user_lib.clock_update as clock_update
 
 global _chatWebSockets
 _chatWebSockets = [ ]
+
+clock_update.updateClock()
 
 # test web socket [/wstest.html]
 def _acceptWebSocketCallback(webSocket: MicroWebSocket, httpClient: MicroWebSrv._client)-> None:

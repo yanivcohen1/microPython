@@ -35,4 +35,5 @@ def cb_updateClock():
     print(log)
     settings.appendLineToLogFile(log)
 
-start_new_thread(cb_updateClock, ())
+def updateClock():
+    start_new_thread(cb_updateClock, ())

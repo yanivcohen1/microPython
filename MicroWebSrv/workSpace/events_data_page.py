@@ -7,6 +7,7 @@ from machine import Pin
 import user_lib.settings as settings
 import user_lib.webLiveTest as webLiveTest
 from machine import Pin, ADC, SoftI2C, Timer, I2C, WDT, PWM, Signal
+
 simulation = False
 try:
     from time import sleep_us, ticks_ms, ticks_diff
@@ -98,6 +99,7 @@ def fun_timer(delay, websocket):
             print("reset time: " + log)
             settings.appendLineToLogFile("reset time: " + log)
             sleep(60)
+        bazzer.off()
     else: print("pass live test: " + log)
 
 if esp32NoSpram:
