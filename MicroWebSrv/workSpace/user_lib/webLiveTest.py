@@ -1,9 +1,10 @@
 import socket
+simulation = False
 try:
     import ntptime
     # import user_lib.sh1106 as ssd1306
 except:
-    pass
+    simulation = True
 
 def http_get(url):
     _, _, host, path = url.split('/', 3)
@@ -31,11 +32,12 @@ def liveTest():
     except:
         pass
     if not isPass:
-        try:
-            ntptime.settime() # set the rtc datetime from the remote server	
-            isPass = True
-        except:
-            pass
+        if not simulation:
+            try:
+                ntptime.settime() # set the rtc datetime from the remote server	
+                isPass = True
+            except:
+                pass
     return isPass
 
 if __name__ == '__main__':
