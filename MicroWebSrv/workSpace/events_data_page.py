@@ -92,9 +92,13 @@ def fun_timer(delay, websocket):
     if not webLiveTest.liveTest(): # fail test
             bazzer.on()
             if 8 < houre < 22:
-                sleep(15)
-            else: sleep(3)
-            bazzer.off()
+                sleep(10)
+                bazzer.off()
+                sleep(10)
+            else: 
+                sleep(3)
+                bazzer.off()
+                sleep(17)
             if not webLiveTest.liveTest(): # still error
                 relay.on()
                 sleep(3)
