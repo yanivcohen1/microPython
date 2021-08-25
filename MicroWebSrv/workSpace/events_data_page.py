@@ -80,6 +80,7 @@ def fun_timer(delay, websocket):
     from machine import RTC
     rtc = RTC()
     log = ""
+    houre = None
     if not simulation:
         # update clock from internet
         year, monte, day, houre1, houre, mimite, secend, n = rtc.datetime()
@@ -89,20 +90,15 @@ def fun_timer(delay, websocket):
     else: 
         log = rtc.datetime()
     if not webLiveTest.liveTest(): # fail test
-        connect = False
-        try:
-            ntptime.settime() # set the rtc datetime from the remote server	
-            connect = True
-        except:
-            pass
-        if not connect:
             bazzer.on()
-            sleep(15)
+            if 8 < houre < 22:
+                sleep(15)
+            else: sleep(3)
+            bazzer.off()
             if not webLiveTest.liveTest(): # still error
                 relay.on()
                 sleep(3)
                 relay.off()
-                bazzer.off()
                 print("reset wifi")
                 print("reset time: " + log)
                 settings.appendLineToLogFile("reset time: " + log)

@@ -18,16 +18,20 @@ def http_get(url):
     return retData
 
 def liveTest():
+    isPass = False
     # print('Testing...')
-    # dataList = http_get('http://micropython.org/ks/test.html')
     try:
         dataList = http_get('http://api.mathjs.org/v4/?expr=2*(7-3)')
+        isPass = True
     except:
-        dataList = []
-    for data in dataList:
-        # print(data)
-        if str(data).endswith('Via: 1.1 vegur\r\n\r\n8'): return True
-    return False
+        pass
+    if not isPass:
+        try:
+            ntptime.settime() # set the rtc datetime from the remote server	
+            isPass = True
+        except:
+            pass
+    return isPass
 
 if __name__ == '__main__':
      print('is test pass?: ',liveTest())
