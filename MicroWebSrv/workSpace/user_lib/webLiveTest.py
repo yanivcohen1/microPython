@@ -1,4 +1,9 @@
 import socket
+try:
+    import ntptime
+    # import user_lib.sh1106 as ssd1306
+except:
+    pass
 
 def http_get(url):
     _, _, host, path = url.split('/', 3)
