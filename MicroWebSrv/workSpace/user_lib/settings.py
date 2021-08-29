@@ -22,9 +22,10 @@ def appendLineToLogFile(line):
     data = fin.read().splitlines(True)
     fin.close()
     # file limit
-    if len(data) > 100:
+    if len(data) > 120:
         fout = open("log.txt","w")
-        fout.writelines(data[1:])
+        for line in data[20:]:
+            fout.write(line)
         fout.close()
 
     # with open('workSpace\log.txt', 'r') as fin:
