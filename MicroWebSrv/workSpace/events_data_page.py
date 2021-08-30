@@ -93,24 +93,26 @@ def fun_timer(delay, websocket):
     if not webLiveTest.liveTest(): # fail test
             # wifi connect
             wifi_connect()
-            bazzer.on()
-            if 8 < houre < 22:
-                sleep(10)
+            sleep(60)
+            if not webLiveTest.liveTest():
+                bazzer.on()
+                if 8 < houre < 22:
+                    sleep(10)
+                    bazzer.off()
+                    sleep(10)
+                else: 
+                    sleep(3)
+                    bazzer.off()
+                    sleep(17)
+                if not webLiveTest.liveTest(): # still error
+                    relay.on()
+                    sleep(3)
+                    relay.off()
+                    print("reset wifi")
+                    print("reset time: " + log)
+                    settings.appendLineToLogFile("reset time: " + log)
+                    sleep(90)
                 bazzer.off()
-                sleep(10)
-            else: 
-                sleep(3)
-                bazzer.off()
-                sleep(17)
-            if not webLiveTest.liveTest(): # still error
-                relay.on()
-                sleep(3)
-                relay.off()
-                print("reset wifi")
-                print("reset time: " + log)
-                settings.appendLineToLogFile("reset time: " + log)
-                sleep(90)
-            bazzer.off()
     else: print("pass live test: " + log)
 
 if esp32NoSpram:
