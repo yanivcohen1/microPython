@@ -7,6 +7,7 @@ from machine import Pin
 import user_lib.settings as settings
 import user_lib.webLiveTest as webLiveTest
 from machine import Pin, ADC, SoftI2C, Timer, I2C, WDT, PWM, Signal
+from user_lib.net import wifi_connect
 
 simulation = False
 try:
@@ -90,6 +91,8 @@ def fun_timer(delay, websocket):
     else: 
         log = rtc.datetime()
     if not webLiveTest.liveTest(): # fail test
+            # wifi connect
+            wifi_connect()
             bazzer.on()
             if 8 < houre < 22:
                 sleep(10)
