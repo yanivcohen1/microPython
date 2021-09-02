@@ -14,7 +14,7 @@ import user_lib.clock_update as clock_update
 global _chatWebSockets
 _chatWebSockets = [ ]
 
-clock_update.updateClock()
+clock_update.updateClock("reset ")
 
 # test web socket [/wstest.html]
 def _acceptWebSocketCallback(webSocket: MicroWebSocket, httpClient: MicroWebSrv._client)-> None:

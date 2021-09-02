@@ -11,7 +11,7 @@ except:
 # update clock from internet
 # synchronize with ntp
 # need to be connected to wifi
-def cb_updateClock():
+def cb_updateClock(reset):
     global simulation
     log = None
     rtc = RTC()
@@ -24,7 +24,7 @@ def cb_updateClock():
                 if year == 2000:
                     print("error connect to ntptime remote server")
                 # add time up to log
-                log = "Up time: " +  str(day) + '-' + str(monte) + ' ' + str(houre+3) \
+                log = reset + "time Up : " +  str(day) + '-' + str(monte) + ' ' + str(houre+3) \
                 + ':' + str(mimite) + ':' + str(secend) # 2018-03-29 10:26:23
                 connect =True
             except:
@@ -35,5 +35,5 @@ def cb_updateClock():
     print(log)
     settings.appendLineToLogFile(log)
 
-def updateClock():
-    start_new_thread(cb_updateClock, ())
+def updateClock(reset = ""):
+    start_new_thread(cb_updateClock, (reset,))

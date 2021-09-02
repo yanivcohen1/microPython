@@ -110,7 +110,7 @@ def fun_timer(delay, websocket):
                     relay.off()
                     print("reset wifi")
                     print("reset time: " + log)
-                    settings.appendLineToLogFile("reset time: " + log)
+                    settings.appendLineToLogFile("reset router: " + log)
                     sleep(90)
                 bazzer.off()
     else: print("pass live test: " + log)
