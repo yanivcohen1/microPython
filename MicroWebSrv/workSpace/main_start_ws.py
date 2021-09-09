@@ -10,6 +10,7 @@ from microWebSrv.microWebSocket import MicroWebSocket
 from events_data_page import WSJoinChat as MyWSJoinChat
 from events_data_page import routeHandlers
 import user_lib.clock_update as clock_update
+import tester.tester_page # test web get & post
 
 global _chatWebSockets
 _chatWebSockets = [ ]
