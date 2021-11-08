@@ -52,7 +52,6 @@ _chatLock = allocate_lock()
 
 global res
 wdt = None
-firtLoad = True
 
 if device_unique_id == '2462abe768e4':
     # esp32 without spram - buzzer test
@@ -68,7 +67,6 @@ if device_unique_id == '2462abe768e4':
     # relay.off()
 
 def cb_timer(delay_sec, websocket):
-    global firtLoad
     while True:
         # global wdt_last
         sleep(delay_sec)
@@ -116,10 +114,8 @@ def fun_timer(delay, websocket):
     else: print("pass live test: " + log)
 
 if esp32NoSpram:
-    if firtLoad: 
-        sleep(110)
-        firtLoad = False
-    wdt = WDT(timeout=180000) # 2min=120,000 enable the wachdog with a timeout of 2min (1s is the minimum)
+    sleep(110)
+    wdt = WDT(timeout=240000) # 2min=120,000 enable the wachdog with a timeout of 2min (1s is the minimum)
     start_new_thread(cb_timer, (30, None))
 if False:# not simulation and esp32NoSpram: # for WH Timer - if not simulation:
     cb = lambda timer: fun_timer(timer, None)
