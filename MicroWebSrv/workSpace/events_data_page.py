@@ -70,12 +70,13 @@ def cb_timer(delay_sec, websocket):
     while True:
         # global wdt_last
         sleep(delay_sec)
-        with _chatLock:
-            fun_timer(None, None)
+        #with _chatLock:
+        fun_timer(None, None)
         
 def fun_timer(delay, websocket):
-    
+    global wdt
     wdt.feed() # need to call this wachdog fun minimum evry 20s or the bord will restart itself
+    wdt = WDT(timeout=180000) # 2min=120,000 enable the wachdog with a timeout of 2min (1s is the minimum)
     from machine import RTC
     rtc = RTC()
     log = ""
@@ -115,7 +116,7 @@ def fun_timer(delay, websocket):
 
 if esp32NoSpram:
     sleep(110)
-    wdt = WDT(timeout=240000) # 2min=120,000 enable the wachdog with a timeout of 2min (1s is the minimum)
+    wdt = WDT(timeout=180000)
     start_new_thread(cb_timer, (30, None))
 if False:# not simulation and esp32NoSpram: # for WH Timer - if not simulation:
     cb = lambda timer: fun_timer(timer, None)
