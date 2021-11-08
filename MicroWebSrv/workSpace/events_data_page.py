@@ -71,10 +71,7 @@ def cb_timer(delay_sec, websocket):
     global firtLoad
     while True:
         # global wdt_last
-        if firtLoad: 
-            sleep(110)
-            firtLoad = False
-        else: sleep(delay_sec)
+        sleep(delay_sec)
         with _chatLock:
             fun_timer(None, None)
         
@@ -119,6 +116,9 @@ def fun_timer(delay, websocket):
     else: print("pass live test: " + log)
 
 if esp32NoSpram:
+    if firtLoad: 
+        sleep(110)
+        firtLoad = False
     wdt = WDT(timeout=180000) # 2min=120,000 enable the wachdog with a timeout of 2min (1s is the minimum)
     start_new_thread(cb_timer, (30, None))
 if False:# not simulation and esp32NoSpram: # for WH Timer - if not simulation:
