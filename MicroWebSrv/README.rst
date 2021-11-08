@@ -59,6 +59,7 @@ Or on Windows cmd::
     $ rshell --buffer-size=30 -p COM7
     $ rsync ./workSpace  /pyboard
     $ rsync ./  /pyboard
+    $ cp dir/file.py /pyboard/dir/
     $ repl
     >> import ws
     ## control + c to exit

@@ -6,7 +6,7 @@ import uos
 import machine
 import ubinascii
 from time import sleep
-from machine import Pin, ADC, SoftI2C, Timer, I2C, WDT, PWM, Signal
+from machine import Pin, ADC, SoftI2C, Timer, I2C, PWM, Signal
 device_unique_id = ubinascii.hexlify(machine.unique_id()).decode('utf-8')
 
 def resetWifiRelay():
