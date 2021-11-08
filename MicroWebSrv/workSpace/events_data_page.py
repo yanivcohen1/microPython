@@ -70,8 +70,8 @@ def cb_timer(delay_sec, websocket):
     while True:
         # global wdt_last
         sleep(delay_sec)
-        #with _chatLock:
-        fun_timer(None, None)
+        with _chatLock:
+            fun_timer(None, None)
         
 def fun_timer(delay, websocket):
     global wdt
