@@ -51,7 +51,7 @@ global _chatLock
 _chatLock = allocate_lock()
 
 global res
-
+wdt = None
 firtLoad = True
 
 if device_unique_id == '2462abe768e4':
@@ -62,6 +62,10 @@ if device_unique_id == '2462abe768e4':
     def blink_fun(pin):
         bazzer.off() if onbord_btn() else bazzer.on() # butten is inverted
     onbord_btn.irq(blink_fun)
+    # reset wifi on-off relay
+    # relay.on()
+    # sleep(3)
+    # relay.off()
 
 def cb_timer(delay_sec, websocket):
     global firtLoad
@@ -74,9 +78,8 @@ def cb_timer(delay_sec, websocket):
         with _chatLock:
             fun_timer(None, None)
         
-
 def fun_timer(delay, websocket):
-    wdt = WDT(timeout=180000) # 2min=120,000 enable the wachdog with a timeout of 2min (1s is the minimum)
+    
     wdt.feed() # need to call this wachdog fun minimum evry 20s or the bord will restart itself
     from machine import RTC
     rtc = RTC()
@@ -116,12 +119,11 @@ def fun_timer(delay, websocket):
     else: print("pass live test: " + log)
 
 if esp32NoSpram:
+    wdt = WDT(timeout=180000) # 2min=120,000 enable the wachdog with a timeout of 2min (1s is the minimum)
     start_new_thread(cb_timer, (30, None))
 if False:# not simulation and esp32NoSpram: # for WH Timer - if not simulation:
     cb = lambda timer: fun_timer(timer, None)
     timer0.init(period=30000, callback=cb) # 30sec timer
-
-print('events_data page load')
 
 # ----------------------------------------------------------------------------
 
