@@ -6,8 +6,9 @@ import uos
 import machine
 import ubinascii
 from time import sleep
-from machine import Pin, ADC, SoftI2C, Timer, I2C, PWM, Signal
+from machine import Pin, ADC, SoftI2C, Timer, I2C, WDT ,PWM, Signal
 device_unique_id = ubinascii.hexlify(machine.unique_id()).decode('utf-8')
+wdt = None
 
 def resetWifiRelay():
     print("restart wifi")
@@ -25,6 +26,8 @@ def resetWifiRelay():
         relay.on()
         sleep(3)
         relay.off()
+        global wdt
+        wdt = WDT(timeout=180000) # 3 min 60,000 = 1min
 
 if device_unique_id == '2462abe768e4':
     # esp32 without spram - buzzer test
