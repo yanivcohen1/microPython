@@ -145,7 +145,7 @@
                         document.getElementById("led").style.background = 'black';
                     }
                  }else if(rcv.hasOwnProperty('res')){
-                    res.innerHTML = "return: " + rcv.res
+                    res.value = "return: " + rcv.res
                  }else if(rcv.hasOwnProperty('log')){
                     log.value = rcv.log
                  }
