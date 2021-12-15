@@ -58,6 +58,9 @@
                     // document.getElementById("led").style.background = 'black';
                 }
                 var xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    console.log(this.responseText);
+                }
                 xhttp.open('GET', 'http://' + window.location.hostname + '/led?status='+ ledOn, true);
                 xhttp.setRequestHeader('Content-type', 'application/json');
                 xhttp.send(ledOn);
@@ -67,7 +70,7 @@
                 msg = {}
                 msg['msg'] = txt
                 websocket.send(JSON.stringify(msg));
-                res.innerHTML = "return: "
+                res.innerHTML = "running... "
             }
         
             function logClick() {
@@ -145,7 +148,9 @@
                         document.getElementById("led").style.background = 'black';
                     }
                  }else if(rcv.hasOwnProperty('res')){
-                    res.value = "return: " + rcv.res
+                    var d = new Date();
+                    var time = d.toLocaleTimeString();
+                    res.innerHTML = time + '<br>'+ "return: " + rcv.res
                  }else if(rcv.hasOwnProperty('log')){
                     log.value = rcv.log
                  }
