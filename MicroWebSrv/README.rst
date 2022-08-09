@@ -45,16 +45,17 @@ Set-ExecutionPolicy RemoteSigned
 
 Or on Windows cmd::
 
+    // needed python3.8 for rshell so for creating env you need python 3.8 for "python -m venv venv"
     $ py -m venv venv
     $ venv\Scripts\activate
     $ venv\Scripts\activate.bat
-    $ python -m pip install esptool
+    $ python -m pip install esptool==3.1
     $ esptool.py version
     ## test it
-    $ esptool --chip esp32 --port COM6 flash_id
-    $ esptool --chip esp32 --port com6 erase_flash
-    $ esptool --chip esp32 --port com6 --baud 460800 write_flash -z 0x1000 "C:\Downloads\esp32-20210623-v1.16.bin"
-    $ python -m pip install rshell
+    $ esptool.py --chip esp32 --port COM6 flash_id
+    $ esptool.py --chip esp32 --port com6 erase_flash
+    $ esptool.py --chip esp32 --port com6 --baud 460800 write_flash -z 0x1000 "C:\Downloads\esp32-20210623-v1.16.bin"
+    $ python -m pip install rshell==0.0.30
     $ rshell --editor nano --buffer-size=30 -p COM6
     $ rshell --buffer-size=30 -p COM7
     $ rsync ./workSpace  /pyboard
