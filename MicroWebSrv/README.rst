@@ -1,4 +1,5 @@
 // https://www.wemos.cc/en/latest/d32/d32_pro.html
+// by reading the cpu specification install the serial communication driver 
 // for d32 spram bord install "CH341SER_WIN_3.5.zip"
 // for the nospram bord install "CP210x_win_driver_esp32.zip"
 // for testting python ident run
