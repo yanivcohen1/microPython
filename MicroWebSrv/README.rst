@@ -1,4 +1,5 @@
 // https://www.wemos.cc/en/latest/d32/d32_pro.html
+// for the other bord install CH341SER_WIN_3.5.zip
 // for testting python ident run
 python -tt
 Flaskr
