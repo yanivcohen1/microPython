@@ -49,6 +49,8 @@ Or on Windows cmd::
     $ py -m venv venv
     $ venv\Scripts\activate
     $ venv\Scripts\activate.bat
+    $ python -m pip install --upgrade pip
+    $ pip install esptool
     $ python -m pip install esptool==3.1
     $ esptool.py version
     ## test it
