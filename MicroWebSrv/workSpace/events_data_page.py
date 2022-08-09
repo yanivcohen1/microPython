@@ -172,10 +172,15 @@ def OnWSChatTextMsg(webSocket, msg):
         global res
         res = None
         exec(msgIn)
+        send = {}
         if res != None:
-            print('res is: ', res)
-            send = {}
             send['res'] = str(res)
+            print('res is: ', res)
+            try: webSocket.SendText(json.dumps(send))
+            except: pass
+        else: 
+            print('res is: finish running')
+            send['res'] = 'finish running'
             try: webSocket.SendText(json.dumps(send))
             except: pass
     elif 'log' in recv:

@@ -49,7 +49,7 @@ Or on Windows cmd::
     $ venv\Scripts\activate
     $ venv\Scripts\activate.bat
     $ python -m pip install esptool
-    $ esptool version
+    $ esptool.py version
     ## test it
     $ esptool --chip esp32 --port COM6 flash_id
     $ esptool --chip esp32 --port com6 erase_flash
