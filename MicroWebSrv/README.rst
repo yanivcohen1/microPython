@@ -63,6 +63,13 @@ Or on Windows cmd::
     $ python -m pip install rshell==0.0.30
     $ rshell --editor nano --buffer-size=30 -p COM6
     $ rshell --buffer-size=30 -p COM7
+    // in rshell read file on board
+    $ cd /pyboard/
+    $ ls
+    // copy file to board
+    $ cp ./sourcefile.py /pyboard/
+    // open micropytho script console on board
+    $ repl
     $ rsync ./workSpace  /pyboard
     $ rsync ./  /pyboard
     $ cp dir/file.py /pyboard/dir/
