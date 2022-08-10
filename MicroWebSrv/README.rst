@@ -68,7 +68,7 @@ Or on Windows cmd::
     $ ls
     // copy file to board
     $ cp ./sourcefile.py /pyboard/
-    // open micropytho script console on board
+    // open micropython script console on board
     $ repl
     $ rsync ./workSpace  /pyboard
     $ rsync ./  /pyboard
