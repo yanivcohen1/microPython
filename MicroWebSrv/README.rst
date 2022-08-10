@@ -70,6 +70,9 @@ Or on Windows cmd::
     $ cp ./sourcefile.py /pyboard/
     // open micropython script console on board
     $ repl
+    >> import os
+    >> os.listdir()
+    // for many files
     $ rsync ./workSpace  /pyboard
     $ rsync ./  /pyboard
     $ cp dir/file.py /pyboard/dir/
