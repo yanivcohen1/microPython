@@ -174,7 +174,8 @@
                         dataIn = rcv[RecData.distance]
                         addData(chart, labelIn, dataIn)
                    }
-                }else if(rcv.hasOwnProperty(RecData.led)){
+                }
+                if(rcv.hasOwnProperty(RecData.led)){
                     if (rcv[RecData.led] === 'True') {
                         document.getElementById("led").style.background = 'blue';
                         document.getElementById("led").innerHTML = 'ON&nbsp;';
@@ -182,7 +183,8 @@
                         document.getElementById("led").style.background = 'gray';
                         document.getElementById("led").innerHTML = 'OFF';
                     }
-                }else if(rcv.hasOwnProperty(RecData.slider)){
+                }
+                if(rcv.hasOwnProperty(RecData.slider)){
                     sliderIn.value = rcv[RecData.slider]
                     sliderInPrint.innerHTML = parseInt(parseInt(sliderIn.value)*100/100);
                 }
