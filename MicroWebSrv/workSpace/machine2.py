@@ -1,6 +1,7 @@
 import serial
 import time
 import threading  # <--- הוספנו את זה למניעת התנגשויות
+import user_lib.settings as settings
 
 class _SerialRPC:
     def __init__(self, port='COM3', baudrate=115200):
@@ -67,7 +68,8 @@ class _SerialRPC:
             self.ser.close()
 
 # אל תשכח לוודא שה-port נכון
-rpc = _SerialRPC(port='COM3')
+env_data = settings.readEnvData()  # קבלת הפורט מהגדרות 
+rpc = _SerialRPC(port=env_data["port"]) # 'COM3'
 
 
 # ==========================================
