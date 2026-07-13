@@ -16,7 +16,7 @@ try:
     # import user_lib.SSD1315_OLED_DISP as ssd1306
     import user_lib.sh1106 as ssd1306
 except:
-    from machine import sleep_us, ticks_ms, ticks_diff
+    from machine import sleep_us
     from machine import ssd1306
     simulation = True 
 

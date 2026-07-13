@@ -267,11 +267,16 @@ class I2C:
         res = rpc.execute(f"print({self._name}.scan())")
         try:
             import ast
-            return ast.literal_eval(res)
-        except:
+            return ast.literal_eval(res) if res else []
+        except Exception as e:
+            print(f"[I2C Scan Warning] Invalid response: {repr(res)}")
             return []
 
     def writeto(self, addr, buf):
+        # המרה בטוחה: אם המשתמש שלח רשימה (למשל [0x00, 0xFF]), נמיר ל-bytes במחשב 
+        # כדי שה-repr יפיק מחרוזת של בייטים (כמו b'\x00\xff') שהבקר יבין
+        if isinstance(buf, (list, tuple)):
+            buf = bytes(buf)
         buf_repr = repr(buf) 
         rpc.execute(f"{self._name}.writeto({addr}, {buf_repr})")
 
@@ -279,20 +284,22 @@ class I2C:
         res = rpc.execute(f"print(repr({self._name}.readfrom({addr}, {nbytes})))")
         try:
             import ast
-            return ast.literal_eval(res)
-        except:
+            return ast.literal_eval(res) if res else b''
+        except Exception as e:
+            print(f"[I2C readfrom Warning] Invalid response: {repr(res)}")
             return b''
             
     def readfrom_mem(self, addr, memaddr, nbytes):
-        """קריאה מכתובת זיכרון ספציפית ברכיב"""
         res = rpc.execute(f"print(repr({self._name}.readfrom_mem({addr}, {memaddr}, {nbytes})))")
         try:
             import ast
-            return ast.literal_eval(res)
-        except:
+            return ast.literal_eval(res) if res else b''
+        except Exception as e:
+            print(f"[I2C readfrom_mem Warning] Invalid response: {repr(res)}")
             return b''
 
     def writeto_mem(self, addr, memaddr, buf):
-        """כתיבה לכתובת זיכרון ספציפית ברכיב"""
+        if isinstance(buf, (list, tuple)):
+            buf = bytes(buf)
         buf_repr = repr(buf)
         rpc.execute(f"{self._name}.writeto_mem({addr}, {memaddr}, {buf_repr})")
