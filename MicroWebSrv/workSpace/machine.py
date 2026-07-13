@@ -15,18 +15,22 @@ class Pin :
             random.randint(0, 1)
 
     def on(self):
+        self.val = 1
         return 0
 
     def off(self):
+        self.val = 0
         return 1
 
     def irq(self, btn_change):
         return None
 
-    def value(self):
-        return random.randint(0, 1)
+    # def value(self):
+    #     return random.randint(0, 1)
 
-    def value(self, val):
+    def value(self, val=None):
+        if val is None:
+            return self.val
         self.val = val
         
 class ADC :
@@ -47,7 +51,7 @@ class SoftI2C:
         return None
 
 class I2C:
-    def __init__(self, scl=1, sda=2):
+    def __init__(self, val=0, scl=1, sda=2):
         return None
 class ssd1306:
     def __init__(self):

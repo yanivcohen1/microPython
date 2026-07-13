@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "Python: main File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "main_start_ws.py",
             "console": "integratedTerminal",
@@ -14,7 +14,7 @@
         },
         {
             "name": "Python: machine",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "machine.py",
             "console": "integratedTerminal",
@@ -22,7 +22,7 @@
         },
         {
             "name": "Python: current File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal"

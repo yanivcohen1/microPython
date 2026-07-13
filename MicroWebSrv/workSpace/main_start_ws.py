@@ -24,8 +24,8 @@ def _acceptWebSocketCallback(webSocket: MicroWebSocket, httpClient: MicroWebSrv.
 	print('   - Path   : %s'    % httpClient.GetRequestTotalPath())
 	# print('   - Origin : %s'    % webSocket.Request.Origin)
 	if httpClient.GetRequestTotalPath().lower() == '/wschat' :
-	    from tester.chat_page import WSJoinChat		
-	    WSJoinChat(webSocket, httpClient.GetAddr())
+		from tester.chat_page import WSJoinChat
+		WSJoinChat(webSocket, httpClient.GetAddr())
 	elif httpClient.GetRequestTotalPath().lower() == '/wstest' :
 		webSocket.RecvTextCallback   = _recvTextCallback
 		webSocket.RecvBinaryCallback = _recvBinaryCallback

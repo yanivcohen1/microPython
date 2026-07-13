@@ -1,9 +1,13 @@
 import json
-from machine import Pin, ADC, time_pulse_us, SoftI2C, Timer, I2C, WDT, PWM
+import user_lib.settings as settings
+emulated = settings.isEmulated()
+if emulated:
+    from machine2 import Pin, ADC, time_pulse_us, Timer, I2C, WDT, PWM  # SoftI2C
+else:
+    from machine import Pin, ADC, time_pulse_us, Timer, I2C, WDT, PWM  # SoftI2C
 from events_data_page import _chatLock
 from   _thread     import start_new_thread
 from time import sleep
-import user_lib.settings as settings
 from user_lib.servo import dutyForAngle
 
 simulation = False
@@ -22,7 +26,7 @@ sliderPot = ADC(Pin(34))
 sliderPot.atten(ADC.ATTN_11DB) # Full range: 3.3v
 # ESP32 Pin assignment 
 # i2c = SoftI2C(scl=Pin(22), sda=Pin(21))
-i2c = I2C(scl=Pin(22), sda=Pin(21))
+i2c = I2C(0, scl=Pin(22), sda=Pin(21))
 oled_width = 128
 oled_height = 64
 oled = ssd1306.SH1106_I2C(oled_width, oled_height, i2c) # SSD1306_I2C
@@ -91,7 +95,7 @@ def cb_timer(delay_sec, websocket):
         
         with _chatLock:
             # need wochdog
-            wdt = WDT(timeout=10000) # enable the wachdog with a timeout of 20s (1s is the minimum)
+            wdt = WDT(timeout=100000) # enable the wachdog with a timeout of 20s (1s is the minimum)
             wdt.feed() # need to call this wachdog fun minimum evry 20s or the bord will restart itself
             # print('auarer lock')
             fun_timer(None, websocket)

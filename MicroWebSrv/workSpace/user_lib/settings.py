@@ -1,9 +1,29 @@
+simulation = False
+import json
+# import settings
+try:
+    import network
+except:
+    simulation = True
+    from pathlib import Path
+
 def saveToDataFile(data):
     with open('data.txt', 'w') as f: # "a"-for Append, 'w'=for Overwrite
         f.write(data)
 
 def readFromDataFile():
     with open('data.txt', 'r') as f:
+        data = f.read()
+    return data
+
+def isEmulated():
+    return env_data["emulated"]
+
+def readEnvData():
+    return env_data
+
+def readFromFile(name):
+    with open(name, 'r') as f:
         data = f.read()
     return data
 
@@ -41,6 +61,14 @@ def readLinesFromLogFile():
     with open('log.txt', 'r') as file:
         lines = file.readlines()
     return lines
+
+env_file = "env.json"
+if simulation:
+    script_dir = Path(__file__).parent.parent
+    env_file = script_dir / "env.json"
+json_data = readFromFile(env_file) # {"wifi_name": "TP-Link_F34F_5G", "wifi_pass": "73769835"}
+env_data = json.loads(json_data)
+print("emulated:", env_data["emulated"])
 
 # insted of:
 # f = open('data.txt', 'w')

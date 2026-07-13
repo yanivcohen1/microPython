@@ -1,3 +1,5 @@
 *.pyc
 MicroWebSrv/venv/
 MicroWebSrv/workSpace/data.txt
+MicroWebSrv/workSpace/env.json
+MicroWebSrv/uPyCraft_V1.1.exe

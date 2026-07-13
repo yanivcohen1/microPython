@@ -59,7 +59,7 @@ Or on Windows cmd::
     ## test it
     $ esptool.py --chip esp32 --port COM6 flash_id
     $ esptool.py --chip esp32 --port com6 erase_flash
-    $ esptool.py --chip esp32 --port com6 --baud 460800 write_flash -z 0x1000 "C:\Downloads\esp32-20210623-v1.16.bin"
+    $ esptool.py --chip esp32 --port com6 --baud 460800 write_flash -z 0x1000 "./esp32-20210623-v1.16.bin"
     $ python -m pip install rshell==0.0.30
     $ rshell --editor nano --buffer-size=30 -p COM6
     $ rshell --buffer-size=30 -p COM7

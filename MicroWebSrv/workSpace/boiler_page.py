@@ -58,8 +58,8 @@ def WSJoinChat(webSocket, addr):
     try:
         global firstLoad
         if firstLoad:
-	        start_new_thread(cb_timer, (3, webSocket))
-	        firstLoad = False
+            start_new_thread(cb_timer, (3, webSocket))
+            firstLoad = False
     except:
         print ("Error: unable to start thread")
 	# OR Using the HW Timer
