@@ -75,7 +75,7 @@ Or on Windows cmd::
     // for many files
     $ rsync ./workSpace  /pyboard
     $ rsync ./  /pyboard
-    $ cp dir/file.py /pyboard/dir/
+    $ cp workSpace/file.py /pyboard/
     $ repl
     >> import ws
     ## control + c to exit

@@ -1,10 +1,14 @@
 import json
 import user_lib.settings as settings
 emulated = settings.isEmulated()
-if emulated:
-    from machine2 import Pin, ADC, time_pulse_us, Timer, I2C, WDT, PWM  # SoftI2C
-else:
+try:
+    import network
     from machine import Pin, ADC, time_pulse_us, Timer, I2C, WDT, PWM  # SoftI2C
+except:
+    if emulated:
+        from machine2 import Pin, ADC, time_pulse_us, Timer, I2C, WDT, PWM  # SoftI2C
+    else:
+        from machine import Pin, ADC, time_pulse_us, Timer, I2C, WDT, PWM  # SoftI2C
 from events_data_page import _chatLock
 from   _thread     import start_new_thread
 from time import sleep
