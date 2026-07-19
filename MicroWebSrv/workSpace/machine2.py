@@ -11,9 +11,9 @@ class _SerialRPC:
         self.execute("import machine")
 
     def _enter_raw_repl(self):
-        self.ser.write(b'\r\x03\x03')  # Ctrl+C
+        self.ser.write(b'\r\x03\x03')  # Ctrl+C (או ETX - End of Text או ASCII value 3) פעמיים כדי לעצור כל קוד שרץ
         time.sleep(0.1)
-        self.ser.write(b'\x01')        # Ctrl+A (Raw REPL)
+        self.ser.write(b'\x01')        # Ctrl+A (או SOH - Start of Header או ASCII value 1) (Raw REPL)
         time.sleep(0.1)
         self.ser.read_all()
 
@@ -27,11 +27,11 @@ class _SerialRPC:
                 
                 # 2. שליחת הפקודה
                 self.ser.write(command.encode('utf-8'))
-                self.ser.write(b'\x04') 
+                self.ser.write(b'\x04') # Ctrl+D (EOT - End of Transmission או ASCII value 4)
                 
                 # 3. קריאת התשובה
                 response = b''
-                while not response.endswith(b'\x04>'):
+                while not response.endswith(b'\x04>'): # Ctrl+D (EOT - End of Transmission או ASCII value 4)
                     chunk = self.ser.read(1)
                     if not chunk:
                         break # קרה Timeout
