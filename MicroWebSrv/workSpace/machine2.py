@@ -3,6 +3,12 @@ import time
 import threading  # <--- הוספנו את זה למניעת התנגשויות
 import user_lib.settings as settings
 
+"""
+\x01 (SOH - Start of Header): "תקשיבו כולם, הנה מגיעה הכותרת של המידע (כמו מי השולח, לאן זה הולך)."
+\x02 (STX - Start of Text): "הכותרת נגמרה, עכשיו מתחיל הטקסט/ההודעה עצמה."
+\x03 (ETX - End of Text): "פה נגמר הטקסט של ההודעה הנוכחית."
+\x04 (EOT - End of Transmission): "זהו, סיימתי את כל השידור, להתראות!"
+"""
 class _SerialRPC:
     def __init__(self, port='COM3', baudrate=115200):
         self.lock = threading.Lock() # יצירת מנעול לתקשורת
