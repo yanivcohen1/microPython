@@ -1,0 +1,140 @@
+# C:\Users\yaniv\AppData\Local\Programs\Thonny\Lib\site-packages\thonny\plugins\micropython\api_stubs
+import random
+import subprocess
+from time import sleep, time
+import datetime
+
+class Pin :
+    IN=1
+    OUT=2
+    PULL_UP=1
+    PULL_DOWN=0
+    val = 0
+    def __init__(self, pinNumber, pinDirection=1, pull=1, value=1):
+        def randoms(self):
+            random.randint(0, 1)
+
+    def on(self):
+        self.val = 1
+        return 0
+
+    def off(self):
+        self.val = 0
+        return 1
+
+    def irq(self, btn_change):
+        return None
+
+    # def value(self):
+    #     return random.randint(0, 1)
+
+    def value(self, val=None):
+        if val is None:
+            return self.val
+        self.val = val
+        
+class ADC :
+    ATTN_11DB=1
+    def __init__(self, pinNumber):
+        def randoms(self):
+            random.randint(0, 1)
+        return None
+
+    def atten(self, atten):
+        pass
+
+    def read(self):
+        return random.randint(0, 4095)
+
+class SoftI2C:
+    def __init__(self, scl=1, sda=2):
+        return None
+
+class I2C:
+    def __init__(self, val=0, scl=1, sda=2):
+        return None
+class ssd1306:
+    def __init__(self):
+        pass
+    def SSD1306_I2C(self,a,b):
+        return ssd1306()
+    def SH1106_I2C(self,a,b):
+        return ssd1306()
+    def text(self,a,b,c):
+        pass
+    def show(self):
+        pass
+    def sleep(self,a):
+        pass
+    def fill(self,a):
+        pass
+
+class Timer:
+    def __init__(self, timerNumber):
+        pass
+    def deinit(self):
+        pass
+    def init(self, period=3000, callback=None):
+        pass
+
+class WDT:
+    last_time = time()
+    def __init__(self, timeout=5000):
+        pass
+    def feed(self):
+        pass
+        # now_time = datetime.datetime.now()
+        # print('WDT: ',now_time - self.last_time)
+        # self.last_time = now_time
+
+class PWM:
+    _duty = None
+    _freq = None
+    def __init__(self, pinNumber, freq=0 , duty=0):
+        global _freq, _duty
+        _freq = freq
+        _duty = duty
+        return None
+    def duty(self, *duty):
+        global _duty
+        if len(duty) == 1 and isinstance(duty[0], int):
+            _duty = duty[0]
+            return _duty
+        elif len(duty) == 0:
+            return _duty
+        else: raise ValueError('duty function get 0 or 1 int parameters')
+    def freq(self, *freq):
+        global _freq
+        if len(freq) == 1 and isinstance(freq[0], int):
+            _freq = freq[0]
+            return _freq
+        elif len(freq) == 0:
+            return _freq
+        else: raise ValueError('freq function get 0 or 1 int parameters')
+
+class Signal:
+    def __init__(self, pinNumber, invert=False):
+        pass
+
+class RTC:
+    def datetime(self):
+        current_time = datetime.datetime.now()
+        return str(current_time)
+
+def time_pulse_us(pin, level):
+    return random.randint(1, int(100*2/0.034))
+
+def sleep_us(num):
+    sleep(num/1000000)
+    
+def sleep_ms(num):
+    sleep(num/1000)
+
+def ticks_ms(num):
+    return round(time() * 1000)
+
+def ticks_diff(now, last):
+    return now - last
+
+def unique_id():
+    return None

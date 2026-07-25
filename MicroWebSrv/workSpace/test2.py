@@ -1,10 +1,4 @@
-import user_lib.settings as settings
-emulated = settings.isEmulated()
-if emulated:
-    from machine2 import Pin, ADC
-else:
-    from machine import Pin, ADC
-
+from machine import Pin, ADC
 import time
 
 sliderPot = ADC(Pin(34))

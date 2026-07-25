@@ -128,6 +128,40 @@ class Pin:
     def off(self):
         self.value(0)
 
+# ==========================================
+# 4. מחלקת חומרה - Signal
+# ==========================================
+class Signal:
+    def __init__(self, pin, invert=False):
+        # יצירת שם מזהה ייחודי לאובייקט ה-Signal במיקרו-בקר
+        self._name = f"signal_{id(self)}"
+        
+        # זיהוי אם קיבלנו אובייקט Pin שלנו (שיש לו כבר שם בבקר) או סתם מזהה
+        if hasattr(pin, '_name'):
+            pin_ref = pin._name  # למשל: "pin_2"
+        else:
+            pin_ref = str(pin)   # למקרה שהועבר רק מספר/מחרוזת
+            
+        invert_val = "True" if invert else "False"
+        
+        # יצירת אובייקט ה-Signal במיקרו-בקר
+        code = f"{self._name} = machine.Signal({pin_ref}, invert={invert_val})"
+        rpc.execute(code)
+
+    def value(self, val=None):
+        if val is None:
+            # קריאת המצב הנוכחי - הוספתי strip כדי למנוע שגיאות אם יש ירידת שורה בפלט
+            res = rpc.execute(f"print({self._name}.value())")
+            return int(res.strip()) if res and res.strip().isdigit() else None
+        else:
+            # שינוי המצב
+            rpc.execute(f"{self._name}.value({val})")
+
+    def on(self):
+        self.value(1)
+
+    def off(self):
+        self.value(0)
 
 class ADC:
     ATTN_0DB = 0
@@ -311,3 +345,26 @@ class I2C:
             buf = bytes(buf)
         buf_repr = repr(buf)
         rpc.execute(f"{self._name}.writeto_mem({addr}, {memaddr}, {buf_repr})")
+        
+
+class RTC:
+    def datetime(self):
+        current_time = datetime.datetime.now()
+        return str(current_time)
+
+
+class ssd1306:
+    def __init__(self):
+        pass
+    def SSD1306_I2C(self,a,b):
+        return ssd1306()
+    def SH1106_I2C(self,a,b):
+        return ssd1306()
+    def text(self,a,b,c):
+        pass
+    def show(self):
+        pass
+    def sleep(self,a):
+        pass
+    def fill(self,a):
+        pass
