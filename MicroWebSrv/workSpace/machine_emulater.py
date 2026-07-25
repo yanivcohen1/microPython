@@ -1,6 +1,7 @@
 import serial
 import time
 import threading  # <--- הוספנו את זה למניעת התנגשויות
+import datetime
 import user_lib.settings as settings
 
 """
@@ -14,7 +15,7 @@ class _SerialRPC:
         self.lock = threading.Lock() # יצירת מנעול לתקשורת
         self.ser = serial.Serial(port, baudrate, timeout=1)
         self._enter_raw_repl()
-        self.execute("import machine")
+        # self.execute("import machine")
 
     def _enter_raw_repl(self):
         self.ser.write(b'\r\x03\x03')  # Ctrl+C (או ETX - End of Text או ASCII value 3) פעמיים כדי לעצור כל קוד שרץ
