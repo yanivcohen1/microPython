@@ -4,7 +4,7 @@ import time
 sliderPot = ADC(Pin(34))
 sliderPot.atten(ADC.ATTN_11DB) # Full range: 3.3v
 
-led = Pin(5, Pin.OUT) # pin 2 in insted of 5
+led = Pin(5, Pin.OUT) # pin 2 insted of 5
 while True:
     led.on()
     time.sleep(1)
