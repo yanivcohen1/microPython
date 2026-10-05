@@ -60,6 +60,8 @@ Or on Windows cmd::
     $ esptool.py --chip esp32 --port COM6 flash_id
     $ esptool.py --chip esp32 --port com6 erase_flash
     $ esptool.py --chip esp32 --port com6 --baud 460800 write_flash -z 0x1000 "./esp32-20210623-v1.16.bin"
+    ## micropython version 1.29.0 for esp32 wroom with SPIRAM
+    $ esptool.py --chip esp32 --port com3 --baud 460800 write_flash -z 0x1000 "./ESP32_GENERIC-SPIRAM-20260824-v1.29.0.bin"
     $ python -m pip install rshell==0.0.30
     $ rshell --editor nano --buffer-size=30 -p COM6
     $ rshell --buffer-size=30 -p COM7
@@ -72,6 +74,7 @@ Or on Windows cmd::
     $ repl
     >> import os
     >> os.listdir()
+    >> "import sys; print(sys.version)"
     // for many files
     $ rsync ./workSpace  /pyboard
     $ rsync ./  /pyboard
