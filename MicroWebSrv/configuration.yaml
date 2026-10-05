@@ -1,0 +1,20 @@
+mqtt:
+  # הגדרת מתג לשליטה על הלד ב-ESP32
+  switch:
+    - name: "ESP32 Living Room LED"
+      unique_id: "esp32_livingroom_led"
+      state_topic: "home/esp32/led/state"
+      command_topic: "home/esp32/led/set"
+      payload_on: "ON"
+      payload_off: "OFF"
+      optimistic: false
+      qos: 1
+
+  # הגדרת חיישן טמפרטורה שמקבל נתונים מה-ESP32
+  sensor:
+    - name: "ESP32 Temperature"
+      unique_id: "esp32_livingroom_temp"
+      state_topic: "home/esp32/sensor/temp"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      value_template: "{{ value }}"
